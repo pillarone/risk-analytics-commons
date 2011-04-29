@@ -1,0 +1,8 @@
+dist/*
+target/*
+*.log
+.idea/*
+*.iml
+*.ipr
+*.iws
+cobertura.ser
