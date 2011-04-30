@@ -1,3 +1,9 @@
+import org.pillarone.riskanalytics.domain.utils.validation.DistributionTypeValidator
+import org.pillarone.riskanalytics.core.parameterization.validation.ValidatorRegistry
+import org.pillarone.riskanalytics.domain.utils.constraint.DateTimeConstraints
+import org.pillarone.riskanalytics.core.parameterization.ConstraintsFactory
+import org.pillarone.riskanalytics.domain.utils.constraint.DoubleConstraints
+
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
     def version = "0.1"
@@ -34,7 +40,10 @@ class RiskAnalyticsCommonsGrailsPlugin {
     }
 
     def doWithApplicationContext = { applicationContext ->
-        // TODO Implement post initialization spring config (optional)
+        ConstraintsFactory.registerConstraint(new DoubleConstraints())
+        ConstraintsFactory.registerConstraint(new DateTimeConstraints())
+
+        ValidatorRegistry.addValidator(new DistributionTypeValidator())
     }
 
     def onChange = { event ->
