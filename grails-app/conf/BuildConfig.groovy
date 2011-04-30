@@ -13,14 +13,19 @@ grails.project.dependency.resolution = {
     mavenRepo "https://build.intuitive-collaboration.com/maven/plugins/"
 
     plugins {
+        runtime ":background-thread:1.3"
         runtime ":hibernate:1.3.7"
+        runtime ":joda-time:0.5"
+        runtime ":maven-publisher:0.7.5"
+        runtime ":quartz:0.4.2"
+        runtime ":spring-security-core:1.1.2"
         runtime ":tomcat:1.3.7"
 
         test ":code-coverage:1.2.2"
 
-//        if (appName == "risk-analytics-commons") {
-//            runtime "org.pillarone:risk-analytics-core:1.4-ALPHA-1.8"
-//        }
+        if (appName == "risk-analytics-commons") {
+            runtime "org.pillarone:risk-analytics-core:1.4-ALPHA-2.7"
+        }
     }
 }
 
