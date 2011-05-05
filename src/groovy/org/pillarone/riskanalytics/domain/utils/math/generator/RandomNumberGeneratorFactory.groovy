@@ -15,6 +15,8 @@ import org.pillarone.riskanalytics.domain.utils.math.distribution.TruncatedDistr
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModified
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModifier
+import umontreal.iro.lecuyer.randvar.UniformIntGen
+import umontreal.iro.lecuyer.probdist.UniformIntDist
 
 /**
  * Enables different streams for generators, and parametrization of streams.
@@ -35,6 +37,34 @@ class RandomNumberGeneratorFactory {
         UniformGen generator = new UniformGen(stream, new UniformDist(0, 1))
         uniformGenerator = new RandomNumberGenerator(generator: generator)
         return uniformGenerator
+    }
+
+    static IRandomNumberGenerator getUniformGenerator(double a, double b) {
+        IRandomNumberGenerator uniformGenerator
+        UniformGen generator = new UniformGen(MathUtils.getRandomStreamBase(), new UniformDist(a, b))
+        uniformGenerator = new RandomNumberGenerator(generator: generator)
+        return uniformGenerator
+    }
+
+    static IRandomNumberGenerator getUniformGenerator(double a, double b, RandomStream stream) {
+        IRandomNumberGenerator uniformGenerator
+        UniformGen generator = new UniformGen(stream, new UniformDist(a, b))
+        uniformGenerator = new RandomNumberGenerator(generator: generator)
+        return uniformGenerator
+    }
+
+    static IRandomNumberGenerator getUniformIntGenerator(int i, int j) {
+        IRandomNumberGenerator uniformIntGenerator
+        UniformIntGen generator = new UniformIntGen(MathUtils.getRandomStreamBase(), new UniformIntDist(i,j))
+        uniformIntGenerator = new RandomNumberGenerator(generator: generator)
+        return uniformIntGenerator
+    }
+
+    static IRandomNumberGenerator getUniformIntGenerator(RandomStream stream, int i, int j) {
+        IRandomNumberGenerator uniformIntGenerator
+        UniformIntGen generator = new UniformIntGen(stream, new UniformIntDist(i,j))
+        uniformIntGenerator = new RandomNumberGenerator(generator: generator)
+        return uniformIntGenerator
     }
 
     static IRandomNumberGenerator getBinomialGenerator() {

@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class UniformDoubleList {
 
-
     public static List<Double> getDoubles(int number, boolean sorted) {
         return getDoubles(number, sorted, MathUtils.getRandomStreamBase());
     }
@@ -27,12 +26,26 @@ public class UniformDoubleList {
         if (sorted) {
             Collections.sort(doubleList);
             return doubleList;
-        } else {
+        }
+        else {
             return doubleList;
         }
     }
 
     public static List<Double> getDoubles(int number) {
         return getDoubles(number, false);
+    }
+
+    public static List<Double> getDoubles(int number, double a, double b, RandomStreamBase stream) {
+        IRandomNumberGenerator generator = RandomNumberGeneratorFactory.getUniformGenerator(a, b, stream);
+        List<Double> doubleList = new ArrayList<Double>();
+        for (int i = 0; i < number; i++) {
+            doubleList.add((Double) generator.nextValue());
+        }
+        return doubleList;
+    }
+
+    public static List<Double> getDoubles(int number, double a, double b) {
+        return getDoubles(number, a, b, MathUtils.getRandomStreamBase());
     }
 }

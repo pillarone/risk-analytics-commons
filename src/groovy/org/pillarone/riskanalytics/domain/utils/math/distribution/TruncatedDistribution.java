@@ -20,6 +20,21 @@ public class TruncatedDistribution implements Distribution {
     double b;
     double cdfLeftBoundary;
 
+
+
+    public TruncatedDistribution(Distribution distribution, double a, double b){
+        if (distribution instanceof ContinuousDistribution){
+            new TruncatedDistribution((ContinuousDistribution) distribution, a,  b);
+        }
+        else if (distribution instanceof DiscreteDistribution){
+            new TruncatedDistribution((DiscreteDistribution) distribution, a,  b);
+        }
+        else if (distribution instanceof DiscreteDistributionInt){
+            new TruncatedDistribution((DiscreteDistributionInt) distribution, a,  b);
+        }
+    }
+
+
     public TruncatedDistribution(ContinuousDistribution distribution, double a, double b) {
         this.distribution = distribution;
         this.a = a;

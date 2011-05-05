@@ -134,6 +134,10 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
         return DistributionType.getStrategy(this, parameters)
     }
 
+    static RandomDistribution getDefault() {
+        return DistributionType.getStrategy(DistributionType.CONSTANT, ['constant': 0d])
+    }
+
     public String getConstructionString(Map parameters) {
         TreeMap sortedParameters = new TreeMap()
         sortedParameters.putAll(parameters)

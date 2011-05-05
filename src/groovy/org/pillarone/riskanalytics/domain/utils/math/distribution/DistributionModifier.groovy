@@ -51,6 +51,10 @@ class DistributionModifier extends AbstractParameterObjectClassifier {
         return DistributionModifier.getStrategy(this, parameters)
     }
 
+    static DistributionModified getDefault() {
+        return DistributionModifier.getStrategy(DistributionModifier.NONE, new HashMap());
+    }
+
     static DistributionModified getStrategy(DistributionModifier modifier, Map parameters) {
         DistributionModified distributionModified
         switch (modifier) {
@@ -76,7 +80,7 @@ class DistributionModifier extends AbstractParameterObjectClassifier {
                 distributionModified = new DistributionModified(type: DistributionModifier.SHIFT, parameters: parameters)
                 break
             default:
-                throw new NotImplementedException("['DistributionModifier.notImplemented','"+modifier.typeName+"']")
+                throw new NotImplementedException("['DistributionModifier.notImplemented','" + modifier.typeName + "']")
                 break
         }
         return distributionModified
