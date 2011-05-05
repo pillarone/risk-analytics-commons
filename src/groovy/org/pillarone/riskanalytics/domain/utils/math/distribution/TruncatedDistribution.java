@@ -21,16 +21,30 @@ public class TruncatedDistribution implements Distribution {
     double cdfLeftBoundary;
 
 
-
-    public TruncatedDistribution(Distribution distribution, double a, double b){
-        if (distribution instanceof ContinuousDistribution){
-            new TruncatedDistribution((ContinuousDistribution) distribution, a,  b);
+    public TruncatedDistribution(Distribution distribution, double a, double b) {
+        this.distribution = distribution;
+        this.a = a;
+        this.b = b;
+        if (distribution instanceof ContinuousDistribution) {
+            this.cdfLeftBoundary = distribution.cdf(a);
         }
-        else if (distribution instanceof DiscreteDistribution){
-            new TruncatedDistribution((DiscreteDistribution) distribution, a,  b);
+        else if (distribution instanceof DiscreteDistribution) {
+            double[] params = distribution.getParams();
+            int n = (int) params[0];
+            List<Double> obs = new ArrayList<Double>(n + 1);
+            for (int i = 0; i < n; i++) {
+                obs.add(params[i + 1]);
+            }
+            obs.add(a);
+            Collections.sort(obs);
+            int index = obs.indexOf(a);
+            this.cdfLeftBoundary = index == 0 ? 0 : distribution.cdf(obs.get(index - 1));
         }
-        else if (distribution instanceof DiscreteDistributionInt){
-            new TruncatedDistribution((DiscreteDistributionInt) distribution, a,  b);
+        else if (distribution instanceof DiscreteDistributionInt) {
+            this.cdfLeftBoundary = a == 0 ? 0 : distribution.cdf(Math.ceil(a - 1));
+        }
+        if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
+            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
         }
     }
 
