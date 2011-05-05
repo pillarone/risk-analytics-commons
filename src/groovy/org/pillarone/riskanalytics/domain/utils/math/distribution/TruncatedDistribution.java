@@ -25,29 +25,8 @@ public class TruncatedDistribution implements Distribution {
         this.distribution = distribution;
         this.a = a;
         this.b = b;
-        if (distribution instanceof ContinuousDistribution) {
-            this.cdfLeftBoundary = distribution.cdf(a);
-        }
-        else if (distribution instanceof DiscreteDistribution) {
-            double[] params = distribution.getParams();
-            int n = (int) params[0];
-            List<Double> obs = new ArrayList<Double>(n + 1);
-            for (int i = 0; i < n; i++) {
-                obs.add(params[i + 1]);
-            }
-            obs.add(a);
-            Collections.sort(obs);
-            int index = obs.indexOf(a);
-            this.cdfLeftBoundary = index == 0 ? 0 : distribution.cdf(obs.get(index - 1));
-        }
-        else if (distribution instanceof DiscreteDistributionInt) {
-            this.cdfLeftBoundary = a == 0 ? 0 : distribution.cdf(Math.ceil(a - 1));
-        }
-        if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
-            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
-        }
+        this.cdfLeftBoundary = getCdfLeftBoundary();
     }
-
 
     public TruncatedDistribution(ContinuousDistribution distribution, double a, double b) {
         this.distribution = distribution;
@@ -145,5 +124,31 @@ public class TruncatedDistribution implements Distribution {
 
     public double[] getParams() {
         return new double[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private double getCdfLeftBoundary(){
+        double cdfLeftBoundary = 0;
+        if (distribution instanceof ContinuousDistribution) {
+            cdfLeftBoundary = distribution.cdf(a);
+        }
+        else if (distribution instanceof DiscreteDistribution) {
+            double[] params = distribution.getParams();
+            int n = (int) params[0];
+            List<Double> obs = new ArrayList<Double>(n + 1);
+            for (int i = 0; i < n; i++) {
+                obs.add(params[i + 1]);
+            }
+            obs.add(a);
+            Collections.sort(obs);
+            int index = obs.indexOf(a);
+            cdfLeftBoundary = index == 0 ? 0 : distribution.cdf(obs.get(index - 1));
+        }
+        else if (distribution instanceof DiscreteDistributionInt) {
+            cdfLeftBoundary = a == 0 ? 0 : distribution.cdf(Math.ceil(a - 1));
+        }
+        if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
+            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
+        }
+        return cdfLeftBoundary;
     }
 }
