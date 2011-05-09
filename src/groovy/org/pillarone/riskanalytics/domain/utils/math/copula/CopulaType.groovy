@@ -15,12 +15,12 @@ class CopulaType extends AbstractParameterObjectClassifier {
 
     public static final CopulaType NORMAL = new CopulaType("normal", "NORMAL", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker)])
     public static final CopulaType INDEPENDENT = new CopulaType("independent", "INDEPENDENT", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
-    /* public static final CopulaType FRECHETUPPERBOUND = new CopulaType("frechet upper bound", "FRECHETUPPERBOUND", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], PerilMarker)])
-        public static final CopulaType INDEPENDENT = new CopulaType("independent", "INDEPENDENT", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], PerilMarker)])
+    public static final CopulaType FRECHETUPPERBOUND = new CopulaType("frechet upper bound", "FRECHETUPPERBOUND", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
+    /*    public static final CopulaType INDEPENDENT = new CopulaType("independent", "INDEPENDENT", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], PerilMarker)])
         public static final CopulaType T = new CopulaType("t", "T", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], PerilMarker), "degreesOfFreedom": 10])
         public static final CopulaType GUMBEL = new CopulaType("gumbel", "GUMBEL", ["lambda": 10, "dimension": 2, "targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], PerilMarker)])
     */
-    public static final all = [NORMAL, INDEPENDENT]
+    public static final all = [NORMAL, INDEPENDENT, FRECHETUPPERBOUND]
 
     protected static Map types = [:]
     static {
@@ -76,14 +76,14 @@ class CopulaType extends AbstractParameterObjectClassifier {
         ICopulaStrategy copula
         switch (type) {
             case CopulaType.NORMAL:
-                copula = new NormalCopulaStrategy(dependencyMatrix: (AbstractMultiDimensionalParameter) parameters["dependencyMatrix"])
+                copula = new NormalCopulaStrategy(dependencyMatrix: (ComboBoxMatrixMultiDimensionalParameter) parameters["dependencyMatrix"])
                 break
             case CopulaType.INDEPENDENT:
                 copula = new IndependentCopulaStrategy(targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
+                break
+            case CopulaType.FRECHETUPPERBOUND:
+                copula = new FrechetUpperBoundCopulaStrategy(targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
                 break/*
-  case CopulaType.FRECHETUPPERBOUND:
-      copula = getFrechetUpperBoundCopula(type, (AbstractMultiDimensionalParameter) parameters["targets"])
-      break
   case CopulaType.T:
       copula = getTCopula(type, (AbstractMultiDimensionalParameter) parameters["dependencyMatrix"], (int) parameters["degreesOfFreedom"])
       break

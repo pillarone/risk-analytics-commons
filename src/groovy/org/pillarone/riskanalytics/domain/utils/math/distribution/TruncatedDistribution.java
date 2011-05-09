@@ -13,7 +13,8 @@ import java.util.List;
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
-public class TruncatedDistribution implements Distribution {
+public class
+        TruncatedDistribution implements Distribution {
 
     Distribution distribution;
     double a;
@@ -25,7 +26,7 @@ public class TruncatedDistribution implements Distribution {
         this.distribution = distribution;
         this.a = a;
         this.b = b;
-        this.cdfLeftBoundary = getCdfLeftBoundary();
+        this.cdfLeftBoundary = deriveCdfLeftBoundary();
     }
 
     public TruncatedDistribution(ContinuousDistribution distribution, double a, double b) {
@@ -126,7 +127,7 @@ public class TruncatedDistribution implements Distribution {
         return new double[0];  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private double getCdfLeftBoundary(){
+    private double deriveCdfLeftBoundary(){
         double cdfLeftBoundary = 0;
         if (distribution instanceof ContinuousDistribution) {
             cdfLeftBoundary = distribution.cdf(a);

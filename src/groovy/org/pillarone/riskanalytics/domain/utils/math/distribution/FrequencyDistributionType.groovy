@@ -16,7 +16,7 @@ class FrequencyDistributionType extends DistributionType {
     }
 
     static RandomDistribution getDefault() {
-        return DistributionType.getStrategy(DistributionType.CONSTANT, ['constant': 0d])
+        return FrequencyDistributionType.getStrategy(DistributionType.CONSTANT, ['constant': 0d])
     }
 
     public List<IParameterObjectClassifier> getClassifiers() {
