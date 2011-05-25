@@ -7,32 +7,53 @@ import cern.colt.matrix.linalg.EigenvalueDecomposition;
 import org.pillarone.riskanalytics.core.parameterization.AbstractMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
+import org.pillarone.riskanalytics.domain.utils.math.generator.IRandomNumberGenerator;
+import org.pillarone.riskanalytics.domain.utils.math.generator.RandomNumberGeneratorFactory;
 import org.pillarone.riskanalytics.domain.utils.math.randomnumber.DependencyType;
 import org.pillarone.riskanalytics.domain.utils.math.randomnumber.IMultiRandomGenerator;
-import umontreal.iro.lecuyer.probdist.NormalDist;
+import umontreal.iro.lecuyer.probdist.StudentDist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author ali.majidi (at) munichre (dot) com, stefan.kunz (at) intuitive-collaboration (dot) com, jessika.walter (at) intuitive-collaboration (dot) com
+ * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
-class NormalCopulaStrategy extends AbstractCopulaStrategy {
+public class TCopulaStrategy extends AbstractCopulaStrategy {
 
     IMultiRandomGenerator generator;
+
     ComboBoxMatrixMultiDimensionalParameter dependencyMatrix;
+    int degreesOfFreedom;
+    Number chisquareRandomNumber;
+    IRandomNumberGenerator generatorForChiSquare;
+
+    static final CopulaType type = CopulaType.T;
+
+    public IParameterObjectClassifier getType() {
+        return type;
+    }
 
     public List<Number> getRandomVector() {
         checkDependencyMatrix(dependencyMatrix);
+
         int size = dependencyMatrix.getValueRowCount();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("meanVector", new double[size]);
         params.put("sigmaMatrix", dependencyMatrix.getValues());
         generator = DependencyType.getStrategy(DependencyType.NORMAL, params);
+        Map<String, Integer> degrees = new HashMap<String, Integer>();
+        degrees.put("n", degreesOfFreedom);
+        generatorForChiSquare = RandomNumberGeneratorFactory.getGenerator(DistributionType.getStrategy(DistributionType.CHISQUAREDIST, degrees));
+
         List<Number> randomVector = generator.nextVector();
-        for (int j = 0; j < randomVector.size(); j++) {
-            randomVector.set(j, NormalDist.cdf(0, 1d, (Double) randomVector.get(j)));
+        double factor = (double) degreesOfFreedom / generatorForChiSquare.nextValue().doubleValue();
+        factor = Math.sqrt(factor);
+        for (int i = 0; i < randomVector.size(); ++i) {
+            randomVector.set(i, StudentDist.cdf(degreesOfFreedom, (Double) randomVector.get(i) * factor));
         }
         return randomVector;
     }
@@ -44,13 +65,7 @@ class NormalCopulaStrategy extends AbstractCopulaStrategy {
     public Map getParameters() {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("dependencyMatrix", dependencyMatrix);
+        params.put("degreesOfFreedom", degreesOfFreedom);
         return params;
     }
-
-    static final CopulaType type = CopulaType.NORMAL;
-
-    public IParameterObjectClassifier getType() {
-        return type;
-    }
-
 }
