@@ -5,7 +5,9 @@ import umontreal.iro.lecuyer.probdist.DiscreteDistribution;
 
 import umontreal.iro.lecuyer.probdist.PoissonDist
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution
-import umontreal.iro.lecuyer.probdist.NormalDist;
+import umontreal.iro.lecuyer.probdist.NormalDist
+import umontreal.iro.lecuyer.probdist.Distribution
+import umontreal.iro.lecuyer.probdist.TruncatedDist;
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
@@ -87,5 +89,35 @@ class TruncatedDistributionTests extends GroovyTestCase {
         assertEquals "cdf at 4", 1d, truncatedDiscreteDistInt.cdf(4)
         assertEquals "cdf at 5", 1d, truncatedDiscreteDistInt.cdf(5)
 
+    }
+
+    void testNormalizationConstantForTruncatedDist(){
+        // normalization constant for truncated distribution in library from l'ecuyer was wrongly computed;
+        // now it should be correct
+
+        Distribution dist = DistributionType.getLognormalDistribution(1.0, 1.0)
+          double partitionFunction = dist.cdf(105000) - dist.cdf(95000)
+          assertEquals "partition function on truncated interval", 0.0, partitionFunction
+
+
+          Distribution distTruncated = new TruncatedDist((ContinuousDistribution) dist, (Double) 95000, (Double) 105000)
+          assertEquals " density left from interval", 0d, distTruncated.density(94000)
+          assertEquals " density within interval", Double.POSITIVE_INFINITY, distTruncated.density(100000)
+          assertEquals " density right from interval", 0d, distTruncated.density(106000)
+          assertEquals " inverse F(0.9)", Double.POSITIVE_INFINITY, distTruncated.inverseF(0.9)
+          assertEquals " cumulative distribution of 1000000", Double.NaN, distTruncated.cdf(100000)
+
+          Distribution dist2 = DistributionType.getLognormalDistribution(1.0, 1.0)
+          double partitionFunction2 = dist2.cdf(5) - dist2.cdf(2)
+          assertEquals "partition function on truncated interval", true, partitionFunction2 > 0 && partitionFunction2 < Double.POSITIVE_INFINITY
+
+          Distribution dist2Truncated = new TruncatedDist((ContinuousDistribution) dist2, 2d, 5d)
+          assertEquals " density left from interval", 0d, dist2Truncated.density(1)
+          assertEquals " density at left boundary", dist2.density(2) / partitionFunction2, dist2Truncated.density(2)
+          assertEquals " density within interval", dist2.density(3) / partitionFunction2, dist2Truncated.density(3)
+          assertEquals " density at right boundary", dist2.density(5) / partitionFunction2, dist2Truncated.density(5)
+          assertEquals " density right from interval", 0d, dist2Truncated.density(6)
+          assertEquals " inverse F(0.9)", true, dist2Truncated.inverseF(0.9) > 2 && dist2Truncated.inverseF(0.9) < 5
+        
     }
 }

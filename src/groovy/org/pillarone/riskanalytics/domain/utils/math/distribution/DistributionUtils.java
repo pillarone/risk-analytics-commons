@@ -27,7 +27,7 @@ public class DistributionUtils {
         }
         Map<String, Object> params = getIdiosyncraticParams(totalDistribution.getType(), totalDistribution.getParameters(),
                 systematicDistribution.getParameters());
-        return FrequencyDistributionType.getStrategy(FrequencyDistributionType.POISSON, params);
+        return FrequencyDistributionType.getStrategy(totalDistribution.getType(), params);
     }
 
     public static Map<String, Object> getIdiosyncraticParams(DistributionType type, Map paramsTotal, Map paramsSystematic) {
