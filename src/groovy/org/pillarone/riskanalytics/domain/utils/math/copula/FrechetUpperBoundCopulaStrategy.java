@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.utils.math.copula;
 
+import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.AbstractMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
@@ -43,5 +44,9 @@ public class FrechetUpperBoundCopulaStrategy extends AbstractCopulaStrategy {
 
     public List<String> getTargetNames() {
         return targets.getValues();
+    }
+
+     public List<Component> getTargetComponents() {
+        return targets.getValuesAsObjects();
     }
 }

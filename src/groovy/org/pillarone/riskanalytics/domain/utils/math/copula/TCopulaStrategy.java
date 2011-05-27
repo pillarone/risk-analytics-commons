@@ -4,6 +4,7 @@ import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.linalg.EigenvalueDecomposition;
+import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.AbstractMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
@@ -61,6 +62,10 @@ public class TCopulaStrategy extends AbstractCopulaStrategy {
     public List<String> getTargetNames() {
         return dependencyMatrix.getRowNames();
     }
+
+   //  public List<Component> getTargetComponents() {
+   //     return dependencyMatrix.getRowObjects();
+   // }
 
     public Map getParameters() {
         Map<String, Object> params = new HashMap<String, Object>();

@@ -1,6 +1,8 @@
 package org.pillarone.riskanalytics.domain.utils.math.copula;
 
+import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.AbstractMultiDimensionalParameter;
+import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
@@ -20,7 +22,7 @@ public class GumbelCopulaStrategy extends AbstractCopulaStrategy {
     RandomDistribution distribution;
     IRandomNumberGenerator uniformGenerator;
 
-    AbstractMultiDimensionalParameter targets;
+    ComboBoxTableMultiDimensionalParameter targets;
     double lambda;
     int dimension;
 
@@ -52,6 +54,10 @@ public class GumbelCopulaStrategy extends AbstractCopulaStrategy {
 
     public List<String> getTargetNames() {
         return targets.getValues();
+    }
+
+     public List<Component> getTargetComponents() {
+        return targets.getValuesAsObjects();
     }
 
     public Map getParameters() {

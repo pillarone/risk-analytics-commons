@@ -1,5 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.copula;
 
+import org.pillarone.riskanalytics.core.components.Component;
+
 import java.util.List;
 
 /**
@@ -9,4 +11,6 @@ public interface ICopulaStrategy {
     List<Number> getRandomVector();
 
     List<String> getTargetNames();
+
+   // List<Component> getTargetComponents();
 }

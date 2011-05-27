@@ -82,13 +82,15 @@ class CopulaType extends AbstractParameterObjectClassifier {
                 break
             case CopulaType.FRECHETUPPERBOUND:
                 copula = new FrechetUpperBoundCopulaStrategy(targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
-                break/*
-  case CopulaType.T:
-      copula = getTCopula(type, (AbstractMultiDimensionalParameter) parameters["dependencyMatrix"], (int) parameters["degreesOfFreedom"])
-      break
-  case CopulaType.GUMBEL:
-      copula = getGumbelCopula(type, (double) parameters["lambda"], (int) parameters["dimension"], (AbstractMultiDimensionalParameter) parameters["targets"])
-      break  */
+                break
+            case CopulaType.T:
+                copula = new TCopulaStrategy(dependencyMatrix: (ComboBoxMatrixMultiDimensionalParameter) parameters["dependencyMatrix"],
+                        degreesOfFreedom: (int) parameters["degreesOfFreedom"])
+                break
+            case CopulaType.GUMBEL:
+                copula = new GumbelCopulaStrategy(lambda: (double) parameters["lambda"], dimension: (double) parameters["dimension"],
+                        targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
+                break
         }
         return copula
     }
