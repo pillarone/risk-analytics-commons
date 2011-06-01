@@ -19,7 +19,7 @@ class CopulaType extends AbstractParameterObjectClassifier {
     public static final CopulaType GUMBEL = new CopulaType("gumbel", "GUMBEL", ["lambda": 10, "dimension": 2, "targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType T = new CopulaType("t", "T", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker), "degreesOfFreedom": 10])
 
-    public static final all = [NORMAL, INDEPENDENT, FRECHETUPPERBOUND, GUMBEL]
+    public static final all = [NORMAL, INDEPENDENT, FRECHETUPPERBOUND, GUMBEL, T]
 
     protected static Map types = [:]
     static {
