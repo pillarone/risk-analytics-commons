@@ -17,6 +17,8 @@ import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionMo
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModifier
 import umontreal.iro.lecuyer.randvar.UniformIntGen
 import umontreal.iro.lecuyer.probdist.UniformIntDist
+import org.pillarone.riskanalytics.domain.utils.math.distribution.IRandomDistribution
+import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomFrequencyDistribution
 
 /**
  * Enables different streams for generators, and parametrization of streams.
@@ -55,14 +57,14 @@ class RandomNumberGeneratorFactory {
 
     static IRandomNumberGenerator getUniformIntGenerator(int i, int j) {
         IRandomNumberGenerator uniformIntGenerator
-        UniformIntGen generator = new UniformIntGen(MathUtils.getRandomStreamBase(), new UniformIntDist(i,j))
+        UniformIntGen generator = new UniformIntGen(MathUtils.getRandomStreamBase(), new UniformIntDist(i, j))
         uniformIntGenerator = new RandomNumberGenerator(generator: generator)
         return uniformIntGenerator
     }
 
     static IRandomNumberGenerator getUniformIntGenerator(RandomStream stream, int i, int j) {
         IRandomNumberGenerator uniformIntGenerator
-        UniformIntGen generator = new UniformIntGen(stream, new UniformIntDist(i,j))
+        UniformIntGen generator = new UniformIntGen(stream, new UniformIntDist(i, j))
         uniformIntGenerator = new RandomNumberGenerator(generator: generator)
         return uniformIntGenerator
     }
@@ -74,22 +76,22 @@ class RandomNumberGeneratorFactory {
         return binomialGenerator
     }
 
-    static IRandomNumberGenerator getGenerator(RandomDistribution distribution) {
+    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution) {
         RandomVariateGen generator = new RandomVariateGen(MathUtils.getRandomStreamBase(), distribution.distribution)
         return new RandomNumberGenerator(generator: generator, type: distribution.type, parameters: distribution.parameters)
     }
 
 
-    static IRandomNumberGenerator getGenerator(RandomDistribution distribution, RandomStream stream) {
+    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, RandomStream stream) {
         RandomVariateGen generator = new RandomVariateGen(stream, distribution.distribution)
         return new RandomNumberGenerator(generator: generator, type: distribution.type, parameters: distribution.parameters)
     }
 
-    static IRandomNumberGenerator getGenerator(RandomDistribution distribution, DistributionModified modifier) {
+    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, DistributionModified modifier) {
         return getGenerator(distribution, modifier, MathUtils.getRandomStreamBase())
     }
 
-    static IRandomNumberGenerator getGenerator(RandomDistribution distribution, DistributionModified modifier, RandomStreamBase randomStream) {
+    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, DistributionModified modifier, RandomStreamBase randomStream) {
         if (modifier) {
             IRandomNumberGenerator generator
             switch (modifier.type) {
@@ -145,7 +147,7 @@ class RandomNumberGeneratorFactory {
 
             }
             generator.modifier = modifier.type
-            generator.type = distribution.type
+            generator.type = distribution.getDistributionType()
             generator.parameters = distribution.parameters
             return generator
         }

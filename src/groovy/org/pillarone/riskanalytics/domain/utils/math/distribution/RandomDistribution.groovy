@@ -4,13 +4,17 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 import umontreal.iro.lecuyer.probdist.Distribution
 import org.pillarone.riskanalytics.core.parameterization.AbstractParameterObject
 
-class RandomDistribution extends AbstractParameterObject {
+class RandomDistribution extends AbstractParameterObject implements IRandomDistribution{
 
     Distribution distribution
     DistributionType type
     Map parameters
 
     DistributionType getType() {
+        type
+    }
+
+    DistributionType getDistributionType(){
         type
     }
 
