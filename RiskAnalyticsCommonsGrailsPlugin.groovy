@@ -4,6 +4,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.DateTimeConstraints
 import org.pillarone.riskanalytics.core.parameterization.ConstraintsFactory
 import org.pillarone.riskanalytics.domain.utils.constraint.DoubleConstraints
 import org.pillarone.riskanalytics.domain.utils.validation.FrequencyDistributionTypeValidator
+import org.pillarone.riskanalytics.core.util.ResourceBundleRegistry
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
@@ -46,6 +47,8 @@ class RiskAnalyticsCommonsGrailsPlugin {
 
         ValidatorRegistry.addValidator(new DistributionTypeValidator())
         ValidatorRegistry.addValidator(new FrequencyDistributionTypeValidator())
+
+        ResourceBundleRegistry.addBundle(ResourceBundleRegistry.VALIDATION, "org.pillarone.riskanalytics.domain.utils.validation.distributionTypeValidator")
     }
 
     def onChange = { event ->

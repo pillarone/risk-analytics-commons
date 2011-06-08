@@ -36,9 +36,15 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug "validating ${parameter.path}"
                     }
-                    def currentErrors = validationService.validate(classifier, parameter.getParameterMap())
-                    currentErrors*.path = parameter.path
-                    errors.addAll(currentErrors)
+                    try {
+                        def currentErrors = validationService.validate(classifier, parameter.getParameterMap())
+                        currentErrors*.path = parameter.path
+                        errors.addAll(currentErrors)
+                    }
+                    catch (IllegalArgumentException ex) {
+                        //https://issuetracking.intuitive-collaboration.com/jira/browse/PMO-1619
+                        LOG.debug("call parameter.getBusinessObject() failed " + ex.toString())
+                    }
                 }
                 errors.addAll(validate(parameter.classifierParameters.values().toList()))
             }
@@ -62,7 +68,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             [ValidationType.ERROR, "distribution.tpye.error.negativebinomial.p.out.of.range", type.p]
         }
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
-            double[] values = new double[type.discreteEmpiricalValues.getRowCount()-1];
+            double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
             int index = type.discreteEmpiricalValues.getColumnIndex('observations')
             for (int i = 1; i < type.discreteEmpiricalValues.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalValues.getValueAt(i, index))
@@ -78,7 +84,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             return true
         }
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
-            double[] values = new double[type.discreteEmpiricalValues.getRowCount()-1];
+            double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
             int index = type.discreteEmpiricalValues.getColumnIndex('probabilities')
             for (int i = 1; i < type.discreteEmpiricalValues.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalValues.getValueAt(i, index))
@@ -86,12 +92,12 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             if (!values) {
                 return [ValidationType.ERROR, "distribution.type.error.discreteempirical.probabilities.empty"]
             }
-           /* double sum = values.inject(0) {temp, it -> temp + it }
-            if (isCloseEnough(sum, 1d)) return true
-            ["distribution.type.error.discreteempirical.probabilities.sum.not.one", sum, values]  */
+            /* double sum = values.inject(0) {temp, it -> temp + it }
+        if (isCloseEnough(sum, 1d)) return true
+        ["distribution.type.error.discreteempirical.probabilities.sum.not.one", sum, values]  */
         }
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
-            double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount()-1];
+            double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount() - 1];
             int index = type.discreteEmpiricalCumulativeValues.getColumnIndex('observations')
             for (int i = 1; i < type.discreteEmpiricalCumulativeValues.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalCumulativeValues.getValueAt(i, index))
@@ -107,7 +113,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             return true
         }
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
-            double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount()-1];
+            double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount() - 1];
             int index = type.discreteEmpiricalCumulativeValues.getColumnIndex('cumulative probabilities')
             for (int i = 1; i < type.discreteEmpiricalCumulativeValues.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalCumulativeValues.getValueAt(i, index))
@@ -120,7 +126,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
                     return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.nonincreasing", i, values[i - 1], values[i]]
                 }
             }
-          /*  if (!isCloseEnough(values[-1], 1d)) {
+            /*  if (!isCloseEnough(values[-1], 1d)) {
                 return ["distribution.type.error.discreteempirical.cumulative.probability.last.value.not.1", values[values.length - 1]]
             }*/
             return true
@@ -136,7 +142,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
         }
 
         validationService.register(FrequencyDistributionType.CONSTANTS) {Map type ->
-            double[] values = new double[type.constants.getRowCount()-1];
+            double[] values = new double[type.constants.getRowCount() - 1];
             int index = type.constants.getColumnIndex('constants')
             for (int i = 1; i < type.constants.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.constants.getValueAt(i, index))
