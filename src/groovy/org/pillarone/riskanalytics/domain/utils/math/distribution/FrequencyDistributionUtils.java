@@ -27,7 +27,7 @@ public class FrequencyDistributionUtils {
         return FrequencyDistributionType.getStrategy(summand1.getType(), params);
     }
 
-    public static IRandomDistribution getDifferenceOfDistributions(RandomFrequencyDistribution minuend, RandomFrequencyDistribution subtrahend) {
+    public static RandomFrequencyDistribution getDifferenceOfDistributions(RandomFrequencyDistribution minuend, RandomFrequencyDistribution subtrahend) {
         if (minuend == null) return null;
         if (subtrahend == null || subtrahend.getDistribution() == null) {
             return minuend;

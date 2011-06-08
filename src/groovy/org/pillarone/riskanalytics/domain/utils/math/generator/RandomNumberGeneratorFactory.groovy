@@ -12,13 +12,11 @@ import umontreal.iro.lecuyer.rng.RandomStreamBase
 
 import org.pillarone.riskanalytics.domain.utils.math.distribution.TruncatedDistribution
 
-import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModified
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModifier
 import umontreal.iro.lecuyer.randvar.UniformIntGen
 import umontreal.iro.lecuyer.probdist.UniformIntDist
-import org.pillarone.riskanalytics.domain.utils.math.distribution.IRandomDistribution
-import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomFrequencyDistribution
+import org.pillarone.riskanalytics.domain.utils.math.distribution.AbstractRandomDistribution
 
 /**
  * Enables different streams for generators, and parametrization of streams.
@@ -76,22 +74,22 @@ class RandomNumberGeneratorFactory {
         return binomialGenerator
     }
 
-    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution) {
+    static IRandomNumberGenerator getGenerator(AbstractRandomDistribution distribution) {
         RandomVariateGen generator = new RandomVariateGen(MathUtils.getRandomStreamBase(), distribution.distribution)
-        return new RandomNumberGenerator(generator: generator, type: distribution.type, parameters: distribution.parameters)
+        return new RandomNumberGenerator(generator: generator, type: distribution.getDistributionType(), parameters: distribution.parameters)
     }
 
 
-    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, RandomStream stream) {
+    static IRandomNumberGenerator getGenerator(AbstractRandomDistribution distribution, RandomStream stream) {
         RandomVariateGen generator = new RandomVariateGen(stream, distribution.distribution)
-        return new RandomNumberGenerator(generator: generator, type: distribution.type, parameters: distribution.parameters)
+        return new RandomNumberGenerator(generator: generator, type: distribution.getDistributionType(), parameters: distribution.parameters)
     }
 
-    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, DistributionModified modifier) {
+    static IRandomNumberGenerator getGenerator(AbstractRandomDistribution distribution, DistributionModified modifier) {
         return getGenerator(distribution, modifier, MathUtils.getRandomStreamBase())
     }
 
-    static IRandomNumberGenerator getGenerator(IRandomDistribution distribution, DistributionModified modifier, RandomStreamBase randomStream) {
+    static IRandomNumberGenerator getGenerator(AbstractRandomDistribution distribution, DistributionModified modifier, RandomStreamBase randomStream) {
         if (modifier) {
             IRandomNumberGenerator generator
             switch (modifier.type) {
