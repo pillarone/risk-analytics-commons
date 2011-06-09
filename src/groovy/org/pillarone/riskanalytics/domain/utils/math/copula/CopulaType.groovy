@@ -10,7 +10,7 @@ import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimen
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
-class CopulaType extends AbstractParameterObjectClassifier {
+class CopulaType extends AbstractCopulaType {
 
 
     public static final CopulaType NORMAL = new CopulaType("normal", "NORMAL", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker)])
@@ -52,23 +52,6 @@ class CopulaType extends AbstractParameterObjectClassifier {
 
     public static CopulaType valueOf(String type) {
         types[type]
-    }
-
-    public String getConstructionString(Map parameters) {
-        StringBuffer parameterString = new StringBuffer('[')
-        parameters.each {k, v ->
-            if (v.class.isEnum()) {
-                parameterString << "\"$k\":${v.class.name}.$v,"
-            }
-            else {
-                parameterString << "\"$k\":$v,"
-            }
-        }
-        if (parameterString.size() == 1) {
-            parameterString << ':'
-        }
-        parameterString << ']'
-        "org.pillarone.riskanalytics.domain.pc.generators.copulas.CopulaStrategyFactory.getCopulaStrategy(${this.class.name}.${typeName.toUpperCase()}, ${parameterString})"
     }
 
     static ICopulaStrategy getStrategy(CopulaType type, Map parameters) {

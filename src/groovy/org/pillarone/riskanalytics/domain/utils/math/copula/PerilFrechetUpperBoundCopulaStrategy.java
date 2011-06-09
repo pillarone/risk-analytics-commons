@@ -5,11 +5,12 @@ import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassif
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
-public class FrechetUpperBoundCopulaStrategy extends AbstractFrechetUpperBoundCopulaStrategy {
+public class PerilFrechetUpperBoundCopulaStrategy extends AbstractFrechetUpperBoundCopulaStrategy {
 
-    static final CopulaType type = CopulaType.FRECHETUPPERBOUND;
+    static final PerilCopulaType type = PerilCopulaType.FRECHETUPPERBOUND;
 
     public IParameterObjectClassifier getType() {
         return type;
     }
+
 }

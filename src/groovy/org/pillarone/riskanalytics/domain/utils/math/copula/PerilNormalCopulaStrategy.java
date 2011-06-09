@@ -5,9 +5,9 @@ import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassif
 /**
  * @author ali.majidi (at) munichre (dot) com, stefan.kunz (at) intuitive-collaboration (dot) com, jessika.walter (at) intuitive-collaboration (dot) com
  */
-class NormalCopulaStrategy extends AbstractNormalCopulaStrategy {
+class PerilNormalCopulaStrategy extends AbstractNormalCopulaStrategy {
 
-    static final CopulaType type = CopulaType.NORMAL;
+    static final PerilCopulaType type = PerilCopulaType.NORMAL;
 
     public IParameterObjectClassifier getType() {
         return type;

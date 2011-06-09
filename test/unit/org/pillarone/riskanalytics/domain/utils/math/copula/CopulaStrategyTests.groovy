@@ -11,9 +11,9 @@ import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimen
 class CopulaStrategyTests extends GroovyTestCase {
 
     // todo(jwa): compare with existing tests in property-casualty. They seem to be pretty redundant.
-    AbstractCopulaStrategy independentStrategy
-    AbstractCopulaStrategy frechetUpperBoundStrategy
-    AbstractCopulaStrategy normalStrategy
+    ICopulaStrategy independentStrategy
+    ICopulaStrategy frechetUpperBoundStrategy
+    ICopulaStrategy normalStrategy
 
     void testIndependentStrategy(){
        independentStrategy = CopulaType.getStrategy(CopulaType.INDEPENDENT,
@@ -45,6 +45,6 @@ class CopulaStrategyTests extends GroovyTestCase {
     }
 
     void testNormalStrategy(){
-   // todo(jwa): more complicated to test explicit values; need simulation toolkit form Markus
+   // todo(jwa): more complicated to test explicit values; need simulation toolkit from Markus
     }
 }
