@@ -2,7 +2,6 @@ package org.pillarone.riskanalytics.domain.utils.math.copula;
 
 import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter;
-import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
 import org.pillarone.riskanalytics.domain.utils.math.generator.IRandomNumberGenerator;
 import org.pillarone.riskanalytics.domain.utils.math.generator.RandomNumberGeneratorFactory;
 
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com

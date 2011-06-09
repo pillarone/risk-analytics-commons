@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.utils.math.copula;
 
+import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
@@ -50,9 +51,9 @@ public abstract class AbstractTCopulaStrategy extends AbstractCopulaStrategy {
         return dependencyMatrix.getRowNames();
     }
 
-    //  public List<Component> getTargetComponents() {
-    //     return dependencyMatrix.getRowObjects();
-    // }
+    public List<Component> getTargetComponents() {
+        return dependencyMatrix.getRowObjects();
+    }
 
     public Map getParameters() {
         Map<String, Object> params = new HashMap<String, Object>();

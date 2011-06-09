@@ -12,6 +12,5 @@ public interface ICopulaStrategy extends IParameterObject {
 
     List<Number> getRandomVector();
     List<String> getTargetNames();
-  // todo(jwa): add once new core plugin is available
-  //  List<Component> getTargetComponents();
+    List<Component> getTargetComponents();
 }
