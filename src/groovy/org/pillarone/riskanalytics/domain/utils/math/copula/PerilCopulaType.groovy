@@ -42,7 +42,7 @@ class PerilCopulaType extends AbstractCopulaType {
 
     static ICopulaStrategy getDefault() {
         return new IndependentCopulaStrategy(
-                targets: new ComboBoxTableMultiDimensionalParameter(["A"], ['targets'], ICorrelationMarker));
+                targets: new ComboBoxTableMultiDimensionalParameter(["A"], ['targets'], IPerilMarker));
     }
 
 
