@@ -38,6 +38,15 @@ public class FrequencyDistributionUtils {
         if (minuend.getDistribution().getMean() < subtrahend.getDistribution().getMean()) {
             throw new IllegalArgumentException("mean of subtrahend is greater than mean of minuend!");
         }
+        // exceptional cases
+        if (minuend.getType().equals(FrequencyDistributionType.BINOMIALDIST) ||
+                minuend.getType().equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
+            if (minuend.getParameters().get("p") == subtrahend.getParameters().get("p")) {
+                if (minuend.getDistribution().getMean() == subtrahend.getDistribution().getMean()) {
+                    return FrequencyDistributionType.getDefault();
+                }
+            }
+        }
         Map<String, Object> params = getParamsOfDifference(minuend.getType(), minuend.getParameters(),
                 subtrahend.getParameters());
         return FrequencyDistributionType.getStrategy(minuend.getType(), params);
@@ -45,7 +54,7 @@ public class FrequencyDistributionUtils {
 
 
     public static RandomFrequencyDistribution getIdiosyncraticDistribution(RandomFrequencyDistribution totalDistribution,
-                                                                  RandomFrequencyDistribution systematicDistribution) {
+                                                                           RandomFrequencyDistribution systematicDistribution) {
         if (totalDistribution == null) return null;
         if (systematicDistribution == null || systematicDistribution.getDistribution() == null) {
             return totalDistribution;
@@ -55,6 +64,15 @@ public class FrequencyDistributionUtils {
         }
         if (totalDistribution.getDistribution().getMean() < systematicDistribution.getDistribution().getMean()) {
             throw new IllegalArgumentException("mean of systematic frequencies is greater than mean of claims numbers!");
+        }
+        // exceptional cases
+        if (totalDistribution.getType().equals(FrequencyDistributionType.BINOMIALDIST) ||
+                totalDistribution.getType().equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
+            if (totalDistribution.getParameters().get("p") == systematicDistribution.getParameters().get("p")) {
+                if (totalDistribution.getDistribution().getMean() == systematicDistribution.getDistribution().getMean()) {
+                    return FrequencyDistributionType.getDefault();
+                }
+            }
         }
         Map<String, Object> params = getParamsOfDifference(totalDistribution.getType(), totalDistribution.getParameters(),
                 systematicDistribution.getParameters());
