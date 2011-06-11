@@ -4,6 +4,7 @@ import org.pillarone.riskanalytics.core.util.MathUtils
 import umontreal.iro.lecuyer.rng.RandomStreamBase
 import org.pillarone.riskanalytics.domain.utils.math.randomnumber.UniformDoubleList
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter
+import org.pillarone.riskanalytics.domain.utils.marker.ICorrelationMarker
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
