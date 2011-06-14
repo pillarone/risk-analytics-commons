@@ -59,6 +59,9 @@ class RiskAnalyticsCommonsGrailsPlugin {
         ValidatorRegistry.addValidator(new FrequencyDistributionTypeValidator())
 
         ResourceBundleRegistry.addBundle(ResourceBundleRegistry.VALIDATION, "org.pillarone.riskanalytics.domain.utils.validation.distributionTypeValidator")
+
+        // add resource bundle for exceptions
+        ResourceBundleRegistry.addBundle(ResourceBundleRegistry.RESOURCE, "org.pillarone.riskanalytics.domain.utils.exceptionResources")
     }
 
     def onChange = { event ->
