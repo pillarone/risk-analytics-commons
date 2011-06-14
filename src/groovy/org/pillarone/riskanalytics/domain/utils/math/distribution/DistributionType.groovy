@@ -71,9 +71,13 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType TYPEIIPARETO = new DistributionType(
             "type II pareto", "TYPEIIPARETO", ["alpha": 2d, "beta": 1d, "lambda": 0d])
     public static final DistributionType LOGNORMALPARETO = new DistributionType(
-            "lognormal pareto", "LOGNORMALPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d])
+            "lognormal pareto", "LOGNORMALPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "mu": -2d])
     public static final DistributionType LOGNORMALTYPEIIPARETO = new DistributionType(
-            "lognormal type II pareto", "LOGNORMALTYPEIIPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d])
+            "lognormal type II pareto", "LOGNORMALTYPEIIPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d, "mu": -2d])
+    public static final DistributionType LOGNORMALPARETO_SMOOTH = new DistributionType(
+            "lognormal pareto smooth", "LOGNORMALPARETO_SMOOTH", ["sigma": 1d, "alpha": 2d, "beta": 1d])
+    public static final DistributionType LOGNORMALTYPEIIPARETO_SMOOTH = new DistributionType(
+            "lognormal type II pareto smooth", "LOGNORMALTYPEIIPARETO_SMOOTH", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d])
 
     public static final all = [
             BETA,
@@ -93,7 +97,9 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             LOGNORMAL_MEAN_CV,
             LOGNORMAL_MU_SIGMA,
             LOGNORMALPARETO,
+            LOGNORMALPARETO_SMOOTH,
             LOGNORMALTYPEIIPARETO,
+            LOGNORMALTYPEIIPARETO_SMOOTH,
             NEGATIVEBINOMIAL,
             NORMAL,
             PARETO,
@@ -277,16 +283,28 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                 distribution.distribution = new LoglogisticDist((double) parameters["alpha"], (double) parameters["beta"])
                 break
             case DistributionType.GPD:
-                distribution.distribution = new GeneralizedParetoDistribution((double) parameters["k"], (double) parameters["beta"], (double) parameters["zeta"])
+                distribution.distribution = new GeneralizedParetoDistribution((double) parameters["k"],
+                        (double) parameters["beta"], (double) parameters["zeta"])
                 break
             case DistributionType.TYPEIIPARETO:
-                distribution.distribution = new TypeIIParetoDistribution((double) parameters["alpha"], (double) parameters["beta"], (double) parameters["lambda"])
+                distribution.distribution = new TypeIIParetoDistribution((double) parameters["alpha"],
+                        (double) parameters["beta"], (double) parameters["lambda"])
                 break
             case DistributionType.LOGNORMALPARETO:
-                distribution.distribution = new LognormalParetoDistribution((double) parameters["sigma"], (double) parameters["alpha"], (double) parameters["beta"])
+                distribution.distribution = new LognormalParetoDistribution((double) parameters["sigma"],
+                        (double) parameters["alpha"], (double) parameters["beta"], (double) parameters["mu"])
                 break
             case DistributionType.LOGNORMALTYPEIIPARETO:
-                distribution.distribution = new LognormalTypeIIParetoDistribution((double) parameters["sigma"], (double) parameters["alpha"], (double) parameters["beta"], (double) parameters["lambda"])
+                distribution.distribution = new LognormalTypeIIParetoDistribution((double) parameters["sigma"],
+                        (double) parameters["alpha"], (double) parameters["beta"], (double) parameters["lambda"], (double) parameters["mu"])
+                break
+            case DistributionType.LOGNORMALPARETO_SMOOTH:
+                distribution.distribution = new LognormalParetoDistribution((double) parameters["sigma"],
+                        (double) parameters["alpha"], (double) parameters["beta"])
+                break
+            case DistributionType.LOGNORMALTYPEIIPARETO_SMOOTH:
+                distribution.distribution = new LognormalTypeIIParetoDistribution((double) parameters["sigma"],
+                        (double) parameters["alpha"], (double) parameters["beta"], (double) parameters["lambda"])
                 break
         }
 
