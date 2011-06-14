@@ -5,10 +5,15 @@ import org.pillarone.riskanalytics.core.parameterization.ConstraintsFactory
 import org.pillarone.riskanalytics.domain.utils.constraint.DoubleConstraints
 import org.pillarone.riskanalytics.domain.utils.validation.FrequencyDistributionTypeValidator
 import org.pillarone.riskanalytics.core.util.ResourceBundleRegistry
+import org.pillarone.riskanalytics.core.parameterization.SimpleConstraint
+import org.pillarone.riskanalytics.domain.utils.constraint.PerilPortion
+import org.pillarone.riskanalytics.domain.utils.constraint.SegmentPortion
+import org.pillarone.riskanalytics.domain.utils.constraint.UnderwritingPortion
+import org.pillarone.riskanalytics.domain.utils.constraint.ReservePortion
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
-    def version = "0.1.10"
+    def version = "0.1.11"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
@@ -44,6 +49,11 @@ class RiskAnalyticsCommonsGrailsPlugin {
     def doWithApplicationContext = { applicationContext ->
         ConstraintsFactory.registerConstraint(new DoubleConstraints())
         ConstraintsFactory.registerConstraint(new DateTimeConstraints())
+        ConstraintsFactory.registerConstraint(new SimpleConstraint())
+        ConstraintsFactory.registerConstraint(new PerilPortion())
+        ConstraintsFactory.registerConstraint(new SegmentPortion())
+        ConstraintsFactory.registerConstraint(new UnderwritingPortion())
+        ConstraintsFactory.registerConstraint(new ReservePortion())
 
         ValidatorRegistry.addValidator(new DistributionTypeValidator())
         ValidatorRegistry.addValidator(new FrequencyDistributionTypeValidator())

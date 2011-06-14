@@ -2,6 +2,7 @@ package org.pillarone.riskanalytics.domain.utils.math.copula;
 
 
 import org.pillarone.riskanalytics.core.parameterization.*
+import org.pillarone.riskanalytics.domain.utils.marker.IPerilMarker
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com

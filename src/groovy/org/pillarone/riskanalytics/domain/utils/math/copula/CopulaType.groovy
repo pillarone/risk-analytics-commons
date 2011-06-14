@@ -1,11 +1,12 @@
 package org.pillarone.riskanalytics.domain.utils.math.copula;
 
-import org.pillarone.riskanalytics.core.parameterization.AbstractParameterObjectClassifier
+
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier
 import org.pillarone.riskanalytics.core.parameterization.IParameterObject
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter
-import org.pillarone.riskanalytics.core.parameterization.AbstractMultiDimensionalParameter
+
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter
+import org.pillarone.riskanalytics.domain.utils.marker.ICorrelationMarker
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
