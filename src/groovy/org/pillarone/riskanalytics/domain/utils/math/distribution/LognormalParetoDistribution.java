@@ -6,13 +6,14 @@ import umontreal.iro.lecuyer.probdist.NormalDist;
 import umontreal.iro.lecuyer.probdist.ParetoDist;
 
 /**
- * @author jessika.walter (at) intuitive-collaboration (dot) com
- *         <p/>
- *         Composite distribution in C^1 (probability density f and f' are continuous) with three freely chosen parameters sigma, alpha, beta.
- *         Alternatively, composite distribution in C (probability density f ist continuous) with four degrees of freedom.
- *         Up to beta >0 the distribution is given by a lognormal distribution wiht parameters mu free or mu= mu(sigma,alpha,beta)
- *         and sigma that is right-truncated at beta. From beta the distribution is given by a Preto denisty with parameters alpha and beta.
- *         Appropriate weightings of the truncated lognormal and pareto densities are given by a dependent parameter r = r(sigma,alpha,beta, mu).
+ *  Composite distribution in C^1 (probability density f and f' are continuous) with three freely chosen parameters
+ *  sigma, alpha, beta. Alternatively, composite distribution in C (probability density f is continuous) with four
+ *  degrees of freedom. Up to beta > 0 the distribution is given by a lognormal distribution with parameters mu free or
+ *  mu = mu(sigma, alpha, beta) and sigma that is right-truncated at beta. From beta the distribution is given by a
+ *  Pareto density with parameters alpha and beta. Appropriate weightings of the truncated lognormal and pareto
+ *  densities are given by a dependent parameter r = r(sigma, alpha, beta, mu).
+ *
+ *  @author jessika.walter (at) intuitive-collaboration (dot) com
  */
 public class LognormalParetoDistribution extends ContinuousDistribution {
     /**
@@ -20,7 +21,7 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
      */
     private double sigma;
     /**
-     * shape parameter pareto >0
+     * shape parameter pareto > 0
      */
     private double alpha;
     /**
@@ -70,6 +71,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param x
+     * @return
      */
     public static double density(double sigma, double alpha, double beta, double x) {
         double mu = Math.log(beta) - alpha * Math.pow(sigma, 2.0);
@@ -78,6 +84,12 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param mu
+     * @param x
+     * @return
      */
     public static double density(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
@@ -98,6 +110,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param x
+     * @return
      */
     public static double cdf(double sigma, double alpha, double beta, double x) {
         double mu = Math.log(beta) - alpha * Math.pow(sigma, 2.0);
@@ -106,6 +123,12 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param mu
+     * @param x
+     * @return
      */
     public static double cdf(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
@@ -126,6 +149,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the complementary distribution function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param x
+     * @return
      */
     public static double barF(double sigma, double alpha, double beta, double x) {
         double mu = Math.log(beta) - alpha * Math.pow(sigma, 2.0);
@@ -134,6 +162,12 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the complementary distribution function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param mu
+     * @param x
+     * @return
      */
     public static double barF(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
@@ -150,6 +184,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the inverse of the distribution function.
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param y
+     * @return
      */
     public static double inverseF(double sigma, double alpha, double beta, double y) {
         double mu = Math.log(beta) - alpha * Math.pow(sigma, 2.0);
@@ -158,6 +197,13 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the inverse of the distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param mu
+     * @param y
+     * @return
      */
     public static double inverseF(double sigma, double alpha, double beta, double mu,double y) {
         if (sigma <= 0.0)
@@ -205,8 +251,7 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
     }
 
     public double[] getParams() {
-        double[] retour = {sigma, alpha, beta, mu};
-        return retour;
+        return new double[]{sigma, alpha, beta, mu};
     }
 
     public String toString() {
