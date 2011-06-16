@@ -3,13 +3,18 @@ package org.pillarone.riskanalytics.domain.utils.math.distribution;
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution;
 
 /**
+ * Special case of generalized pareto distribution.
+ *
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
 public class TypeIIParetoDistribution extends ContinuousDistribution {
-    // special case of generalized pareto
-    private double alpha;  // shape parameter >0; alpha = 1/k
-    private double beta; // threshold parameter >0
-    private double lambda; // scaling parameter lambda = alpha*zeta - beta >-beta
+
+    /** shape parameter >0; alpha = 1/k */
+    private double alpha;
+    /** threshold parameter >0 */
+    private double beta;
+    /** scaling parameter lambda = alpha*zeta - beta >-beta */
+    private double lambda;
 
 
     public TypeIIParetoDistribution(double alpha, double beta, double lambda) {
@@ -34,7 +39,12 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
-     */
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
+     * */
     public static double density(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
             throw new IllegalArgumentException("alpha <= 0");
@@ -48,7 +58,12 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
-     */
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
+     * */
     public static double cdf(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
             throw new IllegalArgumentException("alpha <= 0");
@@ -62,7 +77,12 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the complementary distribution function.
-     */
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
+     * */
     public static double barF(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
             throw new IllegalArgumentException("alpha <= 0");
@@ -78,7 +98,12 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the inverse of the distribution function.
-     */
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param y
+     * @return
+     * */
     public static double inverseF(double alpha, double beta, double lambda, double y) {
         if (alpha <= 0.0)
             throw new IllegalArgumentException("alpha <= 0");
@@ -89,11 +114,6 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
         return GeneralizedParetoDistribution.inverseF(1/alpha,beta,1/alpha*(lambda+beta),y);
     }
 
-
-    public double getBeta() {
-        return beta;
-    }
-
     public void setParams(double alpha, double beta, double lambda) {
         if (alpha <= 0.0)
             throw new IllegalArgumentException("alpha <= 0");
@@ -102,7 +122,7 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
         if (lambda <= -beta)
             throw new IllegalArgumentException("lambda <= -beta");
         this.alpha=alpha;
-        this.setBeta(beta);
+        this.beta=beta;
         this.lambda = lambda;
         supportA = beta;
     }
@@ -116,25 +136,6 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
         return getClass().getSimpleName() + " : alpha = " + alpha + ", beta = " +  beta + ", lambda = " + lambda;
     }
 
-    public double getLambda() {
-        return lambda;
-    }
-
-    public void setLambda(double lambda) {
-        this.lambda = lambda;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    public void setBeta(double beta) {
-        this.beta = beta;
-    }
 }
 
 

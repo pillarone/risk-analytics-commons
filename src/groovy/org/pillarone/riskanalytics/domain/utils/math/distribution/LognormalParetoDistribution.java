@@ -258,33 +258,6 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
         return getClass().getSimpleName() + " : sigma = " + sigma + ", alpha = " + alpha + ", beta = " + beta + ", mu = " + mu;
     }
 
-    public void setBeta(double beta) {
-        this.beta = beta;
-    }
-
-    public double getSigma() {
-        return sigma;
-    }
-
-    public void setSigma(double sigma) {
-        this.sigma = sigma;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    public double getMu() {
-        return mu;
-    }
-
-    public void setMu(double mu) {
-        this.mu = mu;
-    }
 }
 
 

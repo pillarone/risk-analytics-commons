@@ -36,7 +36,12 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
-     */
+     * @param k
+     * @param beta
+     * @param zeta
+     * @param x
+     * @return
+     * */
     public static double density(double k, double beta, double zeta, double x) {
         if (zeta <= 0.0)
             throw new IllegalArgumentException("zeta <= 0");
@@ -52,7 +57,12 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
-     */
+     * @param k
+     * @param beta
+     * @param zeta
+     * @param x
+     * @return
+     * */
     public static double cdf(double k, double beta, double zeta, double x) {
         if (zeta <= 0.0)
             throw new IllegalArgumentException("zeta <= 0");
@@ -70,7 +80,12 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the complementary distribution function.
-     */
+     * @param k
+     * @param beta
+     * @param zeta
+     * @param x
+     * @return
+     * */
     public static double barF(double k, double beta, double zeta, double x) {
         if (zeta <= 0.0)
             throw new IllegalArgumentException("zeta <= 0");
@@ -82,7 +97,12 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the inverse of the distribution function.
-     */
+     * @param k
+     * @param beta
+     * @param zeta
+     * @param y
+     * @return
+     * */
     public static double inverseF(double k, double beta, double zeta, double y) {
         if (zeta <= 0.0)
             throw new IllegalArgumentException("zeta <= 0");
@@ -103,15 +123,11 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
     }
 
 
-    public double getBeta() {
-        return beta;
-    }
-
     public void setParams(double k, double beta, double zeta) {
         if (zeta <= 0.0)
             throw new IllegalArgumentException("zeta <= 0");
-        this.setK(k);
-        this.setBeta(beta);
+        this.k=k;
+        this.beta=beta;
         this.zeta = zeta;
         supportA = beta;
         if (k < 0) {
@@ -128,25 +144,6 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
         return getClass().getSimpleName() + " : k = " + k + ", beta = " + beta + ", zeta = " + zeta;
     }
 
-    public double getZeta() {
-        return zeta;
-    }
-
-    public void setZeta(double zeta) {
-        this.zeta = zeta;
-    }
-
-    public double getK() {
-        return k;
-    }
-
-    public void setK(double k) {
-        this.k = k;
-    }
-
-    public void setBeta(double beta) {
-        this.beta = beta;
-    }
 }
 
 

@@ -68,6 +68,13 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
      */
     public static double density(double sigma, double alpha, double beta, double lambda, double x) {
         double mu = Math.log(beta) - ((alpha * beta - lambda) / (lambda + beta)) * Math.pow(sigma, 2);
@@ -76,6 +83,14 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the density function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param mu
+     * @param x
+     * @return
      */
     public static double density(double sigma, double alpha, double beta, double lambda, double mu, double x) {
         if (sigma <= 0.0)
@@ -98,6 +113,13 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
      */
     public static double cdf(double sigma, double alpha, double beta, double lambda, double x) {
         double mu = Math.log(beta) - ((alpha * beta - lambda) / (lambda + beta)) * Math.pow(sigma, 2);
@@ -106,6 +128,14 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param mu
+     * @param x
+     * @return
      */
     public static double cdf(double sigma, double alpha, double beta, double lambda, double mu, double x) {
         if (sigma <= 0.0)
@@ -128,6 +158,13 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
 
     /**
      * Computes the complementary distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param x
+     * @return
      */
     public static double barF(double sigma, double alpha, double beta, double lambda, double x) {
         double mu = Math.log(beta) - ((alpha * beta - lambda) / (lambda + beta)) * Math.pow(sigma, 2);
@@ -135,33 +172,56 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
     }
 
     /**
-         * Computes the complementary distribution function.
-         */
-        public static double barF(double sigma, double alpha, double beta, double lambda, double mu, double x) {
-            if (sigma <= 0.0)
-                throw new IllegalArgumentException("sigma <= 0");
-            if (alpha <= 0.0)
-                throw new IllegalArgumentException("alpha <= 0");
-            if (beta <= 0.0)
-                throw new IllegalArgumentException("beta <= 0");
-            if (lambda <= -beta)
-                throw new IllegalArgumentException("lambda <= -beta");
-            if (x <= 0) {
-                return 1.0;
-            }
-            return 1.0 - cdf(sigma, alpha, beta, lambda, mu, x);
+     * Computes the complementary distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param mu
+     * @param x
+     * @return
+     */
+    public static double barF(double sigma, double alpha, double beta, double lambda, double mu, double x) {
+        if (sigma <= 0.0)
+            throw new IllegalArgumentException("sigma <= 0");
+        if (alpha <= 0.0)
+            throw new IllegalArgumentException("alpha <= 0");
+        if (beta <= 0.0)
+            throw new IllegalArgumentException("beta <= 0");
+        if (lambda <= -beta)
+            throw new IllegalArgumentException("lambda <= -beta");
+        if (x <= 0) {
+            return 1.0;
         }
+        return 1.0 - cdf(sigma, alpha, beta, lambda, mu, x);
+    }
 
     /**
      * Computes the inverse of the distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param y
+     * @return
      */
     public static double inverseF(double sigma, double alpha, double beta, double lambda, double y) {
         double mu = Math.log(beta) - ((alpha * beta - lambda) / (lambda + beta)) * Math.pow(sigma, 2);
         return inverseF(sigma, alpha, beta, lambda, mu, y);
     }
 
-     /**
+    /**
      * Computes the inverse of the distribution function.
+     *
+     * @param sigma
+     * @param alpha
+     * @param beta
+     * @param lambda
+     * @param mu
+     * @param y
+     * @return
      */
     public static double inverseF(double sigma, double alpha, double beta, double lambda, double mu, double y) {
         if (sigma <= 0.0)
@@ -184,11 +244,6 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
             return LognormalDist.inverseF(mu, sigma, y / r * NormalDist.cdf(mu, sigma, Math.log(beta)));
         }
         return TypeIIParetoDistribution.inverseF(alpha, beta, lambda, (y - r) / (1.0 - r));
-    }
-
-
-    public double getBeta() {
-        return beta;
     }
 
     public void setParams(double sigma, double alpha, double beta, double lambda) {
@@ -223,41 +278,6 @@ public class LognormalTypeIIParetoDistribution extends ContinuousDistribution {
         return getClass().getSimpleName() + " : sigma = " + sigma + ", alpha = " + alpha + ", beta = " + beta + ", lambda = " + lambda;
     }
 
-    public void setBeta(double beta) {
-        this.beta = beta;
-    }
-
-    public double getSigma() {
-        return sigma;
-    }
-
-    public void setSigma(double sigma) {
-        this.sigma = sigma;
-    }
-
-    public double getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    public double getLambda() {
-        return lambda;
-    }
-
-    public void setLambda(double lambda) {
-        this.lambda = lambda;
-    }
-
-    public double getMu() {
-        return mu;
-    }
-
-    public void setMu(double mu) {
-        this.mu = mu;
-    }
 }
 
 
