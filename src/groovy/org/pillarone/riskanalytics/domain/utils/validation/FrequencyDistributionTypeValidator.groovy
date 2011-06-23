@@ -53,6 +53,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
         return errors
     }
 
+    // note: same property file as for DistributionTypeValidator
     private void registerConstraints() {
         validationService.register(FrequencyDistributionType.POISSON) {Map type ->
             if (type.lambda >= 0) return true
@@ -67,6 +68,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             if ((0.0..1.0).containsWithinBounds(type.p)) return true
             [ValidationType.ERROR, "distribution.tpye.error.negativebinomial.p.out.of.range", type.p]
         }
+
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
             double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
             int index = type.discreteEmpiricalValues.getColumnIndex('observations')
@@ -83,6 +85,21 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             }
             return true
         }
+
+        validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
+            double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
+            int index = type.discreteEmpiricalValues.getColumnIndex('observations')
+            for (int i = 1; i < type.discreteEmpiricalValues.getRowCount(); i++) {
+                values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalValues.getValueAt(i, index))
+            }
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] < 0) {
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.observations.negative", i + 1, values[i]]
+                }
+            }
+            return true
+        }
+
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
             double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
             int index = type.discreteEmpiricalValues.getColumnIndex('probabilities')
@@ -96,6 +113,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
         if (isCloseEnough(sum, 1d)) return true
         ["distribution.type.error.discreteempirical.probabilities.sum.not.one", sum, values]  */
         }
+
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
             double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount() - 1];
             int index = type.discreteEmpiricalCumulativeValues.getColumnIndex('observations')
@@ -132,6 +150,20 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             return true
         }
 
+        validationService.register(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
+            double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount() - 1];
+            int index = type.discreteEmpiricalCumulativeValues.getColumnIndex('observations')
+            for (int i = 1; i < type.discreteEmpiricalCumulativeValues.getRowCount(); i++) {
+                values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalCumulativeValues.getValueAt(i, index))
+            }
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] < 0) {
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempiricalcumulative.observations.negative", i + 1, values[i]]
+                }
+            }
+            return true
+        }
+
         validationService.register(FrequencyDistributionType.BINOMIALDIST) {Map type ->
             if ((0.0..1.0).containsWithinBounds(type.p)) return true
             [ValidationType.ERROR, "distribution.tpye.error.binomial.p.out.of.range", type.p]
@@ -147,8 +179,22 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             for (int i = 1; i < type.constants.getRowCount(); i++) {
                 values[i - 1] = InputFormatConverter.getDouble(type.constants.getValueAt(i, index))
             }
-            if (values && values.size() > 0) return true
-            [ValidationType.ERROR, "distribution.type.error.constants.empty", values]
+            if (values && values.size() <= 0) {
+                return [ValidationType.ERROR, "distribution.type.error.constants.empty", values]
+            }
+
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] < 0) {
+                    return [ValidationType.ERROR, "distribution.type.error.constants.values.negative", i + 1, values[i]]
+                }
+            }
+            return true
+
+        }
+
+        validationService.register(FrequencyDistributionType.CONSTANT) {Map type ->
+            if (type.constant >= 0) return true
+            [ValidationType.ERROR, "distribution.type.error.constant.value.negative", type.constant]
         }
     }
 
