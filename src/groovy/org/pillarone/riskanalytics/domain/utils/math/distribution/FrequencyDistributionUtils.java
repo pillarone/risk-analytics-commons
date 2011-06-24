@@ -70,7 +70,8 @@ public class FrequencyDistributionUtils {
                 totalDistribution.getType().equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
             if (totalDistribution.getParameters().get("p") == systematicDistribution.getParameters().get("p")) {
                 if (totalDistribution.getDistribution().getMean() == systematicDistribution.getDistribution().getMean()) {
-                    return FrequencyDistributionType.getDefault();
+                    Map<String,Double> param = new HashMap<String, Double>(); param.put("constant",0d);
+                    return FrequencyDistributionType.getStrategy(FrequencyDistributionType.CONSTANT, param);
                 }
             }
         }

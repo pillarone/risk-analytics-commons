@@ -4,6 +4,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.DoubleConstraints
 import org.pillarone.riskanalytics.core.parameterization.*
 import static org.pillarone.riskanalytics.core.util.GroovyUtils.asDouble
 import umontreal.iro.lecuyer.probdist.*
+import org.pillarone.riskanalytics.core.util.GroovyUtils
 
 class DistributionType extends AbstractParameterObjectClassifier implements Serializable {
 
@@ -244,16 +245,16 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                 distribution.distribution = new ConstantDistribution((double) parameters["constant"])
                 break
             case DistributionType.DISCRETEEMPIRICAL:
-                distribution.distribution = getDiscreteEmpiricalDistribution(asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")), asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
+                distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
                 break
             case DistributionType.DISCRETEEMPIRICALCUMULATIVE:
-                distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")), asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
+                distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
                 break
             case DistributionType.PIECEWISELINEAREMPIRICAL:
-                distribution.distribution = new PiecewiseLinearEmpiricalDist((double[]) asDouble(parameters["observations"].getColumnByName("observations")))
+                distribution.distribution = new PiecewiseLinearEmpiricalDist((double[]) GroovyUtils.asDouble(parameters["observations"].getColumnByName("observations")))
                 break
             case DistributionType.PIECEWISELINEAR:
-                distribution.distribution = new PiecewiseLinearDistribution(asDouble(parameters["supportPoints"].getColumnByName("values")), asDouble(parameters["supportPoints"].getColumnByName("cumulative probabilities")))
+                distribution.distribution = new PiecewiseLinearDistribution(GroovyUtils.asDouble(parameters["supportPoints"].getColumnByName("values")), GroovyUtils.asDouble(parameters["supportPoints"].getColumnByName("cumulative probabilities")))
                 break
             case DistributionType.TRIANGULARDIST:
                 distribution.distribution = new TriangularDist((double) parameters["a"], (double) parameters["b"], (double) parameters["m"])
@@ -271,7 +272,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                 distribution.distribution = new InverseGaussianDist((double) parameters["mu"], (double) parameters["lambda"])
                 break
             case DistributionType.CONSTANTS:
-                distribution.distribution = new ConstantsDistribution(asDouble(parameters["constants"].getColumnByName("constants")))
+                distribution.distribution = new ConstantsDistribution(GroovyUtils.asDouble(parameters["constants"].getColumnByName("constants")))
                 break
             case DistributionType.GAMMA:
                 distribution.distribution = new GammaDist((double) parameters["alpha"], (double) parameters["lambda"])

@@ -122,10 +122,10 @@ class FrequencyDistributionType extends AbstractParameterObjectClassifier implem
                 distribution.distribution = new ConstantDistribution((double) parameters["constant"])
                 break
             case FrequencyDistributionType.DISCRETEEMPIRICAL:
-                distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")), asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
+                distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
                 break
             case FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE:
-                distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")), asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
+                distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
                 break
             case FrequencyDistributionType.BINOMIALDIST:
                 distribution.distribution = new BinomialDist((int) parameters["n"], (double) parameters["p"])
