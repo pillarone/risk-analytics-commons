@@ -12,9 +12,9 @@ import java.util.*;
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
-public class FrequencyDistributionUtils {
+public class DistributionUtils {
 
-    public static RandomFrequencyDistribution getSumOfDistributions(RandomFrequencyDistribution summand1, RandomFrequencyDistribution summand2) {
+    public static RandomDistribution getSumOfDistributions(RandomDistribution summand1, RandomDistribution summand2) {
         if (summand1 == null && summand2 == null) return null;
         if (summand1 == null) return summand2;
         if (summand2 == null) return summand1;
@@ -24,10 +24,10 @@ public class FrequencyDistributionUtils {
         }
         Map<String, Object> params = getParamsOfSum(summand1.getType(), summand1.getParameters(),
                 summand2.getParameters());
-        return FrequencyDistributionType.getStrategy(summand1.getType(), params);
+        return DistributionType.getStrategy(summand1.getType(), params);
     }
 
-    public static RandomFrequencyDistribution getDifferenceOfDistributions(RandomFrequencyDistribution minuend, RandomFrequencyDistribution subtrahend) {
+    public static RandomDistribution getDifferenceOfDistributions(RandomDistribution minuend, RandomDistribution subtrahend) {
         if (minuend == null) return null;
         if (subtrahend == null || subtrahend.getDistribution() == null) {
             return minuend;
@@ -35,27 +35,25 @@ public class FrequencyDistributionUtils {
         if (!subtrahend.getType().equals(minuend.getType())) {
             throw new IllegalArgumentException("distributions are not of same type!");
         }
-        if (minuend.getDistribution().getMean() < subtrahend.getDistribution().getMean()) {
-            throw new IllegalArgumentException("mean of subtrahend is greater than mean of minuend!");
-        }
         // exceptional cases
-        if (minuend.getType().equals(FrequencyDistributionType.BINOMIALDIST) ||
-                minuend.getType().equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
+        if (minuend.getType().equals(DistributionType.BINOMIALDIST) ||
+                minuend.getType().equals(DistributionType.NEGATIVEBINOMIAL)) {
             if (minuend.getParameters().get("p") == subtrahend.getParameters().get("p")) {
                 if (minuend.getDistribution().getMean() == subtrahend.getDistribution().getMean()) {
-                    Map<String,Double> param = new HashMap<String, Double>(); param.put("constant",0d);
-                    return FrequencyDistributionType.getStrategy(FrequencyDistributionType.CONSTANT, param);
+                    Map<String, Double> param = new HashMap<String, Double>();
+                    param.put("constant", 0d);
+                    return DistributionType.getStrategy(DistributionType.CONSTANT, param);
                 }
             }
         }
         Map<String, Object> params = getParamsOfDifference(minuend.getType(), minuend.getParameters(),
                 subtrahend.getParameters());
-        return FrequencyDistributionType.getStrategy(minuend.getType(), params);
+        return DistributionType.getStrategy(minuend.getType(), params);
     }
 
 
-    public static RandomFrequencyDistribution getIdiosyncraticDistribution(RandomFrequencyDistribution totalDistribution,
-                                                                           RandomFrequencyDistribution systematicDistribution) {
+    public static RandomDistribution getIdiosyncraticDistribution(RandomDistribution totalDistribution,
+                                                                  RandomDistribution systematicDistribution) {
         if (totalDistribution == null) return null;
         if (systematicDistribution == null || systematicDistribution.getDistribution() == null) {
             return totalDistribution;
@@ -63,33 +61,30 @@ public class FrequencyDistributionUtils {
         if (!systematicDistribution.getType().equals(totalDistribution.getType())) {
             throw new IllegalArgumentException("systematic and total distribution are not of same type!");
         }
-        if (totalDistribution.getDistribution().getMean() < systematicDistribution.getDistribution().getMean()) {
-            throw new IllegalArgumentException("mean of systematic frequencies is greater than mean of claims numbers!");
-        }
         return getDifferenceOfDistributions(totalDistribution, systematicDistribution);
     }
 
-    public static Map<String, Object> getParamsOfSum(FrequencyDistributionType type, Map paramsSummand1, Map paramsSummand2) {
+    public static Map<String, Object> getParamsOfSum(DistributionType type, Map paramsSummand1, Map paramsSummand2) {
 
         Map<String, Object> params = new HashMap<String, Object>();
         double controllParameter = 0;
-        if (type.equals(FrequencyDistributionType.POISSON)) {
+        if (type.equals(DistributionType.POISSON)) {
             params.put("lambda", (Double) paramsSummand1.get("lambda") + (Double) paramsSummand2.get("lambda"));
         }
-        else if (type.equals(FrequencyDistributionType.BINOMIALDIST)) {
+        else if (type.equals(DistributionType.BINOMIALDIST)) {
             params.put("p", paramsSummand1.get("p"));
             params.put("n", (Integer) paramsSummand1.get("n") + (Integer) paramsSummand2.get("n"));
             controllParameter = (Double) paramsSummand1.get("p") - (Double) paramsSummand2.get("p");
         }
-        else if (type.equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
+        else if (type.equals(DistributionType.NEGATIVEBINOMIAL)) {
             params.put("p", paramsSummand1.get("p"));
             params.put("gamma", (Double) paramsSummand1.get("gamma") + (Double) paramsSummand2.get("gamma"));
             controllParameter = (Double) paramsSummand1.get("p") - (Double) paramsSummand2.get("p");
         }
-        else if (type.equals(FrequencyDistributionType.CONSTANT)) {
+        else if (type.equals(DistributionType.CONSTANT)) {
             params.put("constant", (Double) paramsSummand1.get("constant") + (Double) paramsSummand2.get("constant"));
         }
-        else if (type.equals(FrequencyDistributionType.CONSTANTS)) {
+        else if (type.equals(DistributionType.CONSTANTS)) {
             List<Double> constantsSummand1 = getDoubleList((ConstrainedMultiDimensionalParameter) paramsSummand1.get("constants"), "constants");
             List<Double> constantsSummand2 = getDoubleList((ConstrainedMultiDimensionalParameter) paramsSummand2.get("constants"), "constants");
             List<Double> constantsSum = new ArrayList<Double>();
@@ -101,10 +96,10 @@ public class FrequencyDistributionUtils {
             params.put("constants", new ConstrainedMultiDimensionalParameter(constantsSum, Arrays.asList("constants"),
                     ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER)));
         }
-        else if (type.equals(FrequencyDistributionType.DISCRETEEMPIRICAL)) {
+        else if (type.equals(DistributionType.DISCRETEEMPIRICAL)) {
             params = getParamsDiscreteEmpirical(paramsSummand1, paramsSummand2, true);
         }
-        else if (type.equals(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE)) {
+        else if (type.equals(DistributionType.DISCRETEEMPIRICALCUMULATIVE)) {
             params = getParamsDiscreteEmpiricalCumulative(paramsSummand1, paramsSummand2, true);
         }
 
@@ -118,27 +113,36 @@ public class FrequencyDistributionUtils {
     }
 
 
-    public static Map<String, Object> getParamsOfDifference(FrequencyDistributionType type, Map paramsMinuend, Map paramsSubtrahend) {
+    public static Map<String, Object> getParamsOfDifference(DistributionType type, Map paramsMinuend, Map paramsSubtrahend) {
 
         Map<String, Object> params = new HashMap<String, Object>();
         double controllParameter = 0;
-        if (type.equals(FrequencyDistributionType.POISSON)) {
+        if (type.equals(DistributionType.POISSON)) {
+            if ((Integer) paramsMinuend.get("lambda") < (Integer) paramsSubtrahend.get("lambda")) {
+                throw new IllegalArgumentException("parameters for distributions sum are not consistent");
+            }
             params.put("lambda", (Double) paramsMinuend.get("lambda") - (Double) paramsSubtrahend.get("lambda"));
         }
-        else if (type.equals(FrequencyDistributionType.BINOMIALDIST)) {
+        else if (type.equals(DistributionType.BINOMIALDIST)) {
             params.put("p", paramsMinuend.get("p"));
+            if ((Integer) paramsMinuend.get("n") < (Integer) paramsSubtrahend.get("n")) {
+                throw new IllegalArgumentException("parameters for distributions sum are not consistent");
+            }
             params.put("n", (Integer) paramsMinuend.get("n") - (Integer) paramsSubtrahend.get("n"));
             controllParameter = (Double) paramsMinuend.get("p") - (Double) paramsSubtrahend.get("p");
         }
-        else if (type.equals(FrequencyDistributionType.NEGATIVEBINOMIAL)) {
+        else if (type.equals(DistributionType.NEGATIVEBINOMIAL)) {
             params.put("p", paramsMinuend.get("p"));
+            if ((Integer) paramsMinuend.get("gamma") < (Integer) paramsSubtrahend.get("gamma")) {
+                throw new IllegalArgumentException("parameters for distributions sum are not consistent");
+            }
             params.put("gamma", (Double) paramsMinuend.get("gamma") - (Double) paramsSubtrahend.get("gamma"));
             controllParameter = (Double) paramsMinuend.get("p") - (Double) paramsSubtrahend.get("p");
         }
-        else if (type.equals(FrequencyDistributionType.CONSTANT)) {
+        else if (type.equals(DistributionType.CONSTANT)) {
             params.put("constant", (Double) paramsMinuend.get("constant") - (Double) paramsSubtrahend.get("constant"));
         }
-        else if (type.equals(FrequencyDistributionType.CONSTANTS)) {
+        else if (type.equals(DistributionType.CONSTANTS)) {
             List<Double> constantsMinuend = getDoubleList((ConstrainedMultiDimensionalParameter) paramsMinuend.get("constants"), "constants");
             List<Double> constantsSubtrahend = getDoubleList((ConstrainedMultiDimensionalParameter) paramsSubtrahend.get("constants"), "constants");
             List<Double> constantsDifference = new ArrayList<Double>();
@@ -150,10 +154,10 @@ public class FrequencyDistributionUtils {
             params.put("constants", new ConstrainedMultiDimensionalParameter(constantsDifference,
                     Arrays.asList("constants"), ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER)));
         }
-        else if (type.equals(FrequencyDistributionType.DISCRETEEMPIRICAL)) {
+        else if (type.equals(DistributionType.DISCRETEEMPIRICAL)) {
             params = getParamsDiscreteEmpirical(paramsMinuend, paramsSubtrahend, false);
         }
-        else if (type.equals(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE)) {
+        else if (type.equals(DistributionType.DISCRETEEMPIRICALCUMULATIVE)) {
             params = getParamsDiscreteEmpiricalCumulative(paramsMinuend, paramsSubtrahend, false);
         }
 
