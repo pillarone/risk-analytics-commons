@@ -109,9 +109,26 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             if (!values) {
                 return [ValidationType.ERROR, "distribution.type.error.discreteempirical.probabilities.empty"]
             }
-            /* double sum = values.inject(0) {temp, it -> temp + it }
-        if (isCloseEnough(sum, 1d)) return true
-        ["distribution.type.error.discreteempirical.probabilities.sum.not.one", sum, values]  */
+            double sum = (Double) values.inject(0) {temp, it -> temp + it }
+            if (isCloseEnough(sum, 0d)) {
+                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.probabilities.sum.zero", sum]
+            }
+            if (isCloseEnough(sum, 1d)) return true
+            [ValidationType.WARNING, "distribution.type.error.discreteempirical.probabilities.sum.not.one", sum, values]
+        }
+
+        validationService.register(FrequencyDistributionType.DISCRETEEMPIRICAL) {Map type ->
+            double[] values = new double[type.discreteEmpiricalValues.getRowCount() - 1];
+            int index = type.discreteEmpiricalValues.getColumnIndex('probabilities')
+            for (int i = 1; i < type.discreteEmpiricalValues.getRowCount(); i++) {
+                values[i - 1] = InputFormatConverter.getDouble(type.discreteEmpiricalValues.getValueAt(i, index))
+            }
+            for (int i = 0; i < values.size(); i++) {
+                if (values[i] < 0) {
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.probabilities.negative", i + 1, values[i]]
+                }
+            }
+            return true
         }
 
         validationService.register(FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
@@ -139,14 +156,22 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
             if (!values) {
                 return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.empty"]
             }
+
+            if (values[0] < 0) {
+                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.negative", values[0]]
+            }
+
             for (int i = 1; i < values.length; i++) {
                 if (values[i - 1] > values[i]) {
                     return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.nonincreasing", i, values[i - 1], values[i]]
                 }
             }
-            /*  if (!isCloseEnough(values[-1], 1d)) {
-                return ["distribution.type.error.discreteempirical.cumulative.probability.last.value.not.1", values[values.length - 1]]
-            }*/
+            if (values[-1] == 0) {
+                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probability.last.value.zero", values[values.length - 1]]
+            }
+            if (!isCloseEnough(values[-1], 1d)) {
+                return [ValidationType.WARNING, "distribution.type.error.discreteempirical.cumulative.probability.last.value.not.1", values[values.length - 1]]
+            }
             return true
         }
 
