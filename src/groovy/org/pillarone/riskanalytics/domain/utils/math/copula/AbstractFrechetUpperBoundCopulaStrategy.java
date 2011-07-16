@@ -35,10 +35,10 @@ public abstract class AbstractFrechetUpperBoundCopulaStrategy extends AbstractCo
     }
 
     public List<String> getTargetNames() {
-        return targets.getValues();
+        return (List<String>) targets.getValues().get(0);
     }
 
      public List<Component> getTargetComponents() {
-        return targets.getValuesAsObjects();
+        return targets.getValuesAsObjects(0, true);
     }
 }
