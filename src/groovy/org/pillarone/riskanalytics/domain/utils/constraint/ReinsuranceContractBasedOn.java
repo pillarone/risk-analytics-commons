@@ -9,7 +9,7 @@ import org.pillarone.riskanalytics.domain.utils.marker.IReinsuranceContractMarke
  */
 public class ReinsuranceContractBasedOn implements IMultiDimensionalConstraints {
 
-    public static final String IDENTIFIER = "CONTRACT_BASEDON";
+    public static final String IDENTIFIER = "RI_CONTRACT_BASEDON";
 
     public static final String CONTRACT = "Covered Contracts";
     public static final String BASED_ON = "Based On";

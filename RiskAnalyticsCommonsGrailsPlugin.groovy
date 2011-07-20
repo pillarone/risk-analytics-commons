@@ -10,10 +10,11 @@ import org.pillarone.riskanalytics.domain.utils.constraint.PerilPortion
 import org.pillarone.riskanalytics.domain.utils.constraint.SegmentPortion
 import org.pillarone.riskanalytics.domain.utils.constraint.UnderwritingPortion
 import org.pillarone.riskanalytics.domain.utils.constraint.ReservePortion
+import org.pillarone.riskanalytics.domain.utils.constraint.ReinsuranceContractBasedOn
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
-    def version = "0.1.16"
+    def version = "0.1.17"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
@@ -51,6 +52,7 @@ class RiskAnalyticsCommonsGrailsPlugin {
         ConstraintsFactory.registerConstraint(new DateTimeConstraints())
         ConstraintsFactory.registerConstraint(new SimpleConstraint())
         ConstraintsFactory.registerConstraint(new PerilPortion())
+        ConstraintsFactory.registerConstraint(new ReinsuranceContractBasedOn())
         ConstraintsFactory.registerConstraint(new SegmentPortion())
         ConstraintsFactory.registerConstraint(new UnderwritingPortion())
         ConstraintsFactory.registerConstraint(new ReservePortion())
