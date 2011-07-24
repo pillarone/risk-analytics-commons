@@ -190,4 +190,39 @@ public class DateTimeUtilities {
         }
         return numberOfCompleteMonths + fractionInLastMonth;
     }
+
+    public static double getInterestRateForTimeInterval(double yearlyRate, DateTime startDate, DateTime endDate){
+         /**
+         * Basis of interval interest rate is the fiscal (calendar) year.
+         * Convention for intervals: interval = [startDate,endDate), that is, the left boundary of interval
+         * is included, the right boundary excluded.
+         * */
+        double intervalInterestRate = 0;
+        int startYear = startDate.getYear();
+        int endYear = endDate.getYear();
+        int numberOfCoveredYears = endYear - startYear;
+
+        double numberOfDaysInYear = startDate.year().isLeap() ? 366 : 365;
+        double runTime = Math.min(Days.daysBetween(startDate, endDate).getDays(),
+                Days.daysBetween(startDate, new DateTime(startYear + 1, 1, 1, 0, 0, 0, 0)).getDays()) / numberOfDaysInYear;
+
+        double interestValue = runTime == 1 ? 1 + yearlyRate : Math.pow(1 + yearlyRate, runTime);
+
+        for (int i = 1; i <= numberOfCoveredYears; i++) {
+            numberOfDaysInYear = Days.daysBetween(new DateTime(startYear + i, 1, 1, 0, 0, 0, 0),
+                    new DateTime(startYear + i + 1, 1, 1, 0, 0, 0, 0)).getDays();
+            runTime = Math.min(Days.daysBetween(new DateTime(startYear + i, 1, 1, 0, 0, 0, 0),
+                    new DateTime(startYear + i + 1, 1, 1, 0, 0, 0, 0)).getDays(),
+                    Days.daysBetween(new DateTime(startYear + i, 1, 1, 0, 0, 0, 0), endDate).getDays()) / numberOfDaysInYear;
+
+            if (runTime == 1) {
+                interestValue *= (1.0 + yearlyRate);
+            }
+            else {
+                interestValue *= Math.pow(1.0 + yearlyRate, runTime);
+            }
+        }
+        intervalInterestRate = interestValue - 1.0;
+        return intervalInterestRate;
+    }
 }
