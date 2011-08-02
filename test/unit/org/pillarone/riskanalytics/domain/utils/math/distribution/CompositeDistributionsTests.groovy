@@ -10,80 +10,80 @@ import umontreal.iro.lecuyer.probdist.LognormalDist
  */
 class CompositeDistributionsTests extends GroovyTestCase {
 
-    void testGeneralizedParetoForKEqualsZero() {
+    void testGeneralizedParetoForXiEqualsZero() {
 
         double zeta = 1
         double beta = 0
-        double k = 0
+        double xi = 0
 
-        assertEquals "f(x = 1)", ExponentialDist.density(1.0, 1.0), GeneralizedParetoDistribution.density(k, beta, zeta, 1.0)
-        assertEquals "F(x = 1)", ExponentialDist.cdf(1.0, 1.0), GeneralizedParetoDistribution.cdf(k, beta, zeta, 1.0)
-        assertEquals "barF(x = 1)", ExponentialDist.barF(1.0, 1.0), GeneralizedParetoDistribution.barF(k, beta, zeta, 1.0)
-        assertEquals "inverseF(y = 0.9)", ExponentialDist.inverseF(1.0, 0.9), GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9)
+        assertEquals "f(x = 1)", ExponentialDist.density(1.0, 1.0), GeneralizedParetoDistribution.density(xi, beta, zeta, 1.0)
+        assertEquals "F(x = 1)", ExponentialDist.cdf(1.0, 1.0), GeneralizedParetoDistribution.cdf(xi, beta, zeta, 1.0)
+        assertEquals "barF(x = 1)", ExponentialDist.barF(1.0, 1.0), GeneralizedParetoDistribution.barF(xi, beta, zeta, 1.0)
+        assertEquals "inverseF(y = 0.9)", ExponentialDist.inverseF(1.0, 0.9), GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9)
 
         beta = -1
 
-        assertEquals "f(x = 1)", ExponentialDist.density(1.0, 2.0), GeneralizedParetoDistribution.density(k, beta, zeta, 1.0)
-        assertEquals "F(x = 1)", ExponentialDist.cdf(1.0, 2.0), GeneralizedParetoDistribution.cdf(k, beta, zeta, 1.0)
-        assertEquals "barF(x = 1)", ExponentialDist.barF(1.0, 2.0), GeneralizedParetoDistribution.barF(k, beta, zeta, 1.0)
-        assertEquals "inverseF(y = 0.9)", ExponentialDist.inverseF(1.0, 0.9) - 1, GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9)
+        assertEquals "f(x = 1)", ExponentialDist.density(1.0, 2.0), GeneralizedParetoDistribution.density(xi, beta, zeta, 1.0)
+        assertEquals "F(x = 1)", ExponentialDist.cdf(1.0, 2.0), GeneralizedParetoDistribution.cdf(xi, beta, zeta, 1.0)
+        assertEquals "barF(x = 1)", ExponentialDist.barF(1.0, 2.0), GeneralizedParetoDistribution.barF(xi, beta, zeta, 1.0)
+        assertEquals "inverseF(y = 0.9)", ExponentialDist.inverseF(1.0, 0.9) - 1, GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9)
     }
 
-    void testGeneralizedParetoForKGreaterZero() {
+    void testGeneralizedParetoForXiGreaterZero() {
 
         double zeta = 1
         double beta = 2
-        double k = 0.5
+        double xi = 0.5
         double alpha = 2
 
-        assertEquals "f(x = 3)", ParetoDist.density(alpha, beta, 3), GeneralizedParetoDistribution.density(k, beta, zeta, 3.0)
-        assertEquals "F(x = 3)", ParetoDist.cdf(alpha, beta, 3), GeneralizedParetoDistribution.cdf(k, beta, zeta, 3.0)
-        assertEquals "barF(x = 3)", ParetoDist.barF(alpha, beta, 3), GeneralizedParetoDistribution.barF(k, beta, zeta, 3.0)
-        assertEquals "inverseF(y=0.9)", ParetoDist.inverseF(alpha, beta, 0.9), GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9)
+        assertEquals "f(x = 3)", ParetoDist.density(alpha, beta, 3), GeneralizedParetoDistribution.density(xi, beta, zeta, 3.0)
+        assertEquals "F(x = 3)", ParetoDist.cdf(alpha, beta, 3), GeneralizedParetoDistribution.cdf(xi, beta, zeta, 3.0)
+        assertEquals "barF(x = 3)", ParetoDist.barF(alpha, beta, 3), GeneralizedParetoDistribution.barF(xi, beta, zeta, 3.0)
+        assertEquals "inverseF(y=0.9)", ParetoDist.inverseF(alpha, beta, 0.9), GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9)
 
         beta = 0
-        k = 2
+        xi = 2
 
-        assertEquals "f(x = 1)", Math.pow(3, -1.5), GeneralizedParetoDistribution.density(k, beta, zeta, 1.0)
-        assertEquals "F(x = 1)", 1 - Math.pow(3, -0.5), GeneralizedParetoDistribution.cdf(k, beta, zeta, 1.0)
-        assertEquals "barF(x = 1)", Math.pow(3, -0.5), GeneralizedParetoDistribution.barF(k, beta, zeta, 1.0)
-        assertEquals "inverseF(y = 0.9)", -1 / 2d * (1d - Math.pow(0.1, -2)), GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9), 1E-8
+        assertEquals "f(x = 1)", Math.pow(3, -1.5), GeneralizedParetoDistribution.density(xi, beta, zeta, 1.0)
+        assertEquals "F(x = 1)", 1 - Math.pow(3, -0.5), GeneralizedParetoDistribution.cdf(xi, beta, zeta, 1.0)
+        assertEquals "barF(x = 1)", Math.pow(3, -0.5), GeneralizedParetoDistribution.barF(xi, beta, zeta, 1.0)
+        assertEquals "inverseF(y = 0.9)", -1 / 2d * (1d - Math.pow(0.1, -2)), GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9), 1E-8
     }
 
-    void testGeneralizedParetoForKSmallerZero() {
+    void testGeneralizedParetoForXiSmallerZero() {
 
         double zeta = 1
         double beta = -1
-        double k = -1
+        double xi = -1
 
-        assertEquals "f(x = -0.5)", 1.0, GeneralizedParetoDistribution.density(k, beta, zeta, -0.5)
-        assertEquals "F(x = -0.5)", 0.5, GeneralizedParetoDistribution.cdf(k, beta, zeta, -0.5)
-        assertEquals "barF(x = -0.5)", 0.5, GeneralizedParetoDistribution.barF(k, beta, zeta, -0.5)
-        assertEquals "inverseF(y=0.9)", -0.1, GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9), 1E-8
+        assertEquals "f(x = -0.5)", 1.0, GeneralizedParetoDistribution.density(xi, beta, zeta, -0.5)
+        assertEquals "F(x = -0.5)", 0.5, GeneralizedParetoDistribution.cdf(xi, beta, zeta, -0.5)
+        assertEquals "barF(x = -0.5)", 0.5, GeneralizedParetoDistribution.barF(xi, beta, zeta, -0.5)
+        assertEquals "inverseF(y=0.9)", -0.1, GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9), 1E-8
 
         beta = -1
-        k = -2
+        xi = -2
 
-        assertEquals "f(x = -0.5)", 0.0, GeneralizedParetoDistribution.density(k, beta, zeta, -0.5)
-        assertEquals "F(x =-0.5)", 1.0, GeneralizedParetoDistribution.cdf(k, beta, zeta, -0.5)
-        assertEquals "barF(x = -0.5)", 0.0, GeneralizedParetoDistribution.barF(k, beta, zeta, -0.5)
+        assertEquals "f(x = -0.5)", 0.0, GeneralizedParetoDistribution.density(xi, beta, zeta, -0.5)
+        assertEquals "F(x =-0.5)", 1.0, GeneralizedParetoDistribution.cdf(xi, beta, zeta, -0.5)
+        assertEquals "barF(x = -0.5)", 0.0, GeneralizedParetoDistribution.barF(xi, beta, zeta, -0.5)
 
-        assertEquals "f(x = -0.75)", Math.pow(1 - 2 * (-0.75 + 1), -0.5), GeneralizedParetoDistribution.density(k, beta, zeta, -0.75)
-        assertEquals "F(x = -0.75)", 1 - Math.pow(1 - 2 * (-0.75 + 1), 0.5), GeneralizedParetoDistribution.cdf(k, beta, zeta, -0.75)
-        assertEquals "barF(x = -0.75)", Math.pow(1 - 2 * (-0.75 + 1), 0.5), GeneralizedParetoDistribution.barF(k, beta, zeta, -0.75)
-        assertEquals "inverseF(y=0.9)", -1 + 1 / 2 * (1 - Math.pow(1 - 0.9, 2)), GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9), 1E-8
+        assertEquals "f(x = -0.75)", Math.pow(1 - 2 * (-0.75 + 1), -0.5), GeneralizedParetoDistribution.density(xi, beta, zeta, -0.75)
+        assertEquals "F(x = -0.75)", 1 - Math.pow(1 - 2 * (-0.75 + 1), 0.5), GeneralizedParetoDistribution.cdf(xi, beta, zeta, -0.75)
+        assertEquals "barF(x = -0.75)", Math.pow(1 - 2 * (-0.75 + 1), 0.5), GeneralizedParetoDistribution.barF(xi, beta, zeta, -0.75)
+        assertEquals "inverseF(y=0.9)", -1 + 1 / 2 * (1 - Math.pow(1 - 0.9, 2)), GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9), 1E-8
 
         beta = 0
-        k = -0.5
+        xi = -0.5
 
-        assertEquals "f(x = 2)", 0.0, GeneralizedParetoDistribution.density(k, beta, zeta, 2)
-        assertEquals "F(x =2)", 1.0, GeneralizedParetoDistribution.cdf(k, beta, zeta, 2)
-        assertEquals "barF(x = 2)", 0.0, GeneralizedParetoDistribution.barF(k, beta, zeta, 2)
+        assertEquals "f(x = 2)", 0.0, GeneralizedParetoDistribution.density(xi, beta, zeta, 2)
+        assertEquals "F(x =2)", 1.0, GeneralizedParetoDistribution.cdf(xi, beta, zeta, 2)
+        assertEquals "barF(x = 2)", 0.0, GeneralizedParetoDistribution.barF(xi, beta, zeta, 2)
 
-        assertEquals "f(x = 1.5)", Math.pow(1 - 1 / 2d * (1.5), 1.0), GeneralizedParetoDistribution.density(k, beta, zeta, 1.5)
-        assertEquals "F(x = 1.5)", 1 - Math.pow(1 - 1 / 2 * 1.5, 2), GeneralizedParetoDistribution.cdf(k, beta, zeta, 1.5)
-        assertEquals "barF(x = 1.5)", Math.pow(1 - 1 / 2 * 1.5, 2), GeneralizedParetoDistribution.barF(k, beta, zeta, 1.5)
-        assertEquals "inverseF(y=0.9)", 2 * (1 - Math.pow(1 - 0.9, 1 / 2d)), GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9), 1E-8
+        assertEquals "f(x = 1.5)", Math.pow(1 - 1 / 2d * (1.5), 1.0), GeneralizedParetoDistribution.density(xi, beta, zeta, 1.5)
+        assertEquals "F(x = 1.5)", 1 - Math.pow(1 - 1 / 2 * 1.5, 2), GeneralizedParetoDistribution.cdf(xi, beta, zeta, 1.5)
+        assertEquals "barF(x = 1.5)", Math.pow(1 - 1 / 2 * 1.5, 2), GeneralizedParetoDistribution.barF(xi, beta, zeta, 1.5)
+        assertEquals "inverseF(y=0.9)", 2 * (1 - Math.pow(1 - 0.9, 1 / 2d)), GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9), 1E-8
     }
 
     void testTypeIIPareto() {
@@ -91,13 +91,13 @@ class CompositeDistributionsTests extends GroovyTestCase {
         double zeta = 10
         double alpha = 2
         double beta = 5
-        double k = 1 / 2d
+        double xi = 1 / 2d
         double lambda = alpha * zeta - beta
 
-        assertEquals "f(x = 7)", GeneralizedParetoDistribution.density(k, beta, zeta, 7), TypeIIParetoDistribution.density(alpha, beta, lambda, 7)
-        assertEquals "F(x = 7)", GeneralizedParetoDistribution.cdf(k, beta, zeta, 7), TypeIIParetoDistribution.cdf(alpha, beta, lambda, 7)
-        assertEquals "barF(x = 7)", GeneralizedParetoDistribution.barF(k, beta, zeta, 7), TypeIIParetoDistribution.barF(alpha, beta, lambda, 7)
-        assertEquals "inverseF(y=0.9)", GeneralizedParetoDistribution.inverseF(k, beta, zeta, 0.9), TypeIIParetoDistribution.inverseF(alpha, beta, lambda, 0.9), 1E-8
+        assertEquals "f(x = 7)", GeneralizedParetoDistribution.density(xi, beta, zeta, 7), TypeIIParetoDistribution.density(alpha, beta, lambda, 7)
+        assertEquals "F(x = 7)", GeneralizedParetoDistribution.cdf(xi, beta, zeta, 7), TypeIIParetoDistribution.cdf(alpha, beta, lambda, 7)
+        assertEquals "barF(x = 7)", GeneralizedParetoDistribution.barF(xi, beta, zeta, 7), TypeIIParetoDistribution.barF(alpha, beta, lambda, 7)
+        assertEquals "inverseF(y=0.9)", GeneralizedParetoDistribution.inverseF(xi, beta, zeta, 0.9), TypeIIParetoDistribution.inverseF(alpha, beta, lambda, 0.9), 1E-8
     }
 
     void testLognormalPareto() {
@@ -157,6 +157,4 @@ class CompositeDistributionsTests extends GroovyTestCase {
         assertEquals "inverseF(y=0.995)", TypeIIParetoDistribution.inverseF(alpha, beta, lambda, (0.995 - r) / (1.0 - r)), LognormalTypeIIParetoDistribution.inverseF(sigma, alpha, beta, lambda, 0.995)
 
     }
-
-
 }

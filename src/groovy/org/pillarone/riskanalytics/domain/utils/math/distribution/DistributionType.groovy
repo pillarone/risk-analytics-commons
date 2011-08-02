@@ -68,9 +68,11 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType LOGLOGISTIC = new DistributionType(
             "log logistic", "LOGLOGISTIC", ["alpha": 2d, "beta": 1d])
     public static final DistributionType GPD = new DistributionType(
-            "generalized pareto", "GPD", ["k": 1 / 2d, "beta": 1d, "zeta": 1d])
-    public static final DistributionType TYPEIIPARETO = new DistributionType(
-            "type II pareto", "TYPEIIPARETO", ["alpha": 2d, "beta": 1d, "lambda": 0d])
+            "generalized pareto", "GPD", ["xi": 1 / 2d, "beta": 1d, "tau": 1d])
+    public static final DistributionType SHIFTEDPARETOII = new DistributionType(
+            "shifted pareto II", "SHIFTEDPARETOII", ["alpha": 2d, "beta": 1d, "lambda": 0d])
+    public static final DistributionType PARETOII = new DistributionType(
+            "pareto II", "PARETOII", ["alpha": 2d, "lambda": 0d])
     public static final DistributionType LOGNORMALPARETO = new DistributionType(
             "lognormal pareto", "LOGNORMALPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "mu": -2d])
     public static final DistributionType LOGNORMALTYPEIIPARETO = new DistributionType(
@@ -104,12 +106,13 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             NEGATIVEBINOMIAL,
             NORMAL,
             PARETO,
+            PARETOII,
             POISSON,
             PIECEWISELINEAR,
             PIECEWISELINEAREMPIRICAL,
+            SHIFTEDPARETOII,
             STUDENTDIST,
             TRIANGULARDIST,
-            TYPEIIPARETO,
             UNIFORM
     ]
 
@@ -284,12 +287,16 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                 distribution.distribution = new LoglogisticDist((double) parameters["alpha"], (double) parameters["beta"])
                 break
             case DistributionType.GPD:
-                distribution.distribution = new GeneralizedParetoDistribution((double) parameters["k"],
-                        (double) parameters["beta"], (double) parameters["zeta"])
+                distribution.distribution = new GeneralizedParetoDistribution((double) parameters["xi"],
+                        (double) parameters["beta"], (double) parameters["tau"])
                 break
-            case DistributionType.TYPEIIPARETO:
+            case DistributionType.SHIFTEDPARETOII:
                 distribution.distribution = new TypeIIParetoDistribution((double) parameters["alpha"],
                         (double) parameters["beta"], (double) parameters["lambda"])
+                break
+            case DistributionType.PARETOII:
+                distribution.distribution = new TypeIIParetoDistribution((double) parameters["alpha"],
+                        (double) parameters["lambda"])
                 break
             case DistributionType.LOGNORMALPARETO:
                 distribution.distribution = new LognormalParetoDistribution((double) parameters["sigma"],

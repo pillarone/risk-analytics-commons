@@ -55,7 +55,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
     private void registerConstraints() {
         validationService.register(DistributionType.POISSON) {Map type ->
             if (type.lambda >= 0) return true
-            [ValidationType.ERROR, "distribution.type.error.poisson.lambda.negative", type.lambda]
+            return [ValidationType.ERROR, "distribution.type.error.poisson.lambda.negative", type.lambda]
         }
         validationService.register(DistributionType.EXPONENTIAL) {Map type ->
             type.lambda <= 0 ? [ValidationType.ERROR, "distribution.type.error.exponential.lambda.nonpositive", type.lambda] :
@@ -103,7 +103,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
 
             double sum = (Double) values.inject(0) {temp, it -> temp + it }
 
-            if (isCloseEnough(sum,0d)) {
+            if (isCloseEnough(sum, 0d)) {
                 return [ValidationType.ERROR, "distribution.type.error.discreteempirical.probabilities.sum.zero", sum]
             }
 
@@ -325,16 +325,24 @@ class DistributionTypeValidator implements IParameterizationValidator {
         }
 
         validationService.register(DistributionType.GPD) {Map type ->
-            if (type.zeta > 0) return true
-            [ValidationType.ERROR, "distribution.type.error.gpd.zeta.nonpositive", type.zeta]
+            if (type.tau > 0) return true
+            return [ValidationType.ERROR, "distribution.type.error.gpd.zeta.nonpositive", type.tau]
         }
-        validationService.register(DistributionType.TYPEIIPARETO) {Map type ->
-            if (type.beta <= 0)
-                return [ValidationType.ERROR, "distribution.type.error.type.II.pareto.beta.nonpositive", type.beta]
+        validationService.register(DistributionType.SHIFTEDPARETOII) {Map type ->
+            if (type.lambda == 0 && type.beta == 0)
+                return [ValidationType.ERROR, "distribution.type.error.type.II.pareto.lambda.not.greater.than.minus.beta", type.lambda, type.beta]
             if (type.lambda > -type.beta) return true
-            [ValidationType.ERROR, "distribution.type.error.type.II.pareto.lambda.not.greater.than.minus.beta", type.lambda, type.beta]
+            return [ValidationType.ERROR, "distribution.type.error.type.II.pareto.lambda.not.greater.than.minus.beta", type.lambda, type.beta]
         }
-        validationService.register(DistributionType.TYPEIIPARETO) {Map type ->
+        validationService.register(DistributionType.SHIFTEDPARETOII) {Map type ->
+            if (type.alpha > 0) return true
+            return [ValidationType.ERROR, "distribution.type.error.type.II.pareto.alpha.nonpositive", type.alpha]
+        }
+        validationService.register(DistributionType.PARETOII) {Map type ->
+            if (type.lambda > 0d) return true
+            [ValidationType.ERROR, "distribution.type.error.type.II.pareto.lambda.not.greater.zero", type.lambda]
+        }
+        validationService.register(DistributionType.PARETOII) {Map type ->
             if (type.alpha > 0) return true
             [ValidationType.ERROR, "distribution.type.error.type.II.pareto.alpha.nonpositive", type.alpha]
         }
