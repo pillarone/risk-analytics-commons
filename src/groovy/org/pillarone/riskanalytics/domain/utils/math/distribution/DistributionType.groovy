@@ -76,11 +76,11 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType LOGNORMALPARETO = new DistributionType(
             "lognormal pareto", "LOGNORMALPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "mu": -2d])
     public static final DistributionType LOGNORMALTYPEIIPARETO = new DistributionType(
-            "lognormal type II pareto", "LOGNORMALTYPEIIPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d, "mu": -2d])
+            "lognormal pareto II", "LOGNORMALTYPEIIPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d, "mu": -2d])
     public static final DistributionType LOGNORMALPARETO_SMOOTH = new DistributionType(
             "lognormal pareto smooth", "LOGNORMALPARETO_SMOOTH", ["sigma": 1d, "alpha": 2d, "beta": 1d])
     public static final DistributionType LOGNORMALTYPEIIPARETO_SMOOTH = new DistributionType(
-            "lognormal type II pareto smooth", "LOGNORMALTYPEIIPARETO_SMOOTH", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d])
+            "lognormal pareto II smooth", "LOGNORMALTYPEIIPARETO_SMOOTH", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d])
 
     public static final all = [
             BETA,

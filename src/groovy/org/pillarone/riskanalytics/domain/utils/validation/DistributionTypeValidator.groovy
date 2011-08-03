@@ -326,7 +326,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
 
         validationService.register(DistributionType.GPD) {Map type ->
             if (type.tau > 0) return true
-            return [ValidationType.ERROR, "distribution.type.error.gpd.zeta.nonpositive", type.tau]
+            return [ValidationType.ERROR, "distribution.type.error.gpd.tau.nonpositive", type.tau]
         }
         validationService.register(DistributionType.SHIFTEDPARETOII) {Map type ->
             if (type.lambda == 0 && type.beta == 0)
