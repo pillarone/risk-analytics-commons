@@ -35,7 +35,7 @@ public class
         this.b = b;
         this.cdfLeftBoundary = distribution.cdf(a);
         if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
-            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
+            throw new IllegalArgumentException("['TruncatedDistribution.nonNormalizeableSpace']");
         }
     }
 
@@ -54,7 +54,7 @@ public class
         int index = obs.indexOf(a);
         this.cdfLeftBoundary = index == 0 ? 0 : distribution.cdf(obs.get(index - 1));
         if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
-            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
+            throw new IllegalArgumentException("['TruncatedDistribution.nonNormalizeableSpace']");
         }
     }
 
@@ -64,7 +64,7 @@ public class
         this.b = b;
         this.cdfLeftBoundary = a == 0 ? 0 : distribution.cdf(Math.ceil(a - 1));
         if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
-            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
+            throw new IllegalArgumentException("['TruncatedDistribution.nonNormalizeableSpace']");
         }
     }
 
@@ -91,7 +91,7 @@ public class
 
     public double density(double x) {
         if (!(distribution instanceof ContinuousDistribution)) {
-            throw new IllegalArgumentException("TruncatedDistribution.densityForContinuousDistributionOnly");
+            throw new IllegalArgumentException("['TruncatedDistribution.densityForContinuousDistributionOnly']");
         }
         if (x < a || x > b)
             return 0d;
@@ -100,7 +100,7 @@ public class
 
     public double prob(int x) {
         if (distribution instanceof ContinuousDistribution) {
-            throw new IllegalArgumentException("TruncatedDistribution.probForDiscreteDistributionsOnly");
+            throw new IllegalArgumentException("['TruncatedDistribution.probForDiscreteDistributionsOnly']");
         }
         if (x < a || x > b) return 0d;
         if (distribution instanceof DiscreteDistribution)
@@ -109,15 +109,15 @@ public class
     }
 
     public double getMean() {
-        throw new NotImplementedException("TruncatedDistribution.noImplementationOfGetMean");
+        throw new NotImplementedException("['TruncatedDistribution.noImplementationOfGetMean']");
     }
 
     public double getVariance() {
-        throw new NotImplementedException("TruncatedDistribution.noImplementationOfGetVariance");
+        throw new NotImplementedException("['TruncatedDistribution.noImplementationOfGetVariance']");
     }
 
     public double getStandardDeviation() {
-        throw new NotImplementedException("TruncatedDistribution.noImplementationOfGetStandardDeviation");
+        throw new NotImplementedException("['TruncatedDistribution.noImplementationOfGetStandardDeviation']");
     }
 
     // todo(jwa): implement getParams() depending of instance of distribution
@@ -148,7 +148,7 @@ public class
             cdfLeftBoundary = a == 0 ? 0 : distribution.cdf(Math.ceil(a - 1));
         }
         if (cdfLeftBoundary == 1 || (distribution.cdf(b) - cdfLeftBoundary) <= 1E-8) {
-            throw new IllegalArgumentException("TruncatedDistribution.nonNormalizeableSpace");
+            throw new IllegalArgumentException("['TruncatedDistribution.nonNormalizeableSpace']");
         }
         return cdfLeftBoundary;
     }
