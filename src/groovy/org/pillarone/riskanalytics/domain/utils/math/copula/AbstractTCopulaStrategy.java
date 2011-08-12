@@ -52,7 +52,7 @@ public abstract class AbstractTCopulaStrategy extends AbstractCopulaStrategy {
     }
 
     public List<Component> getTargetComponents() {
-        return dependencyMatrix.getRowObjects();
+        return dependencyMatrix.getHeadersAsObjects();
     }
 
     public Map getParameters() {
