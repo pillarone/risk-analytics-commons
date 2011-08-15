@@ -86,7 +86,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
             }
             for (int i = 1; i < values.length; i++) {
                 if (values[i - 1] >= values[i]) {
-                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.observations.not.strictly.increasing", i, values[i - 1], values[i]]
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.observations.not.strictly.increasing", i+1, values[i - 1], values[i]]
                 }
             }
             return true
@@ -125,7 +125,6 @@ class DistributionTypeValidator implements IParameterizationValidator {
             return true
         }
 
-
         validationService.register(DistributionType.DISCRETEEMPIRICALCUMULATIVE) {Map type ->
             double[] values = new double[type.discreteEmpiricalCumulativeValues.getRowCount() - 1];
             int index = type.discreteEmpiricalCumulativeValues.getColumnIndex('observations')
@@ -137,7 +136,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
             }
             for (int i = 1; i < values.length; i++) {
                 if (values[i - 1] >= values[i]) {
-                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.observations.not.strictly.increasing", i, values[i - 1], values[i]]
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.observations.not.strictly.increasing", i+1, values[i - 1], values[i]]
                 }
             }
             return true
@@ -153,21 +152,21 @@ class DistributionTypeValidator implements IParameterizationValidator {
             }
 
             if (values[0] < 0) {
-                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.negative", values[0]]
+                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.negative", 1, values[0]]
             }
 
             for (int i = 1; i < values.length; i++) {
                 if (values[i - 1] > values[i]) {
-                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.nonincreasing", i, values[i - 1], values[i]]
+                    return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probabilities.nonincreasing", i+1, values[i - 1], values[i]]
                 }
             }
 
             if (values[-1] == 0) {
-                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probability.last.value.zero", values[values.length - 1]]
+                return [ValidationType.ERROR, "distribution.type.error.discreteempirical.cumulative.probability.last.value.zero", values.size(), values[values.length - 1]]
             }
 
             if (!isCloseEnough(values[-1], 1d)) {
-                return [ValidationType.WARNING, "distribution.type.error.discreteempirical.cumulative.probability.last.value.not.1", values[values.length - 1]]
+                return [ValidationType.WARNING, "distribution.type.error.discreteempirical.cumulative.probability.last.value.not.1", values.size(), values[values.length - 1]]
             }
             return true
         }
