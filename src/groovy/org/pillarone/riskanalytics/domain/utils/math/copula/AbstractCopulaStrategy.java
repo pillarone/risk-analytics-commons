@@ -18,7 +18,7 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
         List<List<Double>> values = dependencyMatrix.getValues();
         for (int i = 0; i < values.size(); i++) {
             if (!(values.get(i).get(i) == 1d)) {
-                throw new IllegalArgumentException("CopulaStratey.dependencyMatrixInvalidDiagonal");
+                throw new IllegalArgumentException("['CopulaStratey.dependencyMatrixInvalidDiagonal']");
             }
         }
 
@@ -30,13 +30,13 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
         }
         DoubleMatrix2D sigmaTranspose = sigma.viewDice();
         if (!sigmaTranspose.equals(sigma)) {
-            throw new IllegalArgumentException("CopulaStratey.dependencyMatrixNonSymmetric");
+            throw new IllegalArgumentException("['CopulaStratey.dependencyMatrixNonSymmetric']");
         }
         EigenvalueDecomposition eigenvalueDecomp = new EigenvalueDecomposition(sigma);
         DoubleMatrix1D eigenvalues = eigenvalueDecomp.getRealEigenvalues();
         eigenvalues.viewSorted();
         if (eigenvalues.get(0) <= 0) {
-            throw new IllegalArgumentException("CopulaStratey.dependencyMatrixNonPosDef");
+            throw new IllegalArgumentException("['CopulaStratey.dependencyMatrixNonPosDef']");
         }
     }
 }
