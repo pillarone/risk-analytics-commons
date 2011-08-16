@@ -113,25 +113,60 @@ class FrequencyDistributionType extends AbstractParameterObjectClassifier implem
         //TODO msp move initialization to RD.getDistribution()
         switch (type) {
             case FrequencyDistributionType.POISSON:
-                distribution.distribution = new PoissonDist((double) (parameters.containsKey("lambda") ? parameters["lambda"] : 0))
+                try {
+                    distribution.distribution = new PoissonDist((double) (parameters.containsKey("lambda") ? parameters["lambda"] : 0))
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
             case FrequencyDistributionType.NEGATIVEBINOMIAL:
-                distribution.distribution = new NegativeBinomialDist((double) parameters["gamma"], (double) parameters["p"])
+                try {
+                    distribution.distribution = new NegativeBinomialDist((double) parameters["gamma"], (double) parameters["p"])
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
             case FrequencyDistributionType.CONSTANT:
-                distribution.distribution = new ConstantDistribution((double) parameters["constant"])
+                try {
+                    distribution.distribution = new ConstantDistribution((double) parameters["constant"])
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
             case FrequencyDistributionType.DISCRETEEMPIRICAL:
-                distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
+                try {
+                    distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")),
+                            GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
+                }
+                catch (IllegalArgumentException ex) {}
                 break
             case FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE:
-                distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")), GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
+                try {
+                    distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")),
+                            GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
             case FrequencyDistributionType.BINOMIALDIST:
-                distribution.distribution = new BinomialDist((int) parameters["n"], (double) parameters["p"])
+                try {
+                    distribution.distribution = new BinomialDist((int) parameters["n"], (double) parameters["p"])
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
             case FrequencyDistributionType.CONSTANTS:
-                distribution.distribution = new ConstantsDistribution(GroovyUtils.asDouble(parameters["constants"].getColumnByName("constants")))
+                try {
+                    distribution.distribution = new ConstantsDistribution(GroovyUtils.asDouble(parameters["constants"].getColumnByName("constants")))
+                }
+                catch (IllegalArgumentException ex) {
+                    // see PMO-1619
+                }
                 break
         }
 

@@ -47,19 +47,6 @@ class RandomNumberGeneratorFactoryTests extends GroovyTestCase {
         }
     }
 
-
-    void testException() {
-        shouldFail {
-            RandomNumberGeneratorFactory.getGenerator(
-                    DistributionType.getStrategy(DistributionType.LOGNORMAL, ["mean": -1, "stDev": 5]))    //negative mean is illegal
-            //the related test void testlogNormalDistribution() is located in ClaimsGenerationTests
-        }
-    }
-
-    /* Tests whether generated lognormal series has really the desired mean and stdDev
-     * Thus 2 things are tested: 1) the conversion from the (Mean, StdDev) to (mu, sigma)
-     *                           2) the lognormal generator from the library
-    */
     void testlogNormalDistribution() {
         IRandomNumberGenerator generator1 = RandomNumberGeneratorFactory.getGenerator(
                 DistributionType.getStrategy(DistributionType.LOGNORMAL, ["mean": 2, "stDev": 1]))
