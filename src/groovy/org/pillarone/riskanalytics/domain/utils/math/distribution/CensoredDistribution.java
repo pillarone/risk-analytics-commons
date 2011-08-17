@@ -49,15 +49,15 @@ public class CensoredDistribution implements Distribution {
     }
 
     public double getMean() {
-        throw new NotImplementedException("CensoredDistribution.noImplementationOfGetMean");
+        throw new NotImplementedException("['CensoredDistribution.noImplementationOfGetMean']");
     }
 
     public double getVariance() {
-        throw new NotImplementedException("CensoredDistribution.noImplementationOfGetVariance");
+        throw new NotImplementedException("['CensoredDistribution.noImplementationOfGetVariance']");
     }
 
     public double getStandardDeviation() {
-        throw new NotImplementedException("CensoredDistribution.noImplementationOfGetStandardDeviation");
+        throw new NotImplementedException("['CensoredDistribution.noImplementationOfGetStandardDeviation']");
     }
 
     public double[] getParams() {
