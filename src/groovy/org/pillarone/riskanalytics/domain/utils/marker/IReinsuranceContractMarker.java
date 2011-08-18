@@ -10,5 +10,5 @@ public interface IReinsuranceContractMarker extends IComponentMarker {
     /**
      * @return typically true for proportional contracts
      */
-    boolean adjustExposureInfo();
+    boolean isProportionalContract();
 }
