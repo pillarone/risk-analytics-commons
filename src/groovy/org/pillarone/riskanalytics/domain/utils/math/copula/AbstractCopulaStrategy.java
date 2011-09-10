@@ -15,9 +15,9 @@ import java.util.List;
 public abstract class AbstractCopulaStrategy extends AbstractParameterObject implements ICopulaStrategy {
 
     public void checkDependencyMatrix(ComboBoxMatrixMultiDimensionalParameter dependencyMatrix) {
-        List<List<Double>> values = dependencyMatrix.getValues();
+        List<List<Number>> values = dependencyMatrix.getValues();
         for (int i = 0; i < values.size(); i++) {
-            if (!(values.get(i).get(i) == 1d)) {
+            if (!(values.get(i).get(i).doubleValue() == 1)) {
                 throw new IllegalArgumentException("['CopulaStratey.dependencyMatrixInvalidDiagonal']");
             }
         }
@@ -25,7 +25,7 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
         DenseDoubleMatrix2D sigma = new DenseDoubleMatrix2D(values.size(), values.size());
         for (int i = 0; i < values.size(); i++) {
             for (int j = 0; j < values.get(i).size(); j++) {
-                sigma.set(i, j, values.get(i).get(j));
+                sigma.set(i, j, values.get(i).get(j).doubleValue());
             }
         }
         DoubleMatrix2D sigmaTranspose = sigma.viewDice();
