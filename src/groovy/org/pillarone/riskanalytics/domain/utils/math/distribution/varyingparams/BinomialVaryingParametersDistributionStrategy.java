@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,8 +45,8 @@ public class BinomialVaryingParametersDistributionStrategy extends AbstractVaryi
             int period = InputFormatConverter.getInt((nAndP.getValueAt(row, periodColumnIndex))) - 1;
             double nParam = InputFormatConverter.getDouble(nAndP.getValueAt(row, nColumnIndex));
             double pParam = InputFormatConverter.getDouble(nAndP.getValueAt(row, pColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.BINOMIALDIST, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.BINOMIALDIST, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.N, nParam}, {DistributionParams.P, pParam}})));
         }
         return distributionPerPeriod;

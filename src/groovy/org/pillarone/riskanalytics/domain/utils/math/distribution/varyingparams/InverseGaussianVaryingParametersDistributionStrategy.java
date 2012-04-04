@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,8 +45,8 @@ public class InverseGaussianVaryingParametersDistributionStrategy extends Abstra
             int period = InputFormatConverter.getInt((muAndLambda.getValueAt(row, periodColumnIndex))) - 1;
             double muParam = InputFormatConverter.getDouble(muAndLambda.getValueAt(row, muColumnIndex));
             double lambdaParam = InputFormatConverter.getDouble(muAndLambda.getValueAt(row, lambaColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.INVERSEGAUSSIANDIST, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.INVERSEGAUSSIANDIST, ArrayUtils.toMap(
                     new Object[][]{{DistributionParams.MU, muParam}, {DistributionParams.LAMBDA, lambdaParam}})));
         }
         return distributionPerPeriod;

@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -42,9 +43,8 @@ public class ExponentialVaryingParametersDistributionStrategy extends AbstractVa
         for (int row = lambda.getTitleRowCount(); row < lambda.getRowCount(); row++) {
             int period = InputFormatConverter.getInt((lambda.getValueAt(row, periodColumnIndex))) - 1;
             double lambdaParam = InputFormatConverter.getDouble(lambda.getValueAt(row, lambaColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.EXPONENTIAL, ArrayUtils.toMap(
-                    new Object[][]{{DistributionParams.LAMBDA, lambdaParam}})));
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.EXPONENTIAL, ArrayUtils.toMap(new Object[][]{{DistributionParams.LAMBDA, lambdaParam}})));
         }
         return distributionPerPeriod;
     }

@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,8 +45,8 @@ public class GumbelVaryingParametersDistributionStrategy extends AbstractVarying
             int period = InputFormatConverter.getInt((betaAndDelta.getValueAt(row, periodColumnIndex))) - 1;
             double betaParam = InputFormatConverter.getDouble(betaAndDelta.getValueAt(row, betaColumnIndex));
             double deltaParam = InputFormatConverter.getDouble(betaAndDelta.getValueAt(row, deltaColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.GUMBEL, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.GUMBEL, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.BETA, betaParam}, {DistributionParams.DELTA, deltaParam}})));
         }
         return distributionPerPeriod;

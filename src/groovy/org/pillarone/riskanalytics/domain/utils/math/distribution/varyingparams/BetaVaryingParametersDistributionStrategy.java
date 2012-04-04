@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,9 +45,9 @@ public class BetaVaryingParametersDistributionStrategy extends AbstractVaryingPa
             int period = InputFormatConverter.getInt((alphaAndBeta.getValueAt(row, periodColumnIndex))) - 1;
             double alphaParam = InputFormatConverter.getDouble(alphaAndBeta.getValueAt(row, alphaColumnIndex));
             double betaParam = InputFormatConverter.getDouble(alphaAndBeta.getValueAt(row, betaColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.BETA, ArrayUtils.toMap(
-                        new Object[][]{{DistributionParams.ALPHA, alphaParam}, {DistributionParams.BETA, betaParam}})));
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.BETA, ArrayUtils.toMap(
+                    new Object[][]{{DistributionParams.ALPHA, alphaParam}, {DistributionParams.BETA, betaParam}})));
         }
         return distributionPerPeriod;
     }

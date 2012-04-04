@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,8 +45,8 @@ public class NegativeBinomialVaryingParametersDistributionStrategy extends Abstr
             int period = InputFormatConverter.getInt((gammaAndP.getValueAt(row, periodColumnIndex))) - 1;
             double gammaParam = InputFormatConverter.getDouble(gammaAndP.getValueAt(row, gammaColumnIndex));
             double pParam = InputFormatConverter.getDouble(gammaAndP.getValueAt(row, pColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.NEGATIVEBINOMIAL, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.NEGATIVEBINOMIAL, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.GAMMA, gammaParam}, {DistributionParams.P, pParam}})));
         }
         return distributionPerPeriod;

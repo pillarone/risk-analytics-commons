@@ -23,7 +23,7 @@ public class ConstantVaryingParametersDistributionStrategy extends AbstractVaryi
 
     private ConstrainedMultiDimensionalParameter constant = new ConstrainedMultiDimensionalParameter(
             GroovyUtils.convertToListOfList(new Object[]{1, 0d}),
-            Arrays.asList(PERIOD, DistributionParams.CONSTANT.toString()),
+            Arrays.asList(DistributionParams.PERIOD, DistributionParams.CONSTANT),
             ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER));
 
     public IParameterObjectClassifier getType() {
@@ -43,9 +43,8 @@ public class ConstantVaryingParametersDistributionStrategy extends AbstractVaryi
         for (int row = constant.getTitleRowCount(); row < constant.getRowCount(); row++) {
             int period = InputFormatConverter.getInt((constant.getValueAt(row, periodColumnIndex))) - 1;
             double constantParam = InputFormatConverter.getDouble(constant.getValueAt(row, constantColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.CONSTANT, ArrayUtils.toMap(
-                    new Object[][]{{DistributionParams.CONSTANT.toString(), constantParam}})));
+            distributionPerPeriod.put(period, DistributionType.getStrategy(DistributionType.CONSTANT, ArrayUtils.toMap(
+                    new Object[][]{{DistributionParams.CONSTANT, constantParam}})));
         }
         return distributionPerPeriod;
     }

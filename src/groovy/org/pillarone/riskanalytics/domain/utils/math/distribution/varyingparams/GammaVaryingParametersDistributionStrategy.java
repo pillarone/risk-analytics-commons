@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -44,8 +45,8 @@ public class GammaVaryingParametersDistributionStrategy extends AbstractVaryingP
             int period = InputFormatConverter.getInt((alphaAndLambda.getValueAt(row, periodColumnIndex))) - 1;
             double alphaParam = InputFormatConverter.getDouble(alphaAndLambda.getValueAt(row, alphaColumnIndex));
             double lambdaParam = InputFormatConverter.getDouble(alphaAndLambda.getValueAt(row, lambaColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.GAMMA, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.GAMMA, ArrayUtils.toMap(
                     new Object[][]{{DistributionParams.ALPHA, alphaParam}, {DistributionParams.LAMBDA, lambdaParam}})));
         }
         return distributionPerPeriod;

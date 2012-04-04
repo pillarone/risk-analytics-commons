@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -42,8 +43,8 @@ public class ChiSquareVaryingParametersDistributionStrategy extends AbstractVary
         for (int row = n.getTitleRowCount(); row < n.getRowCount(); row++) {
             int period = InputFormatConverter.getInt((n.getValueAt(row, periodColumnIndex))) - 1;
             double nParam = InputFormatConverter.getDouble(n.getValueAt(row, nColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.CHISQUAREDIST, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.CHISQUAREDIST, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.N, nParam}})));
         }
         return distributionPerPeriod;

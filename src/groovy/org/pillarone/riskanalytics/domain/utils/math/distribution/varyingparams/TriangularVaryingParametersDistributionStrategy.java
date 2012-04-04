@@ -8,6 +8,7 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils;
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter;
 import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution;
 
 import java.util.Arrays;
@@ -46,8 +47,8 @@ public class TriangularVaryingParametersDistributionStrategy extends AbstractVar
             double aParam = InputFormatConverter.getDouble(supportPoints.getValueAt(row, aColumnIndex));
             double bParam = InputFormatConverter.getDouble(supportPoints.getValueAt(row, bColumnIndex));
             double mParam = InputFormatConverter.getDouble(supportPoints.getValueAt(row, mColumnIndex));
-            distributionPerPeriod.put(period, (RandomDistribution) VaryingParametersDistributionType.getStrategy(
-                    VaryingParametersDistributionType.TRIANGULARDIST, ArrayUtils.toMap(
+            distributionPerPeriod.put(period, DistributionType.getStrategy(
+                    DistributionType.TRIANGULARDIST, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.A, aParam},
                                 {DistributionParams.B, bParam},
                                 {DistributionParams.M, mParam}})));
