@@ -40,8 +40,8 @@ public class DistributionUtils {
                 minuend.getType().equals(DistributionType.NEGATIVEBINOMIAL)) {
             if (minuend.getParameters().get("p") == subtrahend.getParameters().get("p")) {
                 if (minuend.getDistribution().getMean() == subtrahend.getDistribution().getMean()) {
-                    Map<String, Double> param = new HashMap<String, Double>();
-                    param.put("constant", 0d);
+                    Map<DistributionParams, Double> param = new HashMap<DistributionParams, Double>();
+                    param.put(DistributionParams.CONSTANT, 0d);
                     return DistributionType.getStrategy(DistributionType.CONSTANT, param);
                 }
             }

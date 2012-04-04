@@ -11,6 +11,8 @@ import org.pillarone.riskanalytics.domain.utils.constraint.SegmentPortion
 import org.pillarone.riskanalytics.domain.utils.constraint.UnderwritingPortion
 import org.pillarone.riskanalytics.domain.utils.constraint.ReservePortion
 import org.pillarone.riskanalytics.domain.utils.constraint.ReinsuranceContractBasedOn
+import org.pillarone.riskanalytics.domain.utils.constraint.PeriodDistributionsConstraints
+import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsConstraints
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
@@ -49,6 +51,8 @@ class RiskAnalyticsCommonsGrailsPlugin {
 
     def doWithApplicationContext = { applicationContext ->
         ConstraintsFactory.registerConstraint(new DoubleConstraints())
+        ConstraintsFactory.registerConstraint(new PeriodDistributionsConstraints())
+        ConstraintsFactory.registerConstraint(new PeriodNDistributionsConstraints())
         ConstraintsFactory.registerConstraint(new DateTimeConstraints())
         ConstraintsFactory.registerConstraint(new SimpleConstraint())
         ConstraintsFactory.registerConstraint(new PerilPortion())

@@ -3,6 +3,7 @@ package org.pillarone.riskanalytics.domain.utils.math.copula;
 import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter;
 import org.pillarone.riskanalytics.core.parameterization.IParameterObjectClassifier;
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams;
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType;
 import org.pillarone.riskanalytics.domain.utils.math.generator.IRandomNumberGenerator;
 import org.pillarone.riskanalytics.domain.utils.math.generator.RandomNumberGeneratorFactory;
@@ -34,8 +35,8 @@ public abstract class AbstractTCopulaStrategy extends AbstractCopulaStrategy {
         params.put("meanVector", new double[size]);
         params.put("sigmaMatrix", dependencyMatrix.getValues());
         generator = DependencyType.getStrategy(DependencyType.NORMAL, params);
-        Map<String, Integer> degrees = new HashMap<String, Integer>();
-        degrees.put("n", degreesOfFreedom);
+        Map<DistributionParams, Integer> degrees = new HashMap<DistributionParams, Integer>();
+        degrees.put(DistributionParams.N, degreesOfFreedom);
         generatorForChiSquare = RandomNumberGeneratorFactory.getGenerator(DistributionType.getStrategy(DistributionType.CHISQUAREDIST, degrees));
 
         List<Number> randomVector = generator.nextVector();
