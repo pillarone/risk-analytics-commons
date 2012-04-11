@@ -225,4 +225,26 @@ public class DateTimeUtilities {
         intervalInterestRate = interestValue - 1.0;
         return intervalInterestRate;
     }
+
+    /**
+     * Utility function for use mainly in interest calculation and interpolations.
+     *
+     * @param startDate
+     * @param endDate
+     * @return integer number of days between dates assuming every month has 30 days.
+     */
+    public static int days360(DateTime startDate, DateTime endDate) {
+
+        int startDayOfMonth = (startDate.getDayOfMonth() == 31) ? 30 : startDate.getDayOfMonth();
+        int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
+        int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDate.getDayOfMonth();
+
+        return endDay - startDay;
+    }
+
+    public static double days360ProportionOfPeriod(DateTime periodStart, DateTime periodEnd, DateTime toDate  ) {
+        double daysInPeriod = days360(periodStart, periodEnd);
+        double daysToUpdate = days360(periodStart, toDate);
+        return  daysToUpdate / daysInPeriod;
+    }
 }
