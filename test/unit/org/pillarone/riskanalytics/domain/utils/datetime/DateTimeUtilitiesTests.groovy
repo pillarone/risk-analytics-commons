@@ -61,4 +61,54 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
 
         assertEquals "Check two years" , testMe , 2, EPSILON
     }
+
+    void testTestDays360Proprtion(){
+        private DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+
+        private DateTime halfPeriod = new DateTime(2014, 1, 1, 0, 0, 0, 0);
+        double testMe = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, halfPeriod)
+        assertEquals "Check half period" , testMe , 0.5d, EPSILON
+
+        private DateTime sameAsStart = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        double shouldBeZero = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, sameAsStart)
+        assertEquals "shouldBeZero" , shouldBeZero , 0d
+
+        private DateTime sameAsEnd = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        double shouldBe1 = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, sameAsEnd)
+        assertEquals "shouldBe1" , shouldBe1 , 1d
+
+//        Check the runtimeChecks!
+        shouldFail {
+            private DateTime beforeStart = new DateTime(2012, 1, 1, 0, 0, 0, 0);
+            double shouldFail = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, beforeStart)
+        }
+
+        shouldFail {
+            private DateTime afterEnd = new DateTime(2016, 1, 1, 0, 0, 0, 0);
+            double shouldFail = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, afterEnd)
+        }
+    }
+
+    void testSumDateTimeDoubleMapByDateRange(){
+        DateTime date1 =  new DateTime(2012, 2, 1, 0, 0, 0, 0);
+        DateTime date2 = new DateTime(2013, 2, 1, 0, 0, 0, 0);
+        DateTime date3 = new DateTime(2013, 6, 1, 0, 0, 0, 0);
+        DateTime date4 = new DateTime(2016, 1, 1, 0, 0, 0, 0);
+        Map<DateTime, Double> testMe = [:]
+
+        testMe.put(date1, 10d)
+        testMe.put(date2, 10d)
+        testMe.put(date3, 10d)
+        testMe.put(date4, 10d)
+
+
+
+        DateTime startDate = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime endDate   = new DateTime(2014, 1, 1, 0, 0, 0, 0);
+
+        double sum = DateTimeUtilities.sumDateTimeDoubleMapByDateRange(testMe, startDate, endDate )
+
+        assertEquals (" first and last date excluded, should be ", 20d, sum, EPSILON)
+    }
 }

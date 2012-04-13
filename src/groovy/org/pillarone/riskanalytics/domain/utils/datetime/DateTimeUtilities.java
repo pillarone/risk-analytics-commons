@@ -4,6 +4,7 @@ import org.joda.time.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import org.pillarone.riskanalytics.core.simulation.NotInProjectionHorizon;
 import org.pillarone.riskanalytics.core.simulation.engine.PeriodScope;
@@ -19,8 +20,8 @@ public class DateTimeUtilities {
     /**
      * Converts a string of the form YYYY-MM-DD (an ISO-2014 date or ISO-8601 calendar date) to a Joda DateTime
      *
-     * @param date
-     * @return
+     * @param date - date
+     * @return - joda time
      */
     public static DateTime convertToDateTime(String date) {
         try {
@@ -177,9 +178,9 @@ public class DateTimeUtilities {
 
     /**
      *  This function calculates the months between two dates including a fraction. The fraction is calculated in the last month.
-     * @param startDate
-     * @param endDate
-     * @return
+     * @param startDate - start date
+     * @param endDate - end date
+     * @return - fraction of months.
      */
     public static double deriveNumberOfMonths(DateTime startDate, DateTime endDate) {
         int numberOfCompleteMonths = Months.monthsBetween(startDate, endDate).getMonths();
@@ -229,8 +230,8 @@ public class DateTimeUtilities {
     /**
      * Utility function for use mainly in interest calculation and interpolations.
      *
-     * @param startDate
-     * @param endDate
+     * @param startDate - start date
+     * @param endDate - end date
      * @return integer number of days between dates assuming every month has 30 days.
      */
     public static int days360(DateTime startDate, DateTime endDate) {
@@ -242,9 +243,66 @@ public class DateTimeUtilities {
         return endDay - startDay;
     }
 
+    /**
+     *
+     * Returns the proportion of a period (periodStart -> periodEnd ) up to the 'toDate'
+     *
+     * @param periodStart - start date
+     * @param periodEnd - end date
+     * @param toDate - to this date as a proportion of period
+     * @return proportion of the period (periodStart -> periodEnd ) from periodStart to 'toDate'
+     * @exception IllegalArgumentException if toDate not contained between periodStart and periodEnd.
+     */
     public static double days360ProportionOfPeriod(DateTime periodStart, DateTime periodEnd, DateTime toDate  ) {
+
+//        Check that the 'toDate' actually falls in the period.
+        if(! (
+                (periodStart.isBefore(toDate) || periodStart.isEqual(toDate))
+                    &&
+                ( periodEnd.isAfter(toDate) || periodEnd.isEqual(toDate))
+            )
+        ) {
+            throw new IllegalArgumentException(" Attempted to find the proportion of a period where the specified " +
+                    "period does not include the date of interest. Please contact development ");
+        }
         double daysInPeriod = days360(periodStart, periodEnd);
         double daysToUpdate = days360(periodStart, toDate);
         return  daysToUpdate / daysInPeriod;
+    }
+
+    /**
+     * Checks that the 'check date' is strictly between the start and end date.
+     *
+     * @param startDate - start date
+     * @param endDate - end date
+     * @param checkDate - check date is between
+     * @return True if check date is strictly between (not equal to) start and end date. Otherwise false.
+     */
+    public static boolean isBetween(DateTime startDate, DateTime endDate, DateTime checkDate) {
+        assert startDate != null;
+        assert endDate != null;
+        assert checkDate != null;
+        return checkDate.isBefore(endDate) && (checkDate.isAfter(startDate));
+    }
+
+    /**
+     *
+     *
+     * @param map - DateTime, Double map, for instance premiums indexed by date with their values
+     * @param startDate - start of the period to sum
+     * @param endDate - end of the period to sum
+     * @return Sum of the values in the map inside the date range.
+     */
+    public static double sumDateTimeDoubleMapByDateRange(Map<DateTime, Double> map, DateTime startDate, DateTime endDate ){
+        assert startDate != null;
+        assert endDate != null;
+
+        double returnValue = 0;
+        for (Map.Entry<DateTime, Double> entry : map.entrySet()) {
+            if( isBetween(startDate, endDate, entry.getKey())) {
+                returnValue += entry.getValue();
+            }
+        }
+        return returnValue;
     }
 }
