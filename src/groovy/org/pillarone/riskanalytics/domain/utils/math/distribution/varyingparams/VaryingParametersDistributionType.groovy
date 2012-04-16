@@ -84,12 +84,9 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
             "inverse gaussian dist", "INVERSEGAUSSIANDIST",
             ["muAndLambda": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], ['period', 'mu', 'lambda'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
-
     public static final VaryingParametersDistributionType CONSTANTS = new VaryingParametersDistributionType(
             "constant values", "CONSTANTS", ["constants": new ConstrainedMultiDimensionalParameter([[1, 1], [0d, 1d]],
                     ['period', 'constants'], ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
-
-
     public static final VaryingParametersDistributionType GAMMA = new VaryingParametersDistributionType(
             "gamma", "GAMMA", ["alphaAndLambda": new ConstrainedMultiDimensionalParameter([[1], [2d], [2d]], ['period', 'alpha', 'lambda'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
@@ -106,8 +103,8 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
             CONSTANT,
             CONSTANTS,
             BINOMIALDIST,
-//            DISCRETEEMPIRICAL,
-//            DISCRETEEMPIRICALCUMULATIVE,
+            DISCRETEEMPIRICAL,
+            DISCRETEEMPIRICALCUMULATIVE,
             EXPONENTIAL,
             GAMMA,
             GUMBEL,
@@ -120,8 +117,8 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
             NORMAL,
             PARETO,
             POISSON,
-//            PIECEWISELINEAR,
-//            PIECEWISELINEAREMPIRICAL,
+            PIECEWISELINEAR,
+            PIECEWISELINEAREMPIRICAL,
             STUDENTDIST,
             TRIANGULARDIST,
             UNIFORM
@@ -205,22 +202,16 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
                 return new GumbelVaryingParametersDistributionStrategy(betaAndDelta: (ConstrainedMultiDimensionalParameter) parameters['betaAndDelta'])
             case VaryingParametersDistributionType.LOGLOGISTIC:
                 return new LogLogisticVaryingParametersDistributionStrategy(alphaAndBeta: (ConstrainedMultiDimensionalParameter) parameters['alphaAndBeta'])
-            // todo(sku): implement
-//            case VaryingParametersDistributionType.CONSTANTS:
-//                distribution = new ConstantsVaryingParametersDistributionStrategy(constants: (TableMultiDimensionalParameter) parameters['constants'])
-//                break
-//            case VaryingParametersDistributionType.PIECEWISELINEAREMPIRICAL:
-//                distribution = new PiecewiseLinearEmpiricalVaryingParametersDistributionStrategy(observations: (TableMultiDimensionalParameter) parameters['observations'])
-//                break
-//            case VaryingParametersDistributionType.PIECEWISELINEAR:
-//                distribution = new PiecewiseLinearVaryingParametersDistributionStrategy(supportPoints: (TableMultiDimensionalParameter) parameters['supportPoints'])
-//                break
-//            case VaryingParametersDistributionType.DISCRETEEMPIRICAL:
-//                distribution = new DiscreteEmpiricalVaryingParametersDistributionStrategy(discreteEmpiricalValues: (TableMultiDimensionalParameter) parameters['discreteEmpiricalValues'])
-//                break
-//            case VaryingParametersDistributionType.DISCRETEEMPIRICALCUMULATIVE:
-//                distribution = new DiscreteEmpiricalCumulativeVaryingParametersDistributionStrategy(discreteEmpiricalCumulativeValues: (TableMultiDimensionalParameter) parameters['discreteEmpiricalCumulativeValues'])
-//                break
+            case VaryingParametersDistributionType.CONSTANTS:
+                return new ConstantsVaryingParametersDistributionStrategy(constants: (ConstrainedMultiDimensionalParameter) parameters['constants'])
+            case VaryingParametersDistributionType.PIECEWISELINEAREMPIRICAL:
+                return new PiecewiseLinearEmpiricalVaryingParametersDistributionStrategy(observations: (ConstrainedMultiDimensionalParameter) parameters['observations'])
+            case VaryingParametersDistributionType.PIECEWISELINEAR:
+                return new PiecewiseLinearVaryingParametersDistributionStrategy(supportPoints: (ConstrainedMultiDimensionalParameter) parameters['supportPoints'])
+            case VaryingParametersDistributionType.DISCRETEEMPIRICAL:
+                return new DiscreteEmpiricalVaryingParametersDistributionStrategy(discreteEmpiricalValues: (ConstrainedMultiDimensionalParameter) parameters['discreteEmpiricalValues'])
+            case VaryingParametersDistributionType.DISCRETEEMPIRICALCUMULATIVE:
+                return new DiscreteEmpiricalCumulativeVaryingParametersDistributionStrategy(discreteEmpiricalCumulativeValues: (ConstrainedMultiDimensionalParameter) parameters['discreteEmpiricalCumulativeValues'])
         }
         throw new IllegalArgumentException("Distribution $type not implemented")
     }

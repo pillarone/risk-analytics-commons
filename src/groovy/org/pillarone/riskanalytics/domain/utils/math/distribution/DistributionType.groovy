@@ -183,7 +183,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
         return new LognormalDist(mu, sigma)
     }
 
-    private static Distribution getDiscreteEmpiricalDistribution(double[] obs, double[] prob) {
+    public static Distribution getDiscreteEmpiricalDistribution(double[] obs, double[] prob) {
         double probSum = 0
         for (double value: prob) {probSum += value}
         for (int i = 0; i < prob.size(); i++) {
@@ -192,7 +192,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
         return new DiscreteDistribution(obs, prob, obs.length)
     }
 
-    private static Distribution getDiscreteEmpiricalCumulativeDistribution(double[] obs, double[] cumprob) {
+    public static Distribution getDiscreteEmpiricalCumulativeDistribution(double[] obs, double[] cumprob) {
         double lastcell = 0, ret = 0
         def prob = cumprob.collect {cell -> ret = cell - lastcell; lastcell = cell; ret }
         return getDiscreteEmpiricalDistribution(obs, prob as double[])
