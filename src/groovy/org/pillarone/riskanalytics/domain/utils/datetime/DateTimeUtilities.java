@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.pillarone.riskanalytics.core.simulation.NotInProjectionHorizon;
 import org.pillarone.riskanalytics.core.simulation.engine.PeriodScope;
 
@@ -16,6 +18,11 @@ import org.pillarone.riskanalytics.core.simulation.engine.PeriodScope;
  * ben (dot) ginsberg (at) intuitive-collaboration (dot) com
  */
 public class DateTimeUtilities {
+
+    /**
+     * A readily available formatter in a form we often want when providing output to the user.
+     */
+    public static final DateTimeFormatter formatDate = DateTimeFormat.forPattern("dd-MMMM-yyyy");
 
     /**
      * Converts a string of the form YYYY-MM-DD (an ISO-2014 date or ISO-8601 calendar date) to a Joda DateTime
@@ -314,4 +321,5 @@ public class DateTimeUtilities {
         }
         return returnValue;
     }
+
 }
