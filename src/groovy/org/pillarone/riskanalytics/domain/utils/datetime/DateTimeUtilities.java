@@ -244,6 +244,15 @@ public class DateTimeUtilities {
     }
 
     /**
+     * @param startDate start date
+     * @param endDate end date
+     * @return fraction of number of months between dates assuming every month has 30 days
+     */
+    public static double months360(DateTime startDate, DateTime endDate) {
+        return days360(startDate, endDate) / 30d;
+    }
+
+    /**
      *
      * Returns the proportion of a period (periodStart -> periodEnd ) up to the 'toDate'
      *
