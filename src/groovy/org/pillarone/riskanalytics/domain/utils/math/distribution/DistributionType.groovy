@@ -7,6 +7,15 @@ import org.pillarone.riskanalytics.core.util.GroovyUtils
 
 class DistributionType extends AbstractParameterObjectClassifier implements Serializable {
 
+    public static final String VALUES = "values"
+    public static final String VALUE = "value"
+    public static final String SUPPORT_POINTS = "supportPoints"
+    public static final String DISCRETE_EMPIRICAL_CUMULATIVE_VALUES = "discreteEmpiricalCumulativeValues"
+    public static final String OBSERVATIONS = "observations"
+    public static final String CUMULATIVE_PROBABILITIES = "cumulative probabilities"
+
+
+
     public static final DistributionType POISSON = new DistributionType(
             "poisson", "POISSON", ["lambda": 0d])
     public static final DistributionType EXPONENTIAL = new DistributionType(
@@ -14,13 +23,11 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType NEGATIVEBINOMIAL = new DistributionType(
             "negative binomial", "NEGATIVEBINOMIAL", ["gamma": 1d, "p": 1d])
     public static final DistributionType DISCRETEEMPIRICAL = new DistributionType(
-//            "discrete empirical", "DISCRETEEMPIRICAL", ["discreteEmpiricalValues": new TableMultiDimensionalParameter([[0.0], [1.0]], ['observations', 'probabilities'])])
             "discrete empirical", "DISCRETEEMPIRICAL", ["discreteEmpiricalValues": new ConstrainedMultiDimensionalParameter([[0.0], [1.0]],
-                    ['observations', 'probabilities'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+                    [(DistributionType.OBSERVATIONS), 'probabilities'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
     public static final DistributionType DISCRETEEMPIRICALCUMULATIVE = new DistributionType(
-//            "discrete empirical cumulative", "DISCRETEEMPIRICALCUMULATIVE", ["discreteEmpiricalCumulativeValues": new TableMultiDimensionalParameter([[0.0], [1.0]], ['observations', 'cumulative probabilities'])])
-            "discrete empirical cumulative", "DISCRETEEMPIRICALCUMULATIVE", ["discreteEmpiricalCumulativeValues":
-            new ConstrainedMultiDimensionalParameter([[0.0], [1.0]], ['observations', 'cumulative probabilities'],
+            "discrete empirical cumulative", "DISCRETEEMPIRICALCUMULATIVE", [(DistributionType.DISCRETE_EMPIRICAL_CUMULATIVE_VALUES):
+            new ConstrainedMultiDimensionalParameter([[0.0], [1.0]], [(DistributionType.OBSERVATIONS), CUMULATIVE_PROBABILITIES],
                     ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
     public static final DistributionType NORMAL = new DistributionType(
             "normal", "NORMAL", ["mean": 0d, "stDev": 1d])
@@ -39,13 +46,11 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType CONSTANT = new DistributionType(
             "constant", "CONSTANT", ["constant": 0d])
     public static final DistributionType PIECEWISELINEAREMPIRICAL = new DistributionType(
-//            "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL", ["observations": new TableMultiDimensionalParameter([0d, 1d], ['observations'])])
-            "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL", ["observations": new ConstrainedMultiDimensionalParameter([0d, 1d],
-                    ['observations'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL", [(DistributionType.OBSERVATIONS): new ConstrainedMultiDimensionalParameter([0d, 1d],
+                    [OBSERVATIONS], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
     public static final DistributionType PIECEWISELINEAR = new DistributionType(
-//            "piecewise linear", "PIECEWISELINEAR", ["supportPoints": new TableMultiDimensionalParameter([[0d, 1d], [0d, 1d]], ['values', 'cumulative probabilities'])])
-            "piecewise linear", "PIECEWISELINEAR", ["supportPoints": new ConstrainedMultiDimensionalParameter([[0d, 1d], [0d, 1d]],
-                    ['values', 'cumulative probabilities'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "piecewise linear", "PIECEWISELINEAR", [(DistributionType.SUPPORT_POINTS): new ConstrainedMultiDimensionalParameter([[0d, 1d], [0d, 1d]],
+                    ['values', CUMULATIVE_PROBABILITIES], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
     public static final DistributionType TRIANGULARDIST = new DistributionType(
             "triangular dist", "TRIANGULARDIST", ["a": 0d, "b": 1d, "m": 0.01])
     public static final DistributionType CHISQUAREDIST = new DistributionType(
@@ -57,7 +62,6 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final DistributionType INVERSEGAUSSIANDIST = new DistributionType(
             "inverse gaussian dist", "INVERSEGAUSSIANDIST", ["mu": 1d, "lambda": 1d])
     public static final DistributionType CONSTANTS = new DistributionType(
-//            "constant values", "CONSTANTS", ["constants": new TableMultiDimensionalParameter([0d, 1d], ['constants'])])
             "constant values", "CONSTANTS", ["constants": new ConstrainedMultiDimensionalParameter([0d, 1d],
                     ['constants'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
     public static final DistributionType GAMMA = new DistributionType(
