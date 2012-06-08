@@ -62,4 +62,12 @@ abstract class SpreadsheetUnitTest extends GroovyTestCase {
     List<SpreadsheetImporter> getImporters() {
         importers
     }
+
+    boolean getCheckedForValidationErrors() {
+        return checkedForValidationErrors
+    }
+
+    void setCheckedForValidationErrors(boolean checkedForValidationErrors) {
+        this.checkedForValidationErrors = checkedForValidationErrors
+    }
 }
