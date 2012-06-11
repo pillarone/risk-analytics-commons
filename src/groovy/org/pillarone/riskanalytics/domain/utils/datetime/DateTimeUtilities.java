@@ -237,42 +237,119 @@ public class DateTimeUtilities {
     /**
      * Utility function for use mainly in interest calculation and interpolations.
      *
+     * European interpretation.
+     *
+     * Left in place for backward compatibility
+     *
      * @param startDate - start date
      * @param endDate - end date
      * @return integer number of days between dates assuming every month has 30 days.
      */
+    @Deprecated
     public static int days360(DateTime startDate, DateTime endDate) {
-
-        int startDayOfMonth = (startDate.getDayOfMonth() == 31) ? 30 : startDate.getDayOfMonth();
-        int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
-        int endDayOfMonth = endDate.getDayOfMonth() == 31 ? 30 : endDate.getDayOfMonth();
-        int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
-
-        return endDay - startDay;
+        return Days360.EU.days360(startDate, endDate);
     }
 
-    private DateTime getEndingDateAdjustedForStartDate(DateTime startDate, DateTime endDate) {
+    public enum Days360 {
+        US{
+            /**
+             * Utility function for use mainly in interest calculation and interpolations.
+             *
+             * Untested!!!
+             *
+             * US interpretation See <a href="http://en.wikipedia.org/wiki/360-day_calendar">http://en.wikipedia.org/wiki/360-day_calendar</a>
+             *
+             * @param startDate - start date
+             * @param endDate - end date
+             * @return integer number of days between dates assuming every month has 30 days.
+             */
+            @Override
+            public int days360(DateTime startDate, DateTime endDate) {
 
-//        if(endDate.dayOfMonth().withMaximumValue().equals(endDate) ) {
-//            if(startDate.getDayOfMonth() < 30 ) {
-//                return endDate.plusMonths(1).dayOfMonth().withMinimumValue();
-//            }
-//        }
+                int startDayOfMonth = startDate.getDayOfMonth();
+                int endDayOfMonth = endDate.getDayOfMonth();
 
-        return new DateTime();
+//                    If both start and end in Feb, and both on the the last day of Feb.
+                if(
+                        (
+                            startDate.getMonthOfYear() == 2
+                                    &&
+                            endDate.getMonthOfYear() == 2
+                        )
+                                &&
+                        (
+                            startDate.equals(startDate.dayOfMonth().withMaximumValue())
+                                &&
+                            endDate.equals(endDate.dayOfMonth().withMaximumValue())
+                        )
+                    ) {
+                    endDayOfMonth = 30;
+                }
+//          If start date on 31st or last day of Feb
+                if(
+                        startDate.getDayOfMonth() == 31
+                                ||
+                        (startDate.getMonthOfYear() == 2 && startDate.equals(startDate.dayOfMonth().withMaximumValue()))
+                ) {
+                    startDayOfMonth = 30;
+                }
 
+                if(startDayOfMonth == 30 && endDate.getDayOfMonth() == 31) {
+                    endDayOfMonth = 30;
+                }
+
+//      Now do calc with 30 days in each month!
+                int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
+                int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
+
+                return endDay - startDay;
+
+            }
+        }, EU {
+            /**
+             * Utility function for use mainly in interest calculation and interpolations.
+             * European interpretation See <a href="http://en.wikipedia.org/wiki/360-day_calendar">http://en.wikipedia.org/wiki/360-day_calendar</a>
+             *
+             * @param startDate - start date
+             * @param endDate - end date
+             * @return integer number of days between dates assuming every month has 30 days.
+             */
+            @Override
+            public int days360(DateTime startDate, DateTime endDate) {
+                int startDayOfMonth = (startDate.getDayOfMonth() == 31) ? 30 : startDate.getDayOfMonth();
+                int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
+                int endDayOfMonth = endDate.getDayOfMonth() == 31 ? 30 : endDate.getDayOfMonth();
+                int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
+
+                return endDay - startDay;
+            }
+        },
+        DATE_DIFF_ONLY {
+            /**
+             * Simply return the standard difference between two dates. Not days 360 at all.
+             *
+             * @param startDate
+             * @param endDate
+             * @return
+             */
+            @Override
+            public int days360(DateTime startDate, DateTime endDate) {
+                return Days.daysBetween(startDate, endDate).getDays();
+            }
+        } ;
+
+        private static DateTime setDateToThirthiethDayOfMonth(DateTime endDate) {
+            DateTime calcEndDate;
+            calcEndDate = new DateTime(
+                    endDate.get( DateTimeFieldType.year()), // year
+                    endDate.get( DateTimeFieldType.monthOfYear() ), // month
+                    30, // day
+                    0,0,0,0);
+            return calcEndDate;
+        }
+
+        public abstract int days360(DateTime startDate, DateTime endDate);
     }
-
-//private Calendar getEndingDateAccordingToStartingDate(double date, Calendar startingDate) {
-//        +        Calendar endingDate = getDate(date);
-//        +        endingDate.setTime(DateUtil.getJavaDate(date, false));
-//        +        if (isLastDayOfMonth(endingDate)) {
-//            +            if (startingDate.get(Calendar.DATE) < 30) {
-//                +                endingDate = getFirstDayOfNextMonth(endingDate);
-//                +            }
-//            +        }
-//        +        return endingDate;
-//        +    }
 
     /**
      * @param startDate start date
@@ -287,13 +364,15 @@ public class DateTimeUtilities {
      *
      * Returns the proportion of a period (periodStart -> periodEnd ) up to the 'toDate'
      *
+     *
      * @param periodStart - start date
      * @param periodEnd - end date
      * @param toDate - to this date as a proportion of period
+     * @param days360 - days 360 methodology
      * @return proportion of the period (periodStart -> periodEnd ) from periodStart to 'toDate'
      * @exception IllegalArgumentException if toDate not contained between periodStart and periodEnd.
      */
-    public static double days360ProportionOfPeriod(DateTime periodStart, DateTime periodEnd, DateTime toDate  ) {
+    public static double days360ProportionOfPeriod(DateTime periodStart, DateTime periodEnd, DateTime toDate, Days360 days360) {
 
 //        Check that the 'toDate' actually falls in the period.
         if(! (
@@ -305,8 +384,8 @@ public class DateTimeUtilities {
             throw new IllegalArgumentException(" Attempted to find the proportion of a period where the specified " +
                     "period does not include the date of interest. Please contact development ");
         }
-        double daysInPeriod = days360(periodStart, periodEnd);
-        double daysToUpdate = days360(periodStart, toDate);
+        double daysInPeriod = days360.days360(periodStart, periodEnd);
+        double daysToUpdate = days360.days360(periodStart, toDate);
         return  daysToUpdate / daysInPeriod;
     }
 
