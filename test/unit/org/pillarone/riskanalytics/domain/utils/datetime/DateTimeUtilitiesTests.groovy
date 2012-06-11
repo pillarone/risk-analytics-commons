@@ -62,6 +62,26 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
         assertEquals "Check two years" , testMe , 2, EPSILON
     }
 
+    void testDays360TestEndDateLastDayOfMonth(){
+        final DateTime dateTime1 = new DateTime(2011, 6, 30, 0, 0, 0, 0 )
+        final DateTime dateTime2 = new DateTime(2011, 12, 31, 0, 0, 0, 0 )
+
+        double testMe = DateTimeUtilities.days360(dateTime1, dateTime2);
+
+        assertEquals("", 180d , testMe)
+    }
+
+    void testDays360Months(){
+        final DateTime dateTime1 = new DateTime(2011, 6, 30, 0, 0, 0, 0 )
+        final DateTime dateTime2 = new DateTime(2011, 12, 31, 0, 0, 0, 0 )
+
+        double testMe = DateTimeUtilities.months360(dateTime1, dateTime2);
+
+        assertEquals("", 6d , testMe)
+    }
+
+
+
     void testTestDays360Proprtion(){
         private DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
         private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);

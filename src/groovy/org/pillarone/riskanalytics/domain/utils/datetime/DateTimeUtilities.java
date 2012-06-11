@@ -245,10 +245,34 @@ public class DateTimeUtilities {
 
         int startDayOfMonth = (startDate.getDayOfMonth() == 31) ? 30 : startDate.getDayOfMonth();
         int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
-        int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDate.getDayOfMonth();
+        int endDayOfMonth = endDate.getDayOfMonth() == 31 ? 30 : endDate.getDayOfMonth();
+        int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
 
         return endDay - startDay;
     }
+
+    private DateTime getEndingDateAdjustedForStartDate(DateTime startDate, DateTime endDate) {
+
+//        if(endDate.dayOfMonth().withMaximumValue().equals(endDate) ) {
+//            if(startDate.getDayOfMonth() < 30 ) {
+//                return endDate.plusMonths(1).dayOfMonth().withMinimumValue();
+//            }
+//        }
+
+        return new DateTime();
+
+    }
+
+//private Calendar getEndingDateAccordingToStartingDate(double date, Calendar startingDate) {
+//        +        Calendar endingDate = getDate(date);
+//        +        endingDate.setTime(DateUtil.getJavaDate(date, false));
+//        +        if (isLastDayOfMonth(endingDate)) {
+//            +            if (startingDate.get(Calendar.DATE) < 30) {
+//                +                endingDate = getFirstDayOfNextMonth(endingDate);
+//                +            }
+//            +        }
+//        +        return endingDate;
+//        +    }
 
     /**
      * @param startDate start date
