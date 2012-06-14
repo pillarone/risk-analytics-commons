@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution;
 
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException;
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution;
 
 /**
@@ -44,7 +45,7 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
      * */
     public static double density(double xi, double beta, double tau, double x) {
         if (tau <= 0.0)
-            throw new IllegalArgumentException("tau <= 0");
+            throw new InvalidParameterException("tau <= 0");
         if (xi == 0) {
             return x < beta ? 0 : 1 / tau * Math.exp(-1 / tau * (x - beta));
         }
@@ -65,7 +66,7 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
      * */
     public static double cdf(double xi, double beta, double tau, double x) {
         if (tau <= 0.0)
-            throw new IllegalArgumentException("tau <= 0");
+            throw new InvalidParameterException("tau <= 0");
         if (x <= beta)
             return 0.0;
         if (xi == 0) {
@@ -88,7 +89,7 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
      * */
     public static double barF(double xi, double beta, double tau, double x) {
         if (tau <= 0.0)
-            throw new IllegalArgumentException("tau <= 0");
+            throw new InvalidParameterException("tau <= 0");
         if (x <= beta)
             return 1.0;
         return 1.0 - cdf(xi, beta, tau, x);
@@ -105,9 +106,9 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
      * */
     public static double inverseF(double xi, double beta, double tau, double y) {
         if (tau <= 0.0)
-            throw new IllegalArgumentException("tau <= 0");
+            throw new InvalidParameterException("tau <= 0");
         if (y < 0.0 || y > 1.0)
-            throw new IllegalArgumentException("y not in [0,1]");
+            throw new InvalidParameterException("y not in [0,1]");
         if (y <= 0.0)
             return beta;
         if (y >= 1.0 && xi >= 0) {
@@ -125,7 +126,7 @@ public class GeneralizedParetoDistribution extends ContinuousDistribution {
 
     public void setParams(double xi, double beta, double tau) {
         if (tau <= 0.0)
-            throw new IllegalArgumentException("tau <= 0");
+            throw new InvalidParameterException("tau <= 0");
         this.xi=xi;
         this.beta=beta;
         this.tau = tau;

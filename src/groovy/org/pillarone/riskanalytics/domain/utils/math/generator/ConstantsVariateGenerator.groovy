@@ -2,6 +2,7 @@ package org.pillarone.riskanalytics.domain.utils.math.generator
 
 import umontreal.iro.lecuyer.randvar.RandomVariateGen
 import org.pillarone.riskanalytics.domain.utils.math.distribution.ConstantsDistribution
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * Mock distribution acts like a PRNG with a fixed random seed and number of generated values:
@@ -19,7 +20,7 @@ class ConstantsVariateGenerator extends RandomVariateGen {
     public ConstantsVariateGenerator(List<Double> constants) {
         this.constants = constants
         length = this.constants.size()
-        if (length == 0) throw new IllegalArgumentException("ConstantsVariateGenerator.emptyList")
+        if (length == 0) throw new InvalidParameterException("ConstantsVariateGenerator.emptyList")
         resetStartStream()
         this.dist = new ConstantsDistribution(constants as double[])
     }

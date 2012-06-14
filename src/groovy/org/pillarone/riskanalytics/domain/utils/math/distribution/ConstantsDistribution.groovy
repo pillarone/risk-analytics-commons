@@ -1,6 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution
 
 import umontreal.iro.lecuyer.probdist.DiscreteDistribution
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * This may actually not differ at all from a discrete (or discrete empirical) distribution; however,
@@ -84,7 +85,7 @@ class ConstantsDistribution extends DiscreteDistribution {
     }
 
     double inverseF(double u) {
-        if ((u < 0) || (u > 1)) throw new IllegalArgumentException("ConstantsDistribution.invalidArguments");
+        if ((u < 0) || (u > 1)) throw new InvalidParameterException("ConstantsDistribution.invalidArguments");
         if (u <= cdft[0]) return sortedValues[0]
         if (u >= cdft[distinctValueCount - 1]) return sortedValues[distinctValueCount - 1]
         // find the least i so that u <= cdft[i]

@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution;
 
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException;
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution;
 
 /**
@@ -58,9 +59,9 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
      */
     public static double density(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (lambda <= -beta)
-            throw new IllegalArgumentException("lambda <= -beta");
+            throw new InvalidParameterException("lambda <= -beta");
         return GeneralizedParetoDistribution.density(1 / alpha, beta, 1 / alpha * (lambda + beta), x);
     }
 
@@ -76,9 +77,9 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
      */
     public static double cdf(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (lambda <= -beta)
-            throw new IllegalArgumentException("lambda <= -beta");
+            throw new InvalidParameterException("lambda <= -beta");
         return GeneralizedParetoDistribution.cdf(1 / alpha, beta, 1 / alpha * (lambda + beta), x);
     }
 
@@ -94,9 +95,9 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
      */
     public static double barF(double alpha, double beta, double lambda, double x) {
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (lambda <= -beta)
-            throw new IllegalArgumentException("lambda <= -beta");
+            throw new InvalidParameterException("lambda <= -beta");
         if (x <= beta)
             return 1.0;
         return 1.0 - cdf(alpha, beta, lambda, x);
@@ -114,17 +115,17 @@ public class TypeIIParetoDistribution extends ContinuousDistribution {
      */
     public static double inverseF(double alpha, double beta, double lambda, double y) {
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (lambda <= -beta)
-            throw new IllegalArgumentException("lambda <= -beta");
+            throw new InvalidParameterException("lambda <= -beta");
         return GeneralizedParetoDistribution.inverseF(1 / alpha, beta, 1 / alpha * (lambda + beta), y);
     }
 
     public void setParams(double alpha, double beta, double lambda) {
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (lambda <= -beta)
-            throw new IllegalArgumentException("lambda <= -beta");
+            throw new InvalidParameterException("lambda <= -beta");
         this.alpha = alpha;
         this.beta = beta;
         this.lambda = lambda;

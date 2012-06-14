@@ -1,6 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution
 
 import umontreal.iro.lecuyer.probdist.LognormalDist
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * @author: stefan.kunz (at) intuitive-collaboration (dot) com
@@ -22,7 +23,7 @@ class RandomVariateDistributionFactory {
                 )
         )
         if (mu == Double.NaN || sigma == Double.NaN) {
-            throw new IllegalArgumentException("['RandomVariateDistributionFactory.NaNParameter','"
+            throw new InvalidParameterException("['RandomVariateDistributionFactory.NaNParameter','"
                         +mean+"','"+stDev+"']")
         }
         return new RandomVariateDistribution(distribution: new LognormalDist(mu, sigma))

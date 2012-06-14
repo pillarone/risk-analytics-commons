@@ -5,6 +5,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsC
 import org.pillarone.riskanalytics.core.parameterization.*
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionParams
 import org.pillarone.riskanalytics.domain.utils.math.distribution.RandomDistribution
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * @author stefan.kunz (at) intuitive-collaboration (dot) com
@@ -213,6 +214,6 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
             case VaryingParametersDistributionType.DISCRETEEMPIRICALCUMULATIVE:
                 return new DiscreteEmpiricalCumulativeVaryingParametersDistributionStrategy(discreteEmpiricalCumulativeValues: (ConstrainedMultiDimensionalParameter) parameters['discreteEmpiricalCumulativeValues'])
         }
-        throw new IllegalArgumentException("Distribution $type not implemented")
+        throw new InvalidParameterException("Distribution $type not implemented")
     }
 }
