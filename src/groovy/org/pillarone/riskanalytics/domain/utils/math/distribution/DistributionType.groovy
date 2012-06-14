@@ -17,32 +17,55 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
 
 
     public static final DistributionType POISSON = new DistributionType(
-            "poisson", "POISSON", ["lambda": 0d])
+            "poisson", "POISSON",
+            [ (DistributionParams.LAMBDA.toString()) : 0d]
+    )
     public static final DistributionType EXPONENTIAL = new DistributionType(
-            "exponential", "EXPONENTIAL", ["lambda": 1d])
+            "exponential", "EXPONENTIAL",
+            [(DistributionParams.LAMBDA.toString()): 1d]
+    )
     public static final DistributionType NEGATIVEBINOMIAL = new DistributionType(
-            "negative binomial", "NEGATIVEBINOMIAL", ["gamma": 1d, "p": 1d])
+            "negative binomial", "NEGATIVEBINOMIAL",
+            [(DistributionParams.GAMMA.toString()): 1d, (DistributionParams.P.toString()): 1d]
+    )
     public static final DistributionType DISCRETEEMPIRICAL = new DistributionType(
-            "discrete empirical", "DISCRETEEMPIRICAL", ["discreteEmpiricalValues": new ConstrainedMultiDimensionalParameter([[0.0], [1.0]],
-                    [(DistributionType.OBSERVATIONS), 'probabilities'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "discrete empirical", "DISCRETEEMPIRICAL",
+            [(DistributionParams.DISCRETE_EMPIRICAL_VALUES.toString()): new ConstrainedMultiDimensionalParameter([[0.0], [1.0]],
+            [(DistributionType.OBSERVATIONS), (DistributionParams.PROBABILITIES.toString())],
+            ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))]
+    )
     public static final DistributionType DISCRETEEMPIRICALCUMULATIVE = new DistributionType(
             "discrete empirical cumulative", "DISCRETEEMPIRICALCUMULATIVE", [(DistributionType.DISCRETE_EMPIRICAL_CUMULATIVE_VALUES):
             new ConstrainedMultiDimensionalParameter([[0.0], [1.0]], [(DistributionType.OBSERVATIONS), CUMULATIVE_PROBABILITIES],
-                    ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+                    ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))]
+    )
     public static final DistributionType NORMAL = new DistributionType(
-            "normal", "NORMAL", ["mean": 0d, "stDev": 1d])
+            "normal", "NORMAL",
+            [ (DistributionParams.MEAN.toString()) : 0d, (DistributionParams.STDEV.toString()) : 1d]
+    )
     public static final DistributionType LOGNORMAL = new DistributionType(
-            "log normal (mean, stdev)", "LOGNORMAL", ["mean": 1d, "stDev": 1d])
+            "log normal (mean, stdev)", "LOGNORMAL",
+            [(DistributionParams.MEAN.toString()): 1d, (DistributionParams.STDEV.toString()): 1d]
+    )
     public static final DistributionType LOGNORMAL_MU_SIGMA = new DistributionType(
-            "log normal (mu, sigma)", "LOGNORMAL_MU_SIGMA", ["mu": 1d, "sigma": 1d])
+            "log normal (mu, sigma)", "LOGNORMAL_MU_SIGMA",
+            [(DistributionParams.MU.toString()): 1d, (DistributionParams.SIGMA.toString()): 1d]
+    )
     public static final DistributionType LOGNORMAL_MEAN_CV = new DistributionType(
-            "log normal (mean, cv)", "LOGNORMAL_MEAN_CV", ["mean": 1d, "CV": 1d])
+            "log normal (mean, cv)", "LOGNORMAL_MEAN_CV",
+            [(DistributionParams.MEAN.toString()): 1d, (DistributionParams.CV.toString()): 1d]
+    )
     public static final DistributionType BETA = new DistributionType(
-            "beta", "BETA", ["alpha": 1d, "beta": 1d])
+            "beta", "BETA",
+            [(DistributionParams.ALPHA.toString()): 1d, (DistributionParams.BETA.toString()): 1d]
+    )
     public static final DistributionType PARETO = new DistributionType(
-            "pareto", "PARETO", ["alpha": 1d, "beta": 1d])
+            "pareto", "PARETO",
+            [(DistributionParams.ALPHA.toString()): 1d, (DistributionParams.BETA.toString()): 1d]
+    )
     public static final DistributionType UNIFORM = new DistributionType(
-            "uniform", "UNIFORM", ["a": 0d, "b": 1d])
+            "uniform", "UNIFORM", ["a": 0d, "b": 1d]
+    )
     public static final DistributionType CONSTANT = new DistributionType(
             "constant", "CONSTANT", ["constant": 0d])
     public static final DistributionType PIECEWISELINEAREMPIRICAL = new DistributionType(
