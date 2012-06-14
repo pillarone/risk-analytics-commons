@@ -427,10 +427,12 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                             extractParam(parameters, DistributionParams.BETA, 1d),
                             extractParam(parameters, DistributionParams.LAMBDA, 0d))
                     break
+                default : throw new IllegalArgumentException("Unknown distribution " + type.toString());
             }
+
         }
         catch (IllegalArgumentException ex) {
-            throw new InvalidParameterException(ex.message)
+            throw new InvalidParameterException(ex.message, ex)
         }
 
         return distribution
