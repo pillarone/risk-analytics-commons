@@ -11,7 +11,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
     public static final String VALUE = "value"
     public static final String SUPPORT_POINTS = "supportPoints"
     public static final String DISCRETE_EMPIRICAL_CUMULATIVE_VALUES = "discreteEmpiricalCumulativeValues"
-    public static final String OBSERVATIONS = "observations"
+    public static final String OBSERVATIONS = DistributionParams.OBSERVATIONS
     public static final String CUMULATIVE_PROBABILITIES = "cumulative probabilities"
 
 
@@ -64,43 +64,78 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             [(DistributionParams.ALPHA.toString()): 1d, (DistributionParams.BETA.toString()): 1d]
     )
     public static final DistributionType UNIFORM = new DistributionType(
-            "uniform", "UNIFORM", ["a": 0d, "b": 1d]
+            "uniform", "UNIFORM",
+            [(DistributionParams.A.toString()): 0d, (DistributionParams.B.toString()): 1d]
     )
     public static final DistributionType CONSTANT = new DistributionType(
-            "constant", "CONSTANT", ["constant": 0d])
+            "constant", "CONSTANT",
+            [(DistributionParams.CONSTANT.toString()): 0d]
+    )
     public static final DistributionType PIECEWISELINEAREMPIRICAL = new DistributionType(
-            "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL", [(DistributionType.OBSERVATIONS): new ConstrainedMultiDimensionalParameter([0d, 1d],
-                    [OBSERVATIONS], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL",
+            [(DistributionType.OBSERVATIONS): new ConstrainedMultiDimensionalParameter([0d, 1d],
+                    [OBSERVATIONS], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))]
+    )
     public static final DistributionType PIECEWISELINEAR = new DistributionType(
-            "piecewise linear", "PIECEWISELINEAR", [(DistributionType.SUPPORT_POINTS): new ConstrainedMultiDimensionalParameter([[0d, 1d], [0d, 1d]],
-                    ['values', CUMULATIVE_PROBABILITIES], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "piecewise linear", "PIECEWISELINEAR",
+            [(DistributionType.SUPPORT_POINTS): new ConstrainedMultiDimensionalParameter([[0d, 1d], [0d, 1d]],
+                    [(DistributionParams.VALUES.toString()), CUMULATIVE_PROBABILITIES],
+                    ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))]
+    )
     public static final DistributionType TRIANGULARDIST = new DistributionType(
-            "triangular dist", "TRIANGULARDIST", ["a": 0d, "b": 1d, "m": 0.01])
+            "triangular dist", "TRIANGULARDIST",
+            [(DistributionParams.A.toString()): 0d, (DistributionParams.B.toString()): 1d, (DistributionParams.M.toString()): 0.01]
+    )
     public static final DistributionType CHISQUAREDIST = new DistributionType(
-            "chi square dist", "CHISQUAREDIST", ["n": 1])
+            "chi square dist", "CHISQUAREDIST",
+            [(DistributionParams.N.toString()): 1]
+    )
     public static final DistributionType STUDENTDIST = new DistributionType(
-            "student dist", "STUDENTDIST", ["n": 1])
+            "student dist", "STUDENTDIST",
+            [(DistributionParams.N.toString()): 1]
+    )
     public static final DistributionType BINOMIALDIST = new DistributionType(
-            "binomial dist", "BINOMIALDIST", ["n": 1, "p": 0d])
+            "binomial dist", "BINOMIALDIST",
+            [(DistributionParams.N.toString()): 1, (DistributionParams.P.toString()): 0d]
+    )
     public static final DistributionType INVERSEGAUSSIANDIST = new DistributionType(
-            "inverse gaussian dist", "INVERSEGAUSSIANDIST", ["mu": 1d, "lambda": 1d])
+            "inverse gaussian dist", "INVERSEGAUSSIANDIST",
+            [(DistributionParams.MU.toString()): 1d, (DistributionParams.LAMBDA.toString()): 1d]
+    )
     public static final DistributionType CONSTANTS = new DistributionType(
-            "constant values", "CONSTANTS", ["constants": new ConstrainedMultiDimensionalParameter([0d, 1d],
-                    ['constants'], ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))])
+            "constant values", "CONSTANTS",
+            [(DistributionParams.CONSTANTS.toString()): new ConstrainedMultiDimensionalParameter([0d, 1d],
+            [(DistributionParams.CONSTANTS.toString())],
+            ConstraintsFactory.getConstraints(DoubleConstraints.IDENTIFIER))]
+    )
     public static final DistributionType GAMMA = new DistributionType(
-            "gamma", "GAMMA", ["alpha": 2d, "lambda": 2d])
+            "gamma", "GAMMA",
+            [(DistributionParams.ALPHA.toString()): 2d, (DistributionParams.LAMBDA.toString()): 2d]
+    )
     public static final DistributionType GUMBEL = new DistributionType(
-            "gumbel", "GUMBEL", ["beta": 1d, "delta": 0d])
+            "gumbel", "GUMBEL",
+            [(DistributionParams.BETA.toString()): 1d, (DistributionParams.DELTA.toString()): 0d]
+    )
     public static final DistributionType LOGLOGISTIC = new DistributionType(
-            "log logistic", "LOGLOGISTIC", ["alpha": 2d, "beta": 1d])
+            "log logistic", "LOGLOGISTIC",
+            [(DistributionParams.ALPHA.toString()): 2d, (DistributionParams.BETA.toString()): 1d]
+    )
     public static final DistributionType GPD = new DistributionType(
-            "generalized pareto", "GPD", ["xi": 1 / 2d, "beta": 1d, "tau": 1d])
+            "generalized pareto", "GPD",
+            [(DistributionParams.XI.toString()): 1 / 2d, (DistributionParams.BETA.toString()): 1d, (DistributionParams.TAU.toString()): 1d]
+    )
     public static final DistributionType SHIFTEDPARETOII = new DistributionType(
-            "shifted pareto II", "SHIFTEDPARETOII", ["alpha": 2d, "beta": 1d, "lambda": 0d])
+            "shifted pareto II", "SHIFTEDPARETOII",
+            [(DistributionParams.ALPHA.toString()): 2d, (DistributionParams.BETA.toString()): 1d, (DistributionParams.LAMBDA.toString()): 0d]
+    )
     public static final DistributionType PARETOII = new DistributionType(
-            "pareto II", "PARETOII", ["alpha": 2d, "lambda": 0d])
+            "pareto II", "PARETOII",
+            [(DistributionParams.ALPHA.toString()): 2d, (DistributionParams.LAMBDA.toString()): 0d]
+    )
     public static final DistributionType LOGNORMALPARETO = new DistributionType(
-            "lognormal pareto", "LOGNORMALPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "mu": -2d])
+            "lognormal pareto", "LOGNORMALPARETO",
+            [(DistributionParams.SIGMA.toString()): 1d, (DistributionParams.ALPHA.toString()): 2d, (DistributionParams.BETA.toString()): 1d, (DistributionParams.MU.toString()): -2d]
+    )
     public static final DistributionType LOGNORMALTYPEIIPARETO = new DistributionType(
             "lognormal pareto II", "LOGNORMALTYPEIIPARETO", ["sigma": 1d, "alpha": 2d, "beta": 1d, "lambda": 0d, "mu": -2d])
     public static final DistributionType LOGNORMALPARETO_SMOOTH = new DistributionType(
