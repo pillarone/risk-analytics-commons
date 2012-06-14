@@ -12,6 +12,7 @@ import org.pillarone.riskanalytics.core.parameterization.IParameterObject
 import umontreal.iro.lecuyer.probdist.Distribution
 import umontreal.iro.lecuyer.probdist.DiscreteDistribution
 import org.pillarone.riskanalytics.core.util.GroovyUtils
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
@@ -111,63 +112,35 @@ class FrequencyDistributionType extends AbstractParameterObjectClassifier implem
     static RandomFrequencyDistribution getStrategy(FrequencyDistributionType type, Map parameters) {
         RandomFrequencyDistribution distribution = new RandomFrequencyDistribution(type: type, parameters: parameters)
         //TODO msp move initialization to RD.getDistribution()
-        switch (type) {
-            case FrequencyDistributionType.POISSON:
-                try {
+        try {
+            switch (type) {
+                case FrequencyDistributionType.POISSON:
                     distribution.distribution = new PoissonDist((double) (parameters.containsKey("lambda") ? parameters["lambda"] : 0))
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
-            case FrequencyDistributionType.NEGATIVEBINOMIAL:
-                try {
+                    break
+                case FrequencyDistributionType.NEGATIVEBINOMIAL:
                     distribution.distribution = new NegativeBinomialDist((double) parameters["gamma"], (double) parameters["p"])
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
-            case FrequencyDistributionType.CONSTANT:
-                try {
+                    break
+                case FrequencyDistributionType.CONSTANT:
                     distribution.distribution = new ConstantDistribution((double) parameters["constant"])
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
-            case FrequencyDistributionType.DISCRETEEMPIRICAL:
-                try {
+                    break
+                case FrequencyDistributionType.DISCRETEEMPIRICAL:
                     distribution.distribution = getDiscreteEmpiricalDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("observations")),
                             GroovyUtils.asDouble(parameters["discreteEmpiricalValues"].getColumnByName("probabilities")))
-                }
-                catch (IllegalArgumentException ex) {}
-                break
-            case FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE:
-                try {
+                    break
+                case FrequencyDistributionType.DISCRETEEMPIRICALCUMULATIVE:
                     distribution.distribution = getDiscreteEmpiricalCumulativeDistribution(GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("observations")),
                             GroovyUtils.asDouble(parameters["discreteEmpiricalCumulativeValues"].getColumnByName("cumulative probabilities")))
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
-            case FrequencyDistributionType.BINOMIALDIST:
-                try {
+                    break
+                case FrequencyDistributionType.BINOMIALDIST:
                     distribution.distribution = new BinomialDist((int) parameters["n"], (double) parameters["p"])
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
-            case FrequencyDistributionType.CONSTANTS:
-                try {
+                    break
+                case FrequencyDistributionType.CONSTANTS:
                     distribution.distribution = new ConstantsDistribution(GroovyUtils.asDouble(parameters["constants"].getColumnByName("constants")))
-                }
-                catch (IllegalArgumentException ex) {
-                    // see PMO-1619
-                }
-                break
+                    break
+            }
+        }
+        catch (IllegalArgumentException ex) {
+            throw new InvalidParameterException(ex.toString())
         }
 
         return distribution

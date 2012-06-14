@@ -12,6 +12,7 @@ import org.pillarone.riskanalytics.core.simulation.item.parameter.ParameterObjec
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType
 import org.pillarone.riskanalytics.domain.utils.math.distribution.FrequencyDistributionType
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 class FrequencyDistributionTypeValidator implements IParameterizationValidator {
 
@@ -41,7 +42,7 @@ class FrequencyDistributionTypeValidator implements IParameterizationValidator {
                         currentErrors*.path = parameter.path
                         errors.addAll(currentErrors)
                     }
-                    catch (IllegalArgumentException ex) {
+                    catch (InvalidParameterException ex) {
                         //https://issuetracking.intuitive-collaboration.com/jira/browse/PMO-1619
                         LOG.debug("call parameter.getBusinessObject() failed " + ex.toString())
                     }

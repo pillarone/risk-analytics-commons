@@ -11,6 +11,7 @@ import org.pillarone.riskanalytics.core.simulation.item.parameter.ParameterHolde
 import org.pillarone.riskanalytics.core.simulation.item.parameter.ParameterObjectParameterHolder
 import org.pillarone.riskanalytics.domain.utils.InputFormatConverter
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 class DistributionTypeValidator implements IParameterizationValidator {
 
@@ -40,9 +41,9 @@ class DistributionTypeValidator implements IParameterizationValidator {
                         currentErrors*.path = parameter.path
                         errors.addAll(currentErrors)
                     }
-                    catch (IllegalArgumentException ex) {
+                    catch (InvalidParameterException ex) {
                         //https://issuetracking.intuitive-collaboration.com/jira/browse/PMO-1619
-                        LOG.debug("call parameter.getBusinessObject() failed " + ex.toString())
+                        ce
                     }
                 }
                 errors.addAll(validate(parameter.classifierParameters.values().toList()))

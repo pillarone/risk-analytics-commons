@@ -4,6 +4,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.DoubleConstraints
 import org.pillarone.riskanalytics.core.parameterization.*
 import umontreal.iro.lecuyer.probdist.*
 import org.pillarone.riskanalytics.core.util.GroovyUtils
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 class DistributionType extends AbstractParameterObjectClassifier implements Serializable {
 
@@ -191,7 +192,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
         double sigma = Math.sqrt(t)
         double mu = Math.log(mean) - 0.5 * t
         if (mu == Double.NaN || sigma == Double.NaN) {
-            throw new IllegalArgumentException("['DistributionType.NaNParameter','"
+            throw new InvalidParameterException("['DistributionType.NaNParameter','"
                     + mean + "','" + stDev + "']")
         }
         return new LognormalDist(mu, sigma)
@@ -205,7 +206,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
         double sigma = Math.sqrt(t)
         double mu = Math.log(mean) - 0.5 * t
         if (mu == Double.NaN || mu == 0) {
-            throw new IllegalArgumentException("['DistributionType.NaNParameter','" + mu + "']")
+            throw new InvalidParameterException("['DistributionType.NaNParameter','" + mu + "']")
         }
         return new LognormalDist(mu, sigma)
     }
@@ -394,7 +395,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             }
         }
         catch (IllegalArgumentException ex) {
-            // see PMO-1619
+            throw new InvalidParameterException(ex.message)
         }
 
         return distribution

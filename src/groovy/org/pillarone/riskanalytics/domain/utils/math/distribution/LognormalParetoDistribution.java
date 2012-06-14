@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution;
 
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException;
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution;
 import umontreal.iro.lecuyer.probdist.LognormalDist;
 import umontreal.iro.lecuyer.probdist.NormalDist;
@@ -93,11 +94,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
      */
     public static double density(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
-            throw new IllegalArgumentException("sigma <= 0");
+            throw new InvalidParameterException("sigma <= 0");
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (beta <= 0.0)
-            throw new IllegalArgumentException("beta <= 0");
+            throw new InvalidParameterException("beta <= 0");
         if (x <= 0) {
             return 0;
         }
@@ -132,11 +133,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
      */
     public static double cdf(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
-            throw new IllegalArgumentException("sigma <= 0");
+            throw new InvalidParameterException("sigma <= 0");
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (beta <= 0.0)
-            throw new IllegalArgumentException("beta <= 0");
+            throw new InvalidParameterException("beta <= 0");
         if (x <= 0) {
             return 0.0;
         }
@@ -171,11 +172,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
      */
     public static double barF(double sigma, double alpha, double beta, double mu, double x) {
         if (sigma <= 0.0)
-            throw new IllegalArgumentException("sigma <= 0");
+            throw new InvalidParameterException("sigma <= 0");
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (beta <= 0.0)
-            throw new IllegalArgumentException("beta <= 0");
+            throw new InvalidParameterException("beta <= 0");
         if (x <= 0) {
             return 1.0;
         }
@@ -207,13 +208,13 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
      */
     public static double inverseF(double sigma, double alpha, double beta, double mu,double y) {
         if (sigma <= 0.0)
-            throw new IllegalArgumentException("sigma <= 0");
+            throw new InvalidParameterException("sigma <= 0");
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (beta <= 0.0)
-            throw new IllegalArgumentException("beta <= 0");
+            throw new InvalidParameterException("beta <= 0");
         if (y < 0.0 || y > 1.0)
-            throw new IllegalArgumentException("y not in [0,1]");
+            throw new InvalidParameterException("y not in [0,1]");
         if (y <= 0.0)
             return 0.0;
         if (y >= 1.0) {
@@ -238,11 +239,11 @@ public class LognormalParetoDistribution extends ContinuousDistribution {
 
     public void setParams(double sigma, double alpha, double beta, double mu) {
         if (sigma <= 0.0)
-            throw new IllegalArgumentException("sigma <= 0");
+            throw new InvalidParameterException("sigma <= 0");
         if (alpha <= 0.0)
-            throw new IllegalArgumentException("alpha <= 0");
+            throw new InvalidParameterException("alpha <= 0");
         if (beta <= 0.0)
-            throw new IllegalArgumentException("beta <= 0");
+            throw new InvalidParameterException("beta <= 0");
         this.sigma = sigma;
         this.alpha = alpha;
         this.beta = beta;

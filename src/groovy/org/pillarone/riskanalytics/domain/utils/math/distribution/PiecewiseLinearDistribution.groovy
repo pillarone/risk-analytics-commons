@@ -1,7 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution
 
-import umontreal.iro.lecuyer.probdist.Distribution
 import umontreal.iro.lecuyer.probdist.ContinuousDistribution
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * Implements the interface of SSJ (external university of Montreal) package
@@ -35,16 +35,16 @@ class PiecewiseLinearDistribution extends ContinuousDistribution {
         cdft = []
         probabilities = []
         if (values.size() != cumulProb.size())
-            throw new IllegalArgumentException("PiecewiseLinearDistribution.invalidNumberOfArguments");
-        if (cumulProb[0] != 0) throw new IllegalArgumentException("PiecewiseLinearDistribution.invalidFirstFunctionValue");
+            throw new InvalidParameterException("PiecewiseLinearDistribution.invalidNumberOfArguments");
+        if (cumulProb[0] != 0) throw new InvalidParameterException("PiecewiseLinearDistribution.invalidFirstFunctionValue");
         val.add(values[0]); cdft.add(cumulProb[0]);
         probabilities.add(cumulProb[0])
-        if (cumulProb[last] != 1) throw new IllegalArgumentException("PiecewiseLinearDistribution.invalidLastFunctionValue");
+        if (cumulProb[last] != 1) throw new InvalidParameterException("PiecewiseLinearDistribution.invalidLastFunctionValue");
         for (int i = 1; i <= last; i++) {
             if (values[i] <= values[i - 1])
-                throw new IllegalArgumentException("PiecewiseLinearDistribution.nonincreasingArguments");
+                throw new InvalidParameterException("PiecewiseLinearDistribution.nonincreasingArguments");
             if (cumulProb[i] <= cumulProb[i - 1]) {
-                throw new IllegalArgumentException("PiecewiseLinearDistribution.nonincreasingFunctionValues");
+                throw new InvalidParameterException("PiecewiseLinearDistribution.nonincreasingFunctionValues");
             }
             val.add(values[i]);
             cdft.add(cumulProb[i]);
@@ -76,7 +76,7 @@ class PiecewiseLinearDistribution extends ContinuousDistribution {
     */
 
     double inverseF(double u) {
-        if ((u < 0) || (u > 1)) throw new IllegalArgumentException("PiecewiseLinearDistribution.invalidArgumentsInverse");
+        if ((u < 0) || (u > 1)) throw new InvalidParameterException("PiecewiseLinearDistribution.invalidArgumentsInverse");
         int i = 1;                                     //first piece of cdft containing u
         while (u > cdft[i]) {i++}                       //now we have cdft[i-1]<=u<=cdft[i]    (even cdft[i-1]<u for u>0)
         double pos = (u - cdft[i - 1]) / (cdft[i] - cdft[i - 1])    //pos is relative location of u in that interval
@@ -110,7 +110,7 @@ class PiecewiseLinearDistribution extends ContinuousDistribution {
     double getStandardDeviation() {return stdDev}
 
     double[] getParams() {
-        throw new IllegalArgumentException("PiecewiseLinearDistribution.invalidMethodgetParams");
+        throw new InvalidParameterException("PiecewiseLinearDistribution.invalidMethodgetParams");
         // return []    //that's another lazy alternative implementation
     }
 
