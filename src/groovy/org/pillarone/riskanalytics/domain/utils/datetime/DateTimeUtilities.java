@@ -239,7 +239,7 @@ public class DateTimeUtilities {
      *
      * European interpretation.
      *
-     * Left in place for backward compatibility
+     * Left in place for backward compatibility. {@link org.pillarone.riskanalytics.domain.utils.datetime.DateTimeUtilities.Days360}
      *
      * @param startDate - start date
      * @param endDate - end date
@@ -254,8 +254,6 @@ public class DateTimeUtilities {
         US{
             /**
              * Utility function for use mainly in interest calculation and interpolations.
-             *
-             * Untested!!!
              *
              * US interpretation See <a href="http://en.wikipedia.org/wiki/360-day_calendar">http://en.wikipedia.org/wiki/360-day_calendar</a>
              *
@@ -328,25 +326,15 @@ public class DateTimeUtilities {
             /**
              * Simply return the standard difference between two dates. Not days 360 at all.
              *
-             * @param startDate
-             * @param endDate
-             * @return
+             * @param startDate start date
+             * @param endDate end date
+             * @return difference according to joda time in days. No assumumptions about duration of months!!!
              */
             @Override
             public int days360(DateTime startDate, DateTime endDate) {
                 return Days.daysBetween(startDate, endDate).getDays();
             }
         } ;
-
-        private static DateTime setDateToThirthiethDayOfMonth(DateTime endDate) {
-            DateTime calcEndDate;
-            calcEndDate = new DateTime(
-                    endDate.get( DateTimeFieldType.year()), // year
-                    endDate.get( DateTimeFieldType.monthOfYear() ), // month
-                    30, // day
-                    0,0,0,0);
-            return calcEndDate;
-        }
 
         public abstract int days360(DateTime startDate, DateTime endDate);
     }
@@ -356,6 +344,7 @@ public class DateTimeUtilities {
      * @param endDate end date
      * @return fraction of number of months between dates assuming every month has 30 days
      */
+    @Deprecated
     public static double months360(DateTime startDate, DateTime endDate) {
         return days360(startDate, endDate) / 30d;
     }
