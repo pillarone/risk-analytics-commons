@@ -197,6 +197,16 @@ class DistributionTypeValidator implements IParameterizationValidator {
             if (type.sigma > 0) return true
             [ValidationType.ERROR, "distribution.type.error.lognormal_mu_sigma.sigma.nonpositive", type.sigma]
         }
+        validationService.register(DistributionType.LOGNORMAL_MU_SIGMA) {Map type ->
+            Double expectedValue = Math.exp(type.mu + Math.pow(type.sigma, 2d) / 2d)
+            if (expectedValue.isInfinite()) {
+                return [ValidationType.ERROR, "distribution.type.error.lognormal_mu_sigma.sigma.infinite.expected.value"]
+            }
+            else if (expectedValue.isNaN()) {
+                return [ValidationType.ERROR, "distribution.type.error.lognormal_mu_sigma.sigma.expected.value.NaN"]
+            }
+            return true
+        }
         validationService.register(DistributionType.PARETO) {Map type ->
             if (type.alpha > 0) return true
             [ValidationType.ERROR, "distribution.type.error.pareto.alpha.nonpositive", type.alpha]
