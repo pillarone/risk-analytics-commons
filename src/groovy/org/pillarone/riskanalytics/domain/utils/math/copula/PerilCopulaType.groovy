@@ -3,6 +3,7 @@ package org.pillarone.riskanalytics.domain.utils.math.copula;
 
 import org.pillarone.riskanalytics.core.parameterization.*
 import org.pillarone.riskanalytics.domain.utils.marker.IPerilMarker
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
@@ -71,6 +72,8 @@ class PerilCopulaType extends AbstractCopulaType {
                 copula = new PerilGumbelCopulaStrategy(lambda: (double) parameters["lambda"], dimension: (double) parameters["dimension"],
                         targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
                 break
+            default:
+                throw new InvalidParameterException("ICopulaStrategy $type not implemented")
         }
         return copula
     }

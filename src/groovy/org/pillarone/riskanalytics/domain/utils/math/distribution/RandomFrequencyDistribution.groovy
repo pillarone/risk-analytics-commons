@@ -1,5 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.distribution
 
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
+
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
@@ -27,6 +29,8 @@ class RandomFrequencyDistribution extends AbstractRandomDistribution {
                 return DistributionType.BINOMIALDIST
             case FrequencyDistributionType.CONSTANTS:
                 return DistributionType.CONSTANTS
+            default:
+                throw new InvalidParameterException("DistributionType $type not implemented")
         }
     }
 

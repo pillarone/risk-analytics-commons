@@ -111,7 +111,6 @@ class FrequencyDistributionType extends AbstractParameterObjectClassifier implem
      * */
     static RandomFrequencyDistribution getStrategy(FrequencyDistributionType type, Map parameters) {
         RandomFrequencyDistribution distribution = new RandomFrequencyDistribution(type: type, parameters: parameters)
-        //TODO msp move initialization to RD.getDistribution()
         try {
             switch (type) {
                 case FrequencyDistributionType.POISSON:
@@ -137,6 +136,8 @@ class FrequencyDistributionType extends AbstractParameterObjectClassifier implem
                 case FrequencyDistributionType.CONSTANTS:
                     distribution.distribution = new ConstantsDistribution(GroovyUtils.asDouble(parameters["constants"].getColumnByName("constants")))
                     break
+                default:
+                    throw new InvalidParameterException("FrequencyDistributionType $type not implemented")
             }
         }
         catch (IllegalArgumentException ex) {

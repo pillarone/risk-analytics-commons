@@ -271,7 +271,6 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
      */
     static RandomDistribution getStrategy(DistributionType type, Map parameters) {
         RandomDistribution distribution = new RandomDistribution(type: type, parameters: parameters)
-        //TODO msp move initialization to RD.getDistribution()
         try {
             switch (type) {
                 case DistributionType.NORMAL:
@@ -427,7 +426,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                             extractParam(parameters, DistributionParams.BETA, 1d),
                             extractParam(parameters, DistributionParams.LAMBDA, 0d))
                     break
-                default : throw new IllegalArgumentException("Unknown distribution " + type.toString());
+                default : throw new InvalidParameterException("Unknown distribution " + type.toString());
             }
 
         }

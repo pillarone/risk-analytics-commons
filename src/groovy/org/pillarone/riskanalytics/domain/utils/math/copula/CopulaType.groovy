@@ -7,6 +7,7 @@ import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDime
 
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter
 import org.pillarone.riskanalytics.domain.utils.marker.ICorrelationMarker
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
@@ -75,6 +76,8 @@ class CopulaType extends AbstractCopulaType {
                 copula = new GumbelCopulaStrategy(lambda: (double) parameters["lambda"], dimension: (double) parameters["dimension"],
                         targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
                 break
+            default:
+                throw new InvalidParameterException("CopulaType $type not implemented")
         }
         return copula
     }

@@ -17,6 +17,7 @@ import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionMo
 import umontreal.iro.lecuyer.randvar.UniformIntGen
 import umontreal.iro.lecuyer.probdist.UniformIntDist
 import org.pillarone.riskanalytics.domain.utils.math.distribution.AbstractRandomDistribution
+import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 
 /**
  * Enables different streams for generators, and parametrization of streams.
@@ -142,6 +143,8 @@ class RandomNumberGeneratorFactory {
                                     (double) modifier.parameters["max"],
                                     (double) modifier.parameters["shift"]))
                     break
+                default:
+                    throw new InvalidParameterException("DistributionModifier $modifier.type not implemented")
 
             }
             generator.modifier = modifier.type
