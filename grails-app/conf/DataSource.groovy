@@ -13,20 +13,23 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-            url = "jdbc:hsqldb:mem:devDB"
+            dbCreate = "create-drop"
+            driverClassName = "org.h2.Driver"
+            url = "jdbc:h2:mem:devDB"
         }
     }
     test {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:mem:testDb"
+            dbCreate = "create-drop"
+            driverClassName = "org.h2.Driver"
+            url = "jdbc:h2:mem:testDB"
         }
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+            dbCreate = "create-drop"
+            driverClassName = "org.h2.Driver"
+            url = "jdbc:h2:mem:prodDB"
         }
     }
 }
