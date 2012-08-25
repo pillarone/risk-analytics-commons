@@ -430,7 +430,7 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             }
 
         }
-        catch (IllegalArgumentException ex) {
+        catch (RuntimeException ex) {
             throw new InvalidParameterException(ex.message, ex)
         }
 

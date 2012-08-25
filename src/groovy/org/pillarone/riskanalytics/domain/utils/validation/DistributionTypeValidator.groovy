@@ -73,7 +73,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
             [ValidationType.ERROR, "distribution.tpye.error.negativebinomial.gamma.nonpositive", type.gamma]
         }
         validationService.register(DistributionType.NEGATIVEBINOMIAL) {Map type ->
-            if ((0.0..1.0).containsWithinBounds(type.p)) return true
+            if (type.p > 0 && type.p < 1) return true
             [ValidationType.ERROR, "distribution.tpye.error.negativebinomial.p.out.of.range", type.p]
         }
         validationService.register(DistributionType.DISCRETEEMPIRICAL) {Map type ->
@@ -192,7 +192,6 @@ class DistributionTypeValidator implements IParameterizationValidator {
             if (type.stDev > 0) return true
             [ValidationType.ERROR, "distribution.type.error.lognormal.sigma.nonpositive", type.stDev]
         }
-        // todo(sku): check for further restrictions
         validationService.register(DistributionType.LOGNORMAL_MU_SIGMA) {Map type ->
             if (type.sigma > 0) return true
             [ValidationType.ERROR, "distribution.type.error.lognormal_mu_sigma.sigma.nonpositive", type.sigma]
@@ -214,6 +213,14 @@ class DistributionTypeValidator implements IParameterizationValidator {
         validationService.register(DistributionType.PARETO) {Map type ->
             if (type.beta > 0) return true
             [ValidationType.ERROR, "distribution.type.error.pareto.beta.nonpositive", type.beta]
+        }
+        validationService.register(DistributionType.PARETO) {Map type ->
+            if (type.alpha > 1) return true
+            [ValidationType.WARNING, "distribution.type.warning.expected.value.not.defined", type.alpha]
+        }
+        validationService.register(DistributionType.PARETO) {Map type ->
+            if (type.alpha > 2) return true
+            [ValidationType.HINT, "distribution.type.warning.variance.not.defined", type.alpha]
         }
         validationService.register(DistributionType.UNIFORM) {Map type ->
             if (type.a < type.b) return true
