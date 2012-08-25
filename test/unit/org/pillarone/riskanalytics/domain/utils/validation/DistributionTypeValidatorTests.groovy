@@ -32,7 +32,9 @@ class DistributionTypeValidatorTests extends GroovyTestCase {
 
     void testNegativeBinomialValidator() {
         def validNegBinomial = DistributionType.NEGATIVEBINOMIAL
-        assertEquals 0, validator.validate(validNegBinomial, ['gamma': 1, 'p': 0]).size()
+        assertEquals 0, validator.validate(validNegBinomial, ['gamma': 1, 'p': 0.1]).size()
+        assertEquals 1, validator.validate(validNegBinomial, ['gamma': 1, 'p': 0]).size()
+        assertEquals 1, validator.validate(validNegBinomial, ['gamma': 1, 'p': 1]).size()
     }
 
     void testFailingNegativeBinomialValidator() {
@@ -92,7 +94,9 @@ class DistributionTypeValidatorTests extends GroovyTestCase {
 
     void testParetoValidator() {
         def validDistribution = DistributionType.PARETO
-        assertEquals 0, validator.validate(validDistribution, ['alpha': 1d, 'beta': 1d]).size()
+        assertEquals 2, validator.validate(validDistribution, ['alpha': 1d, 'beta': 1d]).size()
+        assertEquals 1, validator.validate(validDistribution, ['alpha': 1.1d, 'beta': 1d]).size()
+        assertEquals 0, validator.validate(validDistribution, ['alpha': 2.1d, 'beta': 1d]).size()
     }
 
     // todo(sku): extend with additional failing msg
@@ -101,7 +105,7 @@ class DistributionTypeValidatorTests extends GroovyTestCase {
         def badDistribution = DistributionType.PARETO
         def result = validator.validate(badDistribution, ['alpha': -1d, 'beta': 1d])
         assertNotNull result
-        assertEquals 'one error message', 1, result.size()
+        assertEquals 'one error message', 3, result.size()
         assert result[0].msg instanceof String
         //assertEquals -1, result[0].args[0]
     }
