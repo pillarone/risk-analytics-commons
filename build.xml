@@ -62,7 +62,7 @@
             <arg value="compile"/>
             <arg value="--non-interactive"/>
             <env key="GRAILS_HOME" value="${GRAILS_HOME}"/>
-            <env key="JAVA_OPTS" value="-Xmx756m -XX:MaxPermSize=256m -Duser.language='en'"/>
+            <env key="JAVA_OPTS" value="-Xmx756m -XX:MaxPermSize=256m -XX:-UseSplitVerifier -Duser.language='en'"/>
         </exec>
     </target>
 
@@ -79,7 +79,7 @@
             <!--<arg value="-echoOut"/>-->
             <env key="GRAILS_HOME" value="${GRAILS_HOME}"/>
             <env key="JAVA_OPTS"
-                 value="-Xmx756m -XX:MaxPermSize=256m -Duser.language='en'"/>
+                 value="-Xmx756m -XX:MaxPermSize=256m -XX:-UseSplitVerifier -Duser.language='en'"/>
         </exec>
         <copy todir="${dist.dir}">
             <fileset dir="target" includes="test-reports/"/>
