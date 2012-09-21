@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.pillarone.riskanalytics.core.simulation.NotInProjectionHorizon;
 import org.pillarone.riskanalytics.core.simulation.engine.PeriodScope;
+import org.pillarone.riskanalytics.domain.utils.math.generator.IRandomNumberGenerator;
 
 /**
  * Utility class for date, time and period calculations that are either
@@ -34,8 +35,7 @@ public class DateTimeUtilities {
         try {
             if (date.length() == 0) return null;
             return new DateTime((new SimpleDateFormat("yyyy-MM-dd")).parse(date));
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
         }
     }
@@ -131,7 +131,7 @@ public class DateTimeUtilities {
             return new Period(simulationStart, date).getYears();
         }
         throw new IllegalArgumentException("['DateTimeUtilities.notImplemented','"
-                        +simulationStart+"','"+periodLength+"','"+date+"']");
+                + simulationStart + "','" + periodLength + "','" + date + "']");
     }
 
     public static double dateAsDouble(DateTime simulationStart, DateTime endOfFirstPeriod, DateTime date) {
@@ -177,16 +177,16 @@ public class DateTimeUtilities {
             DateTime beginOfPeriod = periodScope.getPeriodCounter().startOfPeriod(period);
             DateTime endOfPeriod = periodScope.getPeriodCounter().endOfPeriod(period);
             return getDate(beginOfPeriod, endOfPeriod, 0, fractionOfPeriod);
-        }
-        catch (NotInProjectionHorizon ex) {
+        } catch (NotInProjectionHorizon ex) {
             throw new IllegalArgumentException("Period " + period + " is not within projection horizon.");
         }
     }
 
     /**
-     *  This function calculates the months between two dates including a fraction. The fraction is calculated in the last month.
+     * This function calculates the months between two dates including a fraction. The fraction is calculated in the last month.
+     *
      * @param startDate - start date
-     * @param endDate - end date
+     * @param endDate   - end date
      * @return - fraction of months.
      */
     public static double deriveNumberOfMonths(DateTime startDate, DateTime endDate) {
@@ -199,8 +199,8 @@ public class DateTimeUtilities {
         return numberOfCompleteMonths + fractionInLastMonth;
     }
 
-    public static double getInterestRateForTimeInterval(double yearlyRate, DateTime startDate, DateTime endDate){
-         /**
+    public static double getInterestRateForTimeInterval(double yearlyRate, DateTime startDate, DateTime endDate) {
+        /**
          * Basis of interval interest rate is the fiscal (calendar) year.
          * Convention for intervals: interval = [startDate,endDate), that is, the left boundary of interval
          * is included, the right boundary excluded.
@@ -225,8 +225,7 @@ public class DateTimeUtilities {
 
             if (runTime == 1) {
                 interestValue *= (1.0 + yearlyRate);
-            }
-            else {
+            } else {
                 interestValue *= Math.pow(1.0 + yearlyRate, runTime);
             }
         }
@@ -236,13 +235,13 @@ public class DateTimeUtilities {
 
     /**
      * Utility function for use mainly in interest calculation and interpolations.
-     *
+     * <p/>
      * European interpretation.
-     *
+     * <p/>
      * Left in place for backward compatibility. {@link org.pillarone.riskanalytics.domain.utils.datetime.DateTimeUtilities.Days360}
      *
      * @param startDate - start date
-     * @param endDate - end date
+     * @param endDate   - end date
      * @return integer number of days between dates assuming every month has 30 days.
      */
     @Deprecated
@@ -251,7 +250,7 @@ public class DateTimeUtilities {
     }
 
     public enum Days360 {
-        US{
+        US {
             /**
              * Utility function for use mainly in interest calculation and interpolations.
              *
@@ -268,31 +267,31 @@ public class DateTimeUtilities {
                 int endDayOfMonth = endDate.getDayOfMonth();
 
 //                    If both start and end in Feb, and both on the the last day of Feb.
-                if(
+                if (
                         (
-                            startDate.getMonthOfYear() == 2
-                                    &&
-                            endDate.getMonthOfYear() == 2
+                                startDate.getMonthOfYear() == 2
+                                        &&
+                                        endDate.getMonthOfYear() == 2
                         )
                                 &&
-                        (
-                            startDate.equals(startDate.dayOfMonth().withMaximumValue())
-                                &&
-                            endDate.equals(endDate.dayOfMonth().withMaximumValue())
-                        )
-                    ) {
+                                (
+                                        startDate.equals(startDate.dayOfMonth().withMaximumValue())
+                                                &&
+                                                endDate.equals(endDate.dayOfMonth().withMaximumValue())
+                                )
+                        ) {
                     endDayOfMonth = 30;
                 }
 //          If start date on 31st or last day of Feb
-                if(
+                if (
                         startDate.getDayOfMonth() == 31
                                 ||
-                        (startDate.getMonthOfYear() == 2 && startDate.equals(startDate.dayOfMonth().withMaximumValue()))
-                ) {
+                                (startDate.getMonthOfYear() == 2 && startDate.equals(startDate.dayOfMonth().withMaximumValue()))
+                        ) {
                     startDayOfMonth = 30;
                 }
 
-                if(startDayOfMonth == 30 && endDate.getDayOfMonth() == 31) {
+                if (startDayOfMonth == 30 && endDate.getDayOfMonth() == 31) {
                     endDayOfMonth = 30;
                 }
 
@@ -334,14 +333,14 @@ public class DateTimeUtilities {
             public int days360(DateTime startDate, DateTime endDate) {
                 return Days.daysBetween(startDate, endDate).getDays();
             }
-        } ;
+        };
 
         public abstract int days360(DateTime startDate, DateTime endDate);
     }
 
     /**
      * @param startDate start date
-     * @param endDate end date
+     * @param endDate   end date
      * @return fraction of number of months between dates assuming every month has 30 days
      */
     @Deprecated
@@ -350,39 +349,37 @@ public class DateTimeUtilities {
     }
 
     /**
-     *
      * Returns the proportion of a period (periodStart -> periodEnd ) up to the 'toDate'
      *
-     *
      * @param periodStart - start date
-     * @param periodEnd - end date
-     * @param toDate - to this date as a proportion of period
-     * @param days360 - days 360 methodology
+     * @param periodEnd   - end date
+     * @param toDate      - to this date as a proportion of period
+     * @param days360     - days 360 methodology
      * @return proportion of the period (periodStart -> periodEnd ) from periodStart to 'toDate'
-     * @exception IllegalArgumentException if toDate not contained between periodStart and periodEnd.
+     * @throws IllegalArgumentException if toDate not contained between periodStart and periodEnd.
      */
     public static double days360ProportionOfPeriod(DateTime periodStart, DateTime periodEnd, DateTime toDate, Days360 days360) {
 
 //        Check that the 'toDate' actually falls in the period.
-        if(! (
+        if (!(
                 (periodStart.isBefore(toDate) || periodStart.isEqual(toDate))
-                    &&
-                ( periodEnd.isAfter(toDate) || periodEnd.isEqual(toDate))
-            )
-        ) {
+                        &&
+                        (periodEnd.isAfter(toDate) || periodEnd.isEqual(toDate))
+        )
+                ) {
             throw new IllegalArgumentException(" Attempted to find the proportion of a period where the specified " +
                     "period does not include the date of interest. Please contact development ");
         }
         double daysInPeriod = days360.days360(periodStart, periodEnd);
         double daysToUpdate = days360.days360(periodStart, toDate);
-        return  daysToUpdate / daysInPeriod;
+        return daysToUpdate / daysInPeriod;
     }
 
     /**
      * Checks that the 'check date' is strictly between the start and end date.
      *
      * @param startDate - start date
-     * @param endDate - end date
+     * @param endDate   - end date
      * @param checkDate - check date is between
      * @return True if check date is strictly between (not equal to) start and end date. Otherwise false.
      */
@@ -394,24 +391,34 @@ public class DateTimeUtilities {
     }
 
     /**
-     *
-     *
-     * @param map - DateTime, Double map, for instance premiums indexed by date with their values
+     * @param map       - DateTime, Double map, for instance premiums indexed by date with their values
      * @param startDate - start of the period to sum
-     * @param endDate - end of the period to sum
+     * @param endDate   - end of the period to sum
      * @return Sum of the values in the map inside the date range.
      */
-    public static double sumDateTimeDoubleMapByDateRange(Map<DateTime, Double> map, DateTime startDate, DateTime endDate ){
+    public static double sumDateTimeDoubleMapByDateRange(Map<DateTime, Double> map, DateTime startDate, DateTime endDate) {
         assert startDate != null;
         assert endDate != null;
 
         double returnValue = 0;
         for (Map.Entry<DateTime, Double> entry : map.entrySet()) {
-            if( isBetween(startDate, endDate, entry.getKey())) {
+            if (isBetween(startDate, endDate, entry.getKey())) {
                 returnValue += entry.getValue();
             }
         }
         return returnValue;
+    }
+
+    public static DateTime randomDate(PeriodScope periodScope, IRandomNumberGenerator dateGen) {
+        DateTime startDate = periodScope.getCurrentPeriodStartDate();
+        DateTime endDate = periodScope.getNextPeriodStartDate();
+        return randomDate(startDate, endDate, dateGen);
+    }
+
+    public static DateTime randomDate(DateTime startDate, DateTime endDate, IRandomNumberGenerator dateGen) {
+        int days = Days.daysBetween(startDate, endDate).getDays();
+        int randomness = ((int) (dateGen.nextValue().doubleValue() * (double) days));
+        return startDate.plus(randomness);
     }
 
 }
