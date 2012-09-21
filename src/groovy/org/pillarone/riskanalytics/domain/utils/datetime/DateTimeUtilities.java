@@ -418,7 +418,7 @@ public class DateTimeUtilities {
     public static DateTime randomDate(DateTime startDate, DateTime endDate, IRandomNumberGenerator dateGen) {
         int days = Days.daysBetween(startDate, endDate).getDays();
         int randomness = ((int) (dateGen.nextValue().doubleValue() * (double) days));
-        return startDate.plus(randomness);
+        return startDate.plusMonths(randomness);
     }
 
 }
