@@ -26,7 +26,7 @@ public class LogNormalMuCVVaryingParametersDistributionStrategy extends Abstract
             ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER));
 
     public IParameterObjectClassifier getType() {
-        return VaryingParametersDistributionType.LOGNORMAL;
+        return VaryingParametersDistributionType.LOGNORMAL_MEAN_CV;
     }
 
     public Map getParameters() {
