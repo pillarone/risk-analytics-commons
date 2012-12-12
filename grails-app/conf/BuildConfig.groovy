@@ -25,12 +25,13 @@ grails.project.dependency.resolution = {
         test ":excel-import:0.9.6"
 
         if (appName == "risk-analytics-commons") {
-            runtime "org.pillarone:risk-analytics-core:1.6-ALPHA-4.9"
+            runtime "org.pillarone:risk-analytics-core:1.6-ALPHA-8-kti"
         }
     }
 }
 
 grails.project.dependency.distribution = {
+
     String password = ""
     String user = ""
     String scpUrl = ""

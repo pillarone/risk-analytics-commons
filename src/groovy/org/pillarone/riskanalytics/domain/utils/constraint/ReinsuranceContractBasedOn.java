@@ -35,4 +35,8 @@ public class ReinsuranceContractBasedOn implements IMultiDimensionalConstraints 
         }
         return null;
     }
+
+    public boolean emptyComponentSelectionAllowed(int column) {
+        return false;
+    }
 }

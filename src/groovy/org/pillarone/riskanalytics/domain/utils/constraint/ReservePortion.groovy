@@ -46,4 +46,8 @@ class ReservePortion implements IMultiDimensionalConstraints, IUnityPortion {
         }
         return null;
     }
+
+    boolean emptyComponentSelectionAllowed(int column) {
+        return false
+    }
 }
