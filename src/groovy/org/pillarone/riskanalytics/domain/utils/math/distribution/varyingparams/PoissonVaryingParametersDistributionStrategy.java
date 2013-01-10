@@ -30,7 +30,7 @@ public class PoissonVaryingParametersDistributionStrategy extends AbstractVaryin
 
     public Map getParameters() {
         Map<String, ConstrainedMultiDimensionalParameter> parameters = new HashMap<String, ConstrainedMultiDimensionalParameter>(1);
-        parameters.put("lambda", lambda);
+        parameters.put(DistributionParams.LAMBDA.toString(), lambda);
         return parameters;
     }
 

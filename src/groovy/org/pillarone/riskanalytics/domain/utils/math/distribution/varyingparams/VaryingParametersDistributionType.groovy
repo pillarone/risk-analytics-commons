@@ -13,37 +13,42 @@ import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
 class VaryingParametersDistributionType extends AbstractParameterObjectClassifier {
 
     public static final VaryingParametersDistributionType POISSON = new VaryingParametersDistributionType(
-            "poisson", "POISSON", ["lambda": new ConstrainedMultiDimensionalParameter([[1], [0d]], ['period', 'lambda'],
-                    ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
+            "poisson", "POISSON", [
+                    (DistributionParams.LAMBDA.toString()) : new ConstrainedMultiDimensionalParameter(
+                            [[1], [0d]], [DistributionParams.PERIOD.toString(), DistributionParams.LAMBDA.toString()],
+                    ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))]
+    )
     public static final VaryingParametersDistributionType EXPONENTIAL = new VaryingParametersDistributionType(
-            "exponential", "EXPONENTIAL", ["lambda": new ConstrainedMultiDimensionalParameter([[1], [1d]], ['period', 'lambda'],
+            "exponential", "EXPONENTIAL", [
+                    (DistributionParams.LAMBDA.toString()): new ConstrainedMultiDimensionalParameter([[1], [1d]],
+                            [DistributionParams.PERIOD.toString(), DistributionParams.LAMBDA.toString()],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType NEGATIVEBINOMIAL = new VaryingParametersDistributionType(
-            "negative binomial", "NEGATIVEBINOMIAL", ["gammaAndP": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], ['period', 'gamma', 'p'],
+            "negative binomial", "NEGATIVEBINOMIAL", ["gammaAndP": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], [DistributionParams.PERIOD.toString(), 'gamma', 'p'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     // period has to be specified for each observation
     public static final VaryingParametersDistributionType DISCRETEEMPIRICAL = new VaryingParametersDistributionType(
             "discrete empirical", "DISCRETEEMPIRICAL", ["discreteEmpiricalValues": new ConstrainedMultiDimensionalParameter(
-                    [[1], [0.0], [1.0]], ['period', 'observations', 'probabilities'],
+                    [[1], [0.0], [1.0]], [DistributionParams.PERIOD.toString(), 'observations', 'probabilities'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType DISCRETEEMPIRICALCUMULATIVE = new VaryingParametersDistributionType(
             "discrete empirical cumulative", "DISCRETEEMPIRICALCUMULATIVE",
             ["discreteEmpiricalCumulativeValues": new ConstrainedMultiDimensionalParameter(
-                    [[0], [0.0], [1.0]], ['period', 'observations', 'cumulative probabilities'],
+                    [[0], [0.0], [1.0]], [DistributionParams.PERIOD.toString(), 'observations', 'cumulative probabilities'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType NORMAL = new VaryingParametersDistributionType(
-            "normal", "NORMAL", ["meanAndStDev": new ConstrainedMultiDimensionalParameter([[1], [0d], [1d]], ['period', 'mean', 'stDev'],
+            "normal", "NORMAL", ["meanAndStDev": new ConstrainedMultiDimensionalParameter([[1], [0d], [1d]], [DistributionParams.PERIOD.toString(), 'mean', 'stDev'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType LOGNORMAL = new VaryingParametersDistributionType(
             "log normal (mean, stdev)", "LOGNORMAL", ["meanAndStDev": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]],
-                    ['period', 'mean', 'stDev'], ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
+                    [DistributionParams.PERIOD.toString(), 'mean', 'stDev'], ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType LOGNORMAL_MEAN_CV = new VaryingParametersDistributionType(
             "log normal (mean, CV)", "LOGNORMAL_MEAN_CV", [
-                    "meanAndCV": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], ['period', 'mean', 'CV'],
+                    "meanAndCV": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], [DistributionParams.PERIOD.toString(), DistributionParams.MEAN.toString(), DistributionParams.CV.toString()],
                             ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType LOGNORMAL_MU_SIGMA = new VaryingParametersDistributionType(
             "log normal (mu, sigma)", "LOGNORMAL_MU_SIGMA", ["muAndSigma": new ConstrainedMultiDimensionalParameter(
-                    [[1], [1d], [1d]], ['period', 'mu', 'sigma'],
+                    [[1], [1d], [1d]], [DistributionParams.PERIOD.toString(), DistributionParams.MU.toString() , DistributionParams.SIGMA.toString()],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType BETA = new VaryingParametersDistributionType(
             "beta", "BETA", ["alphaAndBeta": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], 
@@ -51,10 +56,10 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType PARETO = new VaryingParametersDistributionType(
             "pareto", "PARETO", ["alphaAndBeta": new ConstrainedMultiDimensionalParameter(
-                    [[1], [1d], [1d]], ['period', 'alpha', 'beta'],
+                    [[1], [1d], [1d]], [DistributionParams.PERIOD.toString(), 'alpha', 'beta'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType UNIFORM = new VaryingParametersDistributionType(
-            "uniform", "UNIFORM", ["boundaries": new ConstrainedMultiDimensionalParameter([[1], [0d], [1d]], ['period', 'a', 'b'],
+            "uniform", "UNIFORM", ["boundaries": new ConstrainedMultiDimensionalParameter([[1], [0d], [1d]], [DistributionParams.PERIOD.toString(), 'a', 'b'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType CONSTANT = new VaryingParametersDistributionType(
             "constant", "CONSTANT", ["constant": new ConstrainedMultiDimensionalParameter([[1], [0d]],
@@ -62,40 +67,40 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType PIECEWISELINEAREMPIRICAL = new VaryingParametersDistributionType(
             "piecewise linear empirical", "PIECEWISELINEAREMPIRICAL", [
-                    "observations": new ConstrainedMultiDimensionalParameter([[1,1], [0d, 1d]], ['period', 'observations'],
+                    "observations": new ConstrainedMultiDimensionalParameter([[1,1], [0d, 1d]], [DistributionParams.PERIOD.toString(), 'observations'],
                             ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType PIECEWISELINEAR = new VaryingParametersDistributionType(
             "piecewise linear", "PIECEWISELINEAR", ["supportPoints": new ConstrainedMultiDimensionalParameter(
-                    [[1, 1], [0d, 1d], [0d, 1d]], ['period', 'values', 'cumulative probabilities'],
+                    [[1, 1], [0d, 1d], [0d, 1d]], [DistributionParams.PERIOD.toString(), 'values', 'cumulative probabilities'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType TRIANGULARDIST = new VaryingParametersDistributionType(
             "triangular dist", "TRIANGULARDIST", ["supportPoints": new ConstrainedMultiDimensionalParameter(
-                    [[1], [0d], [1d], [0.01]], ['period', 'a', 'b', 'm'],
+                    [[1], [0d], [1d], [0.01]], [DistributionParams.PERIOD.toString(), 'a', 'b', 'm'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType CHISQUAREDIST = new VaryingParametersDistributionType(
-            "chi square dist", "CHISQUAREDIST", ["n": new ConstrainedMultiDimensionalParameter([[1], [1]], ['period', 'n'],
+            "chi square dist", "CHISQUAREDIST", ["n": new ConstrainedMultiDimensionalParameter([[1], [1]], [DistributionParams.PERIOD.toString(), 'n'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType STUDENTDIST = new VaryingParametersDistributionType(
-            "student dist", "STUDENTDIST", ["n": new ConstrainedMultiDimensionalParameter([[1], [1]], ['period', 'n'],
+            "student dist", "STUDENTDIST", ["n": new ConstrainedMultiDimensionalParameter([[1], [1]], [DistributionParams.PERIOD.toString(), 'n'],
                     ConstraintsFactory.getConstraints(PeriodNDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType BINOMIALDIST = new VaryingParametersDistributionType(
-            "binomial dist", "BINOMIALDIST", ["nAndP": new ConstrainedMultiDimensionalParameter([[1], [1], [0d]], ['period', 'n', 'p'],
+            "binomial dist", "BINOMIALDIST", ["nAndP": new ConstrainedMultiDimensionalParameter([[1], [1], [0d]], [DistributionParams.PERIOD.toString(), 'n', 'p'],
                     ConstraintsFactory.getConstraints(PeriodNDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType INVERSEGAUSSIANDIST = new VaryingParametersDistributionType(
             "inverse gaussian dist", "INVERSEGAUSSIANDIST",
-            ["muAndLambda": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], ['period', 'mu', 'lambda'],
+            ["muAndLambda": new ConstrainedMultiDimensionalParameter([[1], [1d], [1d]], [DistributionParams.PERIOD.toString(), 'mu', 'lambda'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType CONSTANTS = new VaryingParametersDistributionType(
             "constant values", "CONSTANTS", ["constants": new ConstrainedMultiDimensionalParameter([[1, 1], [0d, 1d]],
-                    ['period', 'constants'], ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
+                    [DistributionParams.PERIOD.toString(), 'constants'], ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType GAMMA = new VaryingParametersDistributionType(
-            "gamma", "GAMMA", ["alphaAndLambda": new ConstrainedMultiDimensionalParameter([[1], [2d], [2d]], ['period', 'alpha', 'lambda'],
+            "gamma", "GAMMA", ["alphaAndLambda": new ConstrainedMultiDimensionalParameter([[1], [2d], [2d]], [DistributionParams.PERIOD.toString(), 'alpha', 'lambda'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType GUMBEL = new VaryingParametersDistributionType(
-            "gumbel", "GUMBEL", ["betaAndDelta": new ConstrainedMultiDimensionalParameter([[1], [1d], [0d]], ['period', 'beta', 'delta'],
+            "gumbel", "GUMBEL", ["betaAndDelta": new ConstrainedMultiDimensionalParameter([[1], [1d], [0d]], [DistributionParams.PERIOD.toString(), 'beta', 'delta'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
     public static final VaryingParametersDistributionType LOGLOGISTIC = new VaryingParametersDistributionType(
-            "log logistic", "LOGLOGISTIC", ["alphaAndBeta": new ConstrainedMultiDimensionalParameter([[1], [2d], [1d]], ['period', 'alpha', 'beta'],
+            "log logistic", "LOGLOGISTIC", ["alphaAndBeta": new ConstrainedMultiDimensionalParameter([[1], [2d], [1d]], [DistributionParams.PERIOD.toString(), 'alpha', 'beta'],
                     ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER))])
 
     public static final all = [
@@ -154,7 +159,7 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
     }
 
     static IVaryingParametersDistributionStrategy getDefault() {
-        return new ConstantVaryingParametersDistributionStrategy(constant:  new ConstrainedMultiDimensionalParameter([[1], [0d]],
+        return new ConstantVaryingParametersDistributionStrategy( (DistributionParams.CONSTANT.toString()) :  new ConstrainedMultiDimensionalParameter([[1], [0d]],
                 Arrays.asList(DistributionParams.PERIOD.toString(), DistributionParams.CONSTANT.toString()),
                 ConstraintsFactory.getConstraints(PeriodDistributionsConstraints.IDENTIFIER)));
     }
@@ -166,7 +171,7 @@ class VaryingParametersDistributionType extends AbstractParameterObjectClassifie
     static IVaryingParametersDistributionStrategy getStrategy(VaryingParametersDistributionType type, Map parameters) {
         switch (type) {
             case VaryingParametersDistributionType.POISSON:
-                return new PoissonVaryingParametersDistributionStrategy(lambda: (ConstrainedMultiDimensionalParameter) parameters['lambda'])
+                return new PoissonVaryingParametersDistributionStrategy((DistributionParams.LAMBDA.toString()): (ConstrainedMultiDimensionalParameter) parameters['lambda'])
             case VaryingParametersDistributionType.NORMAL:
                 return new NormalVaryingParametersDistributionStrategy(meanAndStDev: (ConstrainedMultiDimensionalParameter) parameters['meanAndStDev'])
             case VaryingParametersDistributionType.LOGNORMAL:
