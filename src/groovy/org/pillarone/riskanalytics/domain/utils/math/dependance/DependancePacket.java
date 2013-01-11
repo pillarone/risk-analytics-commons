@@ -59,7 +59,12 @@ public class DependancePacket extends Packet {
 
     public MarginalAndEvent getMarginal (String generatorName, Integer period) {
         GeneratorPeriod generatorPeriod = new GeneratorPeriod(generatorName, period);
-        return marginals.get(generatorPeriod);
+        MarginalAndEvent marginalAndEvent = marginals.get(generatorPeriod);
+        if(marginalAndEvent == null) {
+            throw new SimulationException("Attempted to lookup a marginal distribution in period: " + period + " for generator" +
+                    "" + generatorName + ". Have you initialised the dependancy structure correctly? Please contract development");
+        }
+        return marginalAndEvent;
     }
 
     /* We don't want people to be able to tamper with this outside of it's initialisation ! */
