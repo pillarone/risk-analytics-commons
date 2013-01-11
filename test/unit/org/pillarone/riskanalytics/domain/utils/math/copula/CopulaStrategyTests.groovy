@@ -12,6 +12,7 @@ import org.pillarone.riskanalytics.domain.utils.math.generator.RandomNumberGener
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType
 import umontreal.iro.lecuyer.probdist.ChiSquareDist
 import umontreal.iro.lecuyer.probdist.StudentDist
+import org.pillarone.riskanalytics.domain.utils.math.dependance.DependancePacket
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
@@ -88,6 +89,36 @@ class CopulaStrategyTests extends GroovyTestCase {
         assertEquals "size probabilities", 2, probabilities.size()
         assertEquals "probability one", randomNumbers[4], (Double) probabilities[0], 1E-14
         assertEquals "probability two", NormalDist.cdf(0d, 1d, x2), (Double) probabilities[1], 1E-14
+    }
+
+    void testNormalCopulaStrategy2(){
+        String lob1 = 'fire'
+        String lob2 = 'hull'
+        Integer period = 1
+        normalCopulaStrategy = CopulaType.getStrategy(CopulaType.NORMAL,
+                ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]],
+                        [lob1, lob2], ICorrelationMarker)])
+
+        MathUtils.initRandomStreamBase(1234)
+        RandomStreamBase referenceStream = MathUtils.getRandomStream(MathUtils.getRandomStreamBase(), 0).clone()
+        List<Double> randomNumbers = UniformDoubleList.getDoubles(6, false, referenceStream);
+
+        DependancePacket dependance = normalCopulaStrategy.getDependance(period)
+
+        assertEquals "size probabilities", 2, dependance.getMarginals().keySet().size()
+        assertEquals "probability one", randomNumbers[0], dependance.getMarginal(lob1, period).getMarginalProbability(), 1E-14
+        assertEquals "probability two", randomNumbers[1], dependance.getMarginal(lob2, period).getMarginalProbability(), 1E-14
+
+        normalCopulaStrategy = CopulaType.getStrategy(CopulaType.NORMAL,
+                ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0.5d], [0.5d, 1d]],
+                        [lob1, lob2], ICorrelationMarker)])
+        List probabilities = normalCopulaStrategy.getRandomVector()
+        DependancePacket dependancePacket = normalCopulaStrategy.getDependance(period)
+
+        double x2 = 0.5 * NormalDist.inverseF(0d, 1d, randomNumbers[4]) + Math.sqrt(1d - Math.pow(0.5, 2)) * NormalDist.inverseF(0d, 1d, randomNumbers[5])
+        assertEquals "size probabilities", 2, dependance.getMarginals().keySet().size()
+        assertEquals "probability one", randomNumbers[4], dependancePacket.getMarginal(lob1, period).getMarginalProbability(), 1E-14
+        assertEquals "probability two", NormalDist.cdf(0d, 1d, x2), dependancePacket.getMarginal(lob2, period).getMarginalProbability(), 1E-14
     }
 
     void testTCopulaStrategy() {

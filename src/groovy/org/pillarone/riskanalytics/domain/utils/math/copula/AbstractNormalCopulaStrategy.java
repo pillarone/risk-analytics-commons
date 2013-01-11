@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author ali.majidi (at) munichre (dot) com, stefan.kunz (at) intuitive-collaboration (dot) com, jessika.walter (at) intuitive-collaboration (dot) com
  */
-abstract class AbstractNormalCopulaStrategy extends AbstractCopulaStrategy {
+public abstract class AbstractNormalCopulaStrategy extends AbstractCopulaStrategy {
 
     protected IMultiRandomGenerator generator;
     protected ComboBoxMatrixMultiDimensionalParameter dependencyMatrix;

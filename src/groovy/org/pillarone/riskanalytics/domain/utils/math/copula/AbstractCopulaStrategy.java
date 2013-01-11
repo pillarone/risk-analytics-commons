@@ -6,6 +6,8 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 import cern.colt.matrix.linalg.EigenvalueDecomposition;
 import org.pillarone.riskanalytics.core.parameterization.AbstractParameterObject;
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDimensionalParameter;
+import org.pillarone.riskanalytics.core.simulation.SimulationException;
+import org.pillarone.riskanalytics.domain.utils.math.dependance.DependancePacket;
 
 import java.util.List;
 
@@ -38,5 +40,23 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
         if (eigenvalues.get(0) <= 0) {
             throw new IllegalArgumentException("['CopulaStratey.dependencyMatrixNonPosDef']");
         }
+    }
+
+    @Override
+    /**
+     * This method ensures backward compatibility for existing copulae classes.
+     */
+    public DependancePacket getDependance(Integer modelPeriod) {
+        List<Number> stream = getRandomVector();
+        List<String> names = getTargetNames();
+        if(stream.size() != names.size() ) {
+            throw new SimulationException("Generated differen number of random numbers to number of targets. Contact development");
+        }
+
+        final DependancePacket dependancePacket = new DependancePacket();
+        for (int j = 0; j < stream.size() ; j++) {
+            dependancePacket.addMarginal(names.get(j), modelPeriod, stream.get(j).doubleValue());
+        }
+        return dependancePacket.immutable();
     }
 }
