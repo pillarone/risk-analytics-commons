@@ -2,6 +2,7 @@ package org.pillarone.riskanalytics.domain.utils.math.dependance;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.pillarone.riskanalytics.core.simulation.SimulationException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,9 @@ public class MarginalAndEvent {
 
     public MarginalAndEvent(GeneratorPeriod generatorPeriod, Double marginalProbability, Event event) {
         this.generatorPeriod = generatorPeriod;
+        if(marginalProbability < 0 || marginalProbability > 1) {
+            throw new SimulationException("Probability must be between 1 and 0. Cannot be " + marginalProbability);
+        }
         this.marginalProbability = marginalProbability;
         this.event = event;
     }
