@@ -59,4 +59,20 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
         }
         return dependancePacket.immutable();
     }
+
+    @Override
+    public DependancePacket getDependanceAllPeriod(Integer finalModelPeriod) {
+        final DependancePacket dependancePacket = new DependancePacket();
+        for (int i = 1; i <= finalModelPeriod; i++) {
+            List<Number> stream = getRandomVector();
+            List<String> names = getTargetNames();
+            if(stream.size() != names.size() ) {
+                throw new SimulationException("Generated differen number of random numbers to number of targets. Contact development");
+            }
+            for (int j = 0; j < stream.size() ; j++) {
+                dependancePacket.addMarginal(names.get(j), finalModelPeriod, stream.get(j).doubleValue());
+            }
+        }
+        return dependancePacket;
+    }
 }

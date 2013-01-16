@@ -19,4 +19,6 @@ public interface ICopulaStrategy extends IParameterObject {
     List<Component> getTargetComponents();
 
     DependancePacket getDependance(Integer modelPeriod);
+
+    DependancePacket getDependanceAllPeriod(Integer finalModelPeriod);
 }
