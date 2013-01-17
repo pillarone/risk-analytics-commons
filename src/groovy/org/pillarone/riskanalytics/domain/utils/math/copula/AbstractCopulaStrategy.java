@@ -73,6 +73,6 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
                 dependancePacket.addMarginal(names.get(j), finalModelPeriod, stream.get(j).doubleValue());
             }
         }
-        return dependancePacket;
+        return dependancePacket.immutable();
     }
 }

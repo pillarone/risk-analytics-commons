@@ -1,14 +1,14 @@
 package org.pillarone.riskanalytics.domain.utils.math.dependance;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.pillarone.riskanalytics.core.components.Component;
 import org.pillarone.riskanalytics.core.packets.Packet;
 import org.pillarone.riskanalytics.core.simulation.SimulationException;
 import org.pillarone.riskanalytics.core.simulation.engine.PeriodScope;
 import org.pillarone.riskanalytics.domain.utils.marker.IPerilMarker;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,9 +25,16 @@ import java.util.Map;
 public class DependancePacket extends Packet {
 
     private final Map<GeneratorPeriod, MarginalAndEvent> marginals;
+    private final List<Component> dependantGenerators;
 
     public DependancePacket() {
-        marginals = new HashMap<GeneratorPeriod, MarginalAndEvent>();
+        this.marginals = Maps.newHashMap();
+        this.dependantGenerators = Lists.newArrayList();
+    }
+
+    public DependancePacket( List<Component> dependantGenerators ) {
+        this.marginals = Maps.newHashMap();
+        this.dependantGenerators = Collections.unmodifiableList( dependantGenerators );
     }
 
     /**
@@ -35,12 +42,17 @@ public class DependancePacket extends Packet {
      * because otherwise someone changing that map would mess up the original object.
       * @param marginals
      */
-    public DependancePacket (Map<GeneratorPeriod, MarginalAndEvent> marginals ) {
+    public DependancePacket (Map<GeneratorPeriod, MarginalAndEvent> marginals, List<Component> dependantGenerators ) {
         this.marginals = Collections.unmodifiableMap( marginals );
+        this.dependantGenerators = Collections.unmodifiableList(dependantGenerators);
     }
 
     public void addMarginal ( String generatorName, Integer period, Double marginalValue ) {
         addMarginal(generatorName, period, null, marginalValue);
+    }
+
+    public boolean isDependantGenerator( IPerilMarker generator ) {
+        return dependantGenerators.contains(generator);
     }
 
     public void addMarginal( String generatorName, Integer period, Event event, Double marginalValue ) {
@@ -73,6 +85,10 @@ public class DependancePacket extends Packet {
     }
 
     public DependancePacket immutable() {
-        return new DependancePacket(marginals);
+        return new DependancePacket(marginals, dependantGenerators);
+    }
+
+    public List<Component> getDependantGenerators() {
+        return dependantGenerators;
     }
 }

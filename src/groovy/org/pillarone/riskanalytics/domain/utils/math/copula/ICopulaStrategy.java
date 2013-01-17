@@ -15,7 +15,7 @@ public interface ICopulaStrategy extends IParameterObject {
     List<Number> getRandomVector();
     @Deprecated
     List<String> getTargetNames();
-    @Deprecated
+
     List<Component> getTargetComponents();
 
     DependancePacket getDependance(Integer modelPeriod);
