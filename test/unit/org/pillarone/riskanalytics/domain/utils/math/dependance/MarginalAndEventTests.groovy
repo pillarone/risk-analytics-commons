@@ -3,7 +3,7 @@ package org.pillarone.riskanalytics.domain.utils.math.dependance
 /**
 *   author simon.parten @ art-allianz . com
  */
-class MarginalAndEventTest extends GroovyTestCase {
+class MarginalAndEventTests extends GroovyTestCase {
 
     void testEquals(){
         MarginalAndEvent event = new MarginalAndEvent(0.5, new GeneratorPeriod("LOB1", 1))

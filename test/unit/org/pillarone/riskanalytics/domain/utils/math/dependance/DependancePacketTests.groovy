@@ -3,7 +3,7 @@ package org.pillarone.riskanalytics.domain.utils.math.dependance
 /**
 *   author simon.parten @ art-allianz . com
  */
-class DependancePacketTest extends GroovyTestCase {
+class DependancePacketTests extends GroovyTestCase {
 
     DependancePacket dependancePacket = new DependancePacket()
 
