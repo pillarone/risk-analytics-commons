@@ -67,10 +67,10 @@ public abstract class AbstractCopulaStrategy extends AbstractParameterObject imp
             List<Number> stream = getRandomVector();
             List<String> names = getTargetNames();
             if(stream.size() != names.size() ) {
-                throw new SimulationException("Generated differen number of random numbers to number of targets. Contact development");
+                throw new SimulationException("Generated different number of random numbers to number of targets. Contact development");
             }
             for (int j = 0; j < stream.size() ; j++) {
-                dependancePacket.addMarginal(names.get(j), finalModelPeriod, stream.get(j).doubleValue());
+                dependancePacket.addMarginal(names.get(j), i, stream.get(j).doubleValue());
             }
         }
         return dependancePacket.immutable();
