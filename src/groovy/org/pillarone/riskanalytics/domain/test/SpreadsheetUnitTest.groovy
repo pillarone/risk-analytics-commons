@@ -1,5 +1,6 @@
 package org.pillarone.riskanalytics.domain.test
 
+import org.apache.poi.ss.formula.atp.AnalysisToolPak
 import org.pillarone.riskanalytics.core.initialization.StandaloneConfigLoader
 import grails.util.Environment
 
@@ -19,6 +20,7 @@ abstract class SpreadsheetUnitTest extends GroovyTestCase {
         StandaloneConfigLoader.loadLog4JConfig(Environment.current.name)
         initSpreadsheets(getSpreadsheetNames())
         doSetUp()
+        AnalysisToolPak.registerFunction('EDATE', new EDateFunction())
     }
 
     /**
