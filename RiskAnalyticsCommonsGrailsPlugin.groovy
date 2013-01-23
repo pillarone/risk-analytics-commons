@@ -1,3 +1,4 @@
+import org.pillarone.riskanalytics.domain.utils.constraint.ReinsuranceContractContraints
 import org.pillarone.riskanalytics.domain.utils.validation.DistributionTypeValidator
 import org.pillarone.riskanalytics.core.parameterization.validation.ValidatorRegistry
 import org.pillarone.riskanalytics.domain.utils.constraint.DateTimeConstraints
@@ -60,6 +61,7 @@ class RiskAnalyticsCommonsGrailsPlugin {
         ConstraintsFactory.registerConstraint(new SegmentPortion())
         ConstraintsFactory.registerConstraint(new UnderwritingPortion())
         ConstraintsFactory.registerConstraint(new ReservePortion())
+        ConstraintsFactory.registerConstraint(new ReinsuranceContractContraints())
 
         ValidatorRegistry.addValidator(new DistributionTypeValidator())
         ValidatorRegistry.addValidator(new FrequencyDistributionTypeValidator())
