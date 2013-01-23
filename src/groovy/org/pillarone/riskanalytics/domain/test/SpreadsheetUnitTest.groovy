@@ -20,8 +20,7 @@ abstract class SpreadsheetUnitTest extends GroovyTestCase {
         StandaloneConfigLoader.loadLog4JConfig(Environment.current.name)
         initSpreadsheets(getSpreadsheetNames())
         doSetUp()
-        def toolpak = AnalysisToolPak.instance
-        if (!toolpak.findFunction('EDATE')) {
+        if (!AnalysisToolPak.getSupportedFunctionNames().contains('EDATE')) {
             AnalysisToolPak.registerFunction('EDATE', new EDateFunction())
         }
     }
