@@ -20,7 +20,10 @@ abstract class SpreadsheetUnitTest extends GroovyTestCase {
         StandaloneConfigLoader.loadLog4JConfig(Environment.current.name)
         initSpreadsheets(getSpreadsheetNames())
         doSetUp()
-        AnalysisToolPak.registerFunction('EDATE', new EDateFunction())
+        def toolpak = AnalysisToolPak.instance
+        if (!toolpak.findFunction('EDATE')) {
+            AnalysisToolPak.registerFunction('EDATE', new EDateFunction())
+        }
     }
 
     /**
@@ -50,7 +53,7 @@ abstract class SpreadsheetUnitTest extends GroovyTestCase {
         importer.writeValidationErrors()
         assertTrue "Validation errors occured, details available in ${importer.getFileNameValidationErrors()}", importer.validFile()
     }
-    
+
     /** Including file extension (.xlsx) but without path */
     abstract List<String> getSpreadsheetNames();
 
