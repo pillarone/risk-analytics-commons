@@ -8,20 +8,23 @@ import org.pillarone.riskanalytics.core.parameterization.ComboBoxMatrixMultiDime
 import org.pillarone.riskanalytics.core.parameterization.ComboBoxTableMultiDimensionalParameter
 import org.pillarone.riskanalytics.domain.utils.marker.ICorrelationMarker
 import org.pillarone.riskanalytics.core.simulation.InvalidParameterException
+import org.pillarone.riskanalytics.core.parameterization.PeriodMatrixMultiDimensionalParameter
 
 /**
  * @author jessika.walter (at) intuitive-collaboration (dot) com
  */
 class CopulaType extends AbstractCopulaType {
 
+    public static final String DEPENDANCY_MATRIX = "dependencyMatrix"
 
-    public static final CopulaType NORMAL = new CopulaType("normal", "NORMAL", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker)])
+    public static final CopulaType NORMAL = new CopulaType("normal", "NORMAL", [ (DEPENDANCY_MATRIX) : new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker)])
     public static final CopulaType INDEPENDENT = new CopulaType("independent", "INDEPENDENT", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType FRECHETUPPERBOUND = new CopulaType("frechet upper bound", "FRECHETUPPERBOUND", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType GUMBEL = new CopulaType("gumbel", "GUMBEL", ["lambda": 10, "dimension": 2, "targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType T = new CopulaType("t", "T", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker), "degreesOfFreedom": 10])
+    public static final CopulaType MULTI_PERIOD_NORMAL = new CopulaType("multi period normal", "MULTI_PERIOD_NORMAL", [ (DEPENDANCY_MATRIX) : new PeriodMatrixMultiDimensionalParameter([[], []], [[], []], ICorrelationMarker)])
 
-    public static final all = [NORMAL, INDEPENDENT, FRECHETUPPERBOUND, GUMBEL, T]
+    public static final all = [NORMAL, INDEPENDENT, FRECHETUPPERBOUND, GUMBEL, T, MULTI_PERIOD_NORMAL]
 
     protected static Map types = [:]
     static {
@@ -60,7 +63,7 @@ class CopulaType extends AbstractCopulaType {
         ICopulaStrategy copula
         switch (type) {
             case CopulaType.NORMAL:
-                copula = new NormalCopulaStrategy(dependencyMatrix: (ComboBoxMatrixMultiDimensionalParameter) parameters["dependencyMatrix"])
+                copula = new NormalCopulaStrategy( (DEPENDANCY_MATRIX) : (ComboBoxMatrixMultiDimensionalParameter) parameters[DEPENDANCY_MATRIX])
                 break
             case CopulaType.INDEPENDENT:
                 copula = new IndependentCopulaStrategy(targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
@@ -75,6 +78,9 @@ class CopulaType extends AbstractCopulaType {
             case CopulaType.GUMBEL:
                 copula = new GumbelCopulaStrategy(lambda: (double) parameters["lambda"], dimension: (double) parameters["dimension"],
                         targets: (ComboBoxTableMultiDimensionalParameter) parameters["targets"])
+                break
+            case CopulaType.MULTI_PERIOD_NORMAL:
+                copula = new MultiPeriodNormalCopula( (DEPENDANCY_MATRIX) : (PeriodMatrixMultiDimensionalParameter) parameters[DEPENDANCY_MATRIX])
                 break
             default:
                 throw new InvalidParameterException("CopulaType $type not implemented")

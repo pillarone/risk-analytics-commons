@@ -19,8 +19,8 @@ public class MarginalAndEvent {
 
     public MarginalAndEvent(GeneratorPeriod generatorPeriod, Double marginalProbability, Event event) {
         this.generatorPeriod = generatorPeriod;
-        if(marginalProbability < 0 || marginalProbability > 1) {
-            throw new SimulationException("Probability must be between 1 and 0. Cannot be " + marginalProbability);
+        if(marginalProbability < 0 || marginalProbability > 1 || marginalProbability.isNaN()) {
+            throw new SimulationException("Probability must be between 1 and 0. Cannot be " + marginalProbability +  " . " + generatorPeriod.toString());
         }
         this.marginalProbability = marginalProbability;
         this.event = event;

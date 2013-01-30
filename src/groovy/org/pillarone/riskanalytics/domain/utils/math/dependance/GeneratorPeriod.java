@@ -2,6 +2,7 @@ package org.pillarone.riskanalytics.domain.utils.math.dependance;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.pillarone.riskanalytics.core.components.Component;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,10 +15,18 @@ public class GeneratorPeriod {
 
     final String generatorName;
     final Integer period;
+    final Component component;
 
     public GeneratorPeriod(String generatorName, Integer period) {
         this.generatorName = generatorName;
         this.period = period;
+        this.component = null;
+    }
+
+    public GeneratorPeriod(Component generator, Integer period) {
+        this.generatorName = generator.getName();
+        this.period = period;
+        this.component = generator;
     }
 
     public String getGeneratorName() {
@@ -26,6 +35,10 @@ public class GeneratorPeriod {
 
     public Integer getPeriod() {
         return period;
+    }
+
+    public Component getComponent() {
+        return component;
     }
 
     @Override
