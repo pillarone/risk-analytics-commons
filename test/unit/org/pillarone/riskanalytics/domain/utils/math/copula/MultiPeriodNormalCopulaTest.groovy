@@ -72,43 +72,43 @@ class MultiPeriodNormalCopulaTest extends GroovyTestCase {
                 Component component1 = new TestComponent(name: "LOB1")
                 Component component2 = new TestComponent(name: "LOB2")
 //            Diagonal
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info00 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component1, period2: 0, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info11 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info22 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 0, component2: component2, period2: 0, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info33 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component2, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info00 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info11 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 2, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info22 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component2, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info33 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 2, component2: component2, period2: 2, value: 1)
                 info << info00
                 info << info11
                 info << info22
                 info << info33
 
 //                Column L1, P0
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component1, period2: 1, value: 0.1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component2, period2: 0)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info03 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component2, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 2, value: 0.1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component2, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info03 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component2, period2: 2)
                 info << info01
                 info << info02
                 info << info03
 
 //                Column L1, P1
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info10 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 0, value: 0.1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info12 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component2, period2: 0)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info13 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component2, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info10 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 1, value: 0.1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info12 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component2, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info13 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component2, period2: 2)
                 info << info10
                 info << info12
                 info << info13
 
 //                Column L2, P0
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info20 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 0, component2: component1, period2: 0)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info21 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 0, component2: component1, period2: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info23 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 0, component2: component2, period2: 1, value: 0.2)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info20 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component1, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info21 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component1, period2: 2)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info23 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component2, period2: 2, value: 0.2)
                 info << info20
                 info << info21
                 info << info23
 
 //                Column L2, P1
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info30 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component1, period2: 0)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info31 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component1, period2: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info32 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 1, component2: component2, period2: 0, value: 0.2)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info30 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 2, component2: component1, period2: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info31 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 2, component2: component1, period2: 2)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info32 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component2, period1: 2, component2: component2, period2: 1, value: 0.2)
                 info << info30
                 info << info31
                 info << info32
@@ -138,14 +138,14 @@ class MultiPeriodNormalCopulaTest extends GroovyTestCase {
                 List<PeriodMatrixMultiDimensionalParameter.CorrelationInfo> info = new ArrayList<PeriodMatrixMultiDimensionalParameter.CorrelationInfo>()
                 Component component1 = new TestComponent(name: "LOB1")
 //            Diagonal
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info00 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component1, period2: 0, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info11 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info00 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info11 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 2, value: 1)
                 info << info00
                 info << info11
 
 //                Column L1, P0
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 0, component2: component1, period2: 1, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 0, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 2, value: 1)
                 info << info01
                 info << info02
                 return info
