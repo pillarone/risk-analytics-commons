@@ -144,8 +144,8 @@ class MultiPeriodNormalCopulaTest extends GroovyTestCase {
                 info << info11
 
 //                Column L1, P0
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 1, value: 1)
-                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 2, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info01 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 1, component2: component1, period2: 2, value: 1)
+                PeriodMatrixMultiDimensionalParameter.CorrelationInfo info02 = new PeriodMatrixMultiDimensionalParameter.CorrelationInfo(component1: component1, period1: 2, component2: component1, period2: 1, value: 1)
                 info << info01
                 info << info02
                 return info
