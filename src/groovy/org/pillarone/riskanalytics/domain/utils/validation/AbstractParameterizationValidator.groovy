@@ -32,11 +32,15 @@ abstract class AbstractParameterizationValidator implements IParameterizationVal
                     LOG.debug "validating ${parameterToVerify.path}"
                 }
                 def currentErrors = validationService.validate(parameterToVerify.classifier, getParameterMap(parameterToVerify))
-                currentErrors*.path = getErrorPath(parameterToVerify)
+                setErrorPaths(parameterToVerify, currentErrors)
                 errors.addAll(currentErrors)
             }
         }
         return errors
+    }
+
+    protected void setErrorPaths(ParameterObjectParameterHolder parameterToVerify, List<ParameterValidation> currentErrors) {
+        currentErrors*.path = getErrorPath(parameterToVerify)
     }
 
     protected Map getParameterMap(ParameterObjectParameterHolder parameterToVerify) {
