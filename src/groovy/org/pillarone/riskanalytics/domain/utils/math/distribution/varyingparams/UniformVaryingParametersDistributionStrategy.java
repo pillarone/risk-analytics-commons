@@ -46,7 +46,7 @@ public class UniformVaryingParametersDistributionStrategy extends AbstractVaryin
             double aParam = InputFormatConverter.getDouble(boundaries.getValueAt(row, aColumnIndex));
             double bParam = InputFormatConverter.getDouble(boundaries.getValueAt(row, bColumnIndex));
             distributionPerPeriod.put(period, DistributionType.getStrategy(
-                    DistributionType.TRIANGULARDIST, ArrayUtils.toMap(
+                    DistributionType.UNIFORM, ArrayUtils.toMap(
                         new Object[][]{{DistributionParams.A, aParam},
                                 {DistributionParams.B, bParam}})));
         }
