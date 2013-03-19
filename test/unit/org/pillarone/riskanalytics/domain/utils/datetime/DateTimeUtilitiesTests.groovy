@@ -10,8 +10,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
     static final EPSILON = 1E-5
 
     void testDays360OneYear(){
-        private DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360(testDate2, testDate1 )
         double testMeUS = DateTimeUtilities.Days360.US.days360(testDate2, testDate1 )
@@ -20,8 +20,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
         assertEquals "Check two years" , testMeUS , 360 * 2, EPSILON
     }
     void testDays360OneDay(){
-        private DateTime testDate1 = new DateTime(2013, 1, 2, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2013, 1, 2, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360(testDate2, testDate1 )
         double testMeUS = DateTimeUtilities.Days360.US.days360(testDate2, testDate1 )
@@ -31,8 +31,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
     }
 
     void testDays360TwoMonths(){
-        private DateTime testDate1 = new DateTime(2013, 3, 1, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2013, 3, 1, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360(testDate2, testDate1 )
         double testMeUS = DateTimeUtilities.Days360.US.days360(testDate2, testDate1 )
@@ -42,8 +42,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
     }
 
     void testDays360MinusTwoMonths(){
-        private DateTime testDate1 = new DateTime(2013, 3, 1, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2013, 3, 1, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360(testDate1, testDate2 )
         double testMeUS = DateTimeUtilities.Days360.US.days360(testDate1, testDate2 )
@@ -53,8 +53,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
     }
 
     void testDays360LeapYearDays(){
-        private DateTime testDate1 = new DateTime(2012, 2, 28, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2012, 3, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2012, 2, 28, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2012, 3, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360 (testDate1, testDate2 )
         double testMeUS = DateTimeUtilities.Days360.US.days360 (testDate1, testDate2 )
@@ -64,8 +64,8 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
     }
 
     void testDays360LeapYearDay(){
-        private DateTime testDate1 = new DateTime(2012, 2, 29, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2012, 3, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2012, 2, 29, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2012, 3, 1, 0, 0, 0, 0);
 
         double testMeEU = DateTimeUtilities.Days360.EU.days360(testDate1, testDate2 )
         double testMeUS = DateTimeUtilities.Days360.US.days360(testDate1, testDate2 )
@@ -97,29 +97,29 @@ class DateTimeUtilitiesTests extends GroovyTestCase {
 
 
     void testTestDays360Proprtion(){
-        private DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
-        private DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime testDate1 = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        DateTime testDate2 = new DateTime(2013, 1, 1, 0, 0, 0, 0);
 
-        private DateTime halfPeriod = new DateTime(2014, 1, 1, 0, 0, 0, 0);
+        DateTime halfPeriod = new DateTime(2014, 1, 1, 0, 0, 0, 0);
         double testMe = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, halfPeriod, DateTimeUtilities.Days360.EU)
         assertEquals "Check half period" , testMe , 0.5d, EPSILON
 
-        private DateTime sameAsStart = new DateTime(2013, 1, 1, 0, 0, 0, 0);
+        DateTime sameAsStart = new DateTime(2013, 1, 1, 0, 0, 0, 0);
         double shouldBeZero = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, sameAsStart, DateTimeUtilities.Days360.EU)
         assertEquals "shouldBeZero" , shouldBeZero , 0d
 
-        private DateTime sameAsEnd = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        DateTime sameAsEnd = new DateTime(2015, 1, 1, 0, 0, 0, 0);
         double shouldBe1 = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, sameAsEnd, DateTimeUtilities.Days360.EU)
         assertEquals "shouldBe1" , shouldBe1 , 1d
 
 //        Check the runtimeChecks!
         shouldFail {
-            private DateTime beforeStart = new DateTime(2012, 1, 1, 0, 0, 0, 0);
+            DateTime beforeStart = new DateTime(2012, 1, 1, 0, 0, 0, 0);
             double shouldFail = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, beforeStart, DateTimeUtilities.Days360.EU)
         }
 
         shouldFail {
-            private DateTime afterEnd = new DateTime(2016, 1, 1, 0, 0, 0, 0);
+            DateTime afterEnd = new DateTime(2016, 1, 1, 0, 0, 0, 0);
             double shouldFail = DateTimeUtilities.days360ProportionOfPeriod(testDate2, testDate1, afterEnd, DateTimeUtilities.Days360.EU)
         }
     }
