@@ -227,6 +227,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
             [ValidationType.ERROR, "distribution.type.error.uniform.limits.not.strictly.increasing", type.a, type.b]
         }
         validationService.register(DistributionType.PIECEWISELINEAR) {Map type ->
+            // be aware to keep this validation rules in sync with org.pillarone.riskanalytics.domain.utils.math.distribution.PiecewiseLinearDistribution
             double[] values = new double[type.supportPoints.getRowCount() - 1];
             int index = type.supportPoints.getColumnIndex('values')
             for (int i = 1; i < type.supportPoints.getRowCount(); i++) {
@@ -245,6 +246,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
             return true
         }
         validationService.register(DistributionType.PIECEWISELINEAR) {Map type ->
+            // be aware to keep this validation rules in sync with org.pillarone.riskanalytics.domain.utils.math.distribution.PiecewiseLinearDistribution
             double[] cdf = new double[type.supportPoints.getRowCount() - 1];
             int index = type.supportPoints.getColumnIndex('cumulative probabilities')
             for (int i = 1; i < type.supportPoints.getRowCount(); i++) {
@@ -254,7 +256,7 @@ class DistributionTypeValidator implements IParameterizationValidator {
                 return [ValidationType.ERROR, "distribution.type.error.piecewiselinear.cdf.probabilities.empty"]
             }
             for (int i = 1; i < cdf.length; i++) {
-                if (cdf[i - 1] > cdf[i]) {
+                if (cdf[i - 1] >= cdf[i]) {
                     return [ValidationType.ERROR, "distribution.type.error.piecewiselinear.cdf.probabilities.nonincreasing", i, cdf[i - 1], cdf[i]]
                 }
             }
