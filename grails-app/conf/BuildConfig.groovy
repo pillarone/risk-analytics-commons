@@ -9,6 +9,7 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
 
+        mavenCentral()
         mavenRepo "https://repository.intuitive-collaboration.com/nexus/content/repositories/pillarone-public/"
     }
 
