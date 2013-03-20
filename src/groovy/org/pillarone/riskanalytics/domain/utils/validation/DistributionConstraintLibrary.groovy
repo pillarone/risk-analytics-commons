@@ -35,7 +35,7 @@ public class DistributionConstraintLibrary {
     }
 
     public static void checkPeriodsInCoverPeriod( AbstractParameterValidationService service ) {
-        for(VaryingParametersDistributionType aType in VaryingParametersDistributionType) {
+        for(VaryingParametersDistributionType aType in VaryingParametersDistributionType.all) {
             service.register(aType, checkPeriodWithinScope)
         }
     }
