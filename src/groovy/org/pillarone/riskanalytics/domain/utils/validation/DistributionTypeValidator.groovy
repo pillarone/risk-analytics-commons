@@ -67,6 +67,11 @@ class DistributionTypeValidator implements IParameterizationValidator {
                 type.beta <= 0 ? [ValidationType.ERROR, "distribution.type.error.beta.beta.nonpositive", type.beta] :
                     true
         }
+        validationService.register(DistributionType.WEIBULL) {Map type ->
+            type.alpha <= 0 ? [ValidationType.ERROR, "distribution.type.error.weibull.alpha.nonpositive", type.alpha] :
+                type.delta <= 0 ? [ValidationType.ERROR, "distribution.type.error.weibull.delta.nonpositive", type.delta] :
+                    true
+        }
 
         validationService.register(DistributionType.NEGATIVEBINOMIAL) {Map type ->
             if (type.gamma > 0) return true
