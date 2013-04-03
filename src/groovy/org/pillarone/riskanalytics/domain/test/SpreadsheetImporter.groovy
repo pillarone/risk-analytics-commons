@@ -1,8 +1,9 @@
 package org.pillarone.riskanalytics.domain.test
 
+import org.grails.plugins.excelimport.ExcelImportService
+
 import java.text.SimpleDateFormat
 import org.grails.plugins.excelimport.AbstractExcelImporter
-import org.grails.plugins.excelimport.ExcelImportUtils
 
 /**
  * Handles import of spreadsheets for SpreadsheetUnitTest providing a simplified API to test writers.
@@ -19,13 +20,15 @@ class SpreadsheetImporter extends AbstractExcelImporter {
     private String fileNameValidationErrors
     CommentInvalidCellsImportCellCollector cellCollector = new CommentInvalidCellsImportCellCollector()
 
+    ExcelImportService excelImportService = new ExcelImportService()
+
     SpreadsheetImporter(String fileName) {
         this(path, fileName)
     }
 
     SpreadsheetImporter(String path, String fileName) {
-        super(path + fileName)
         this.fileName = fileName
+        read(new FileInputStream(path + fileName))
     }
 
     /**
@@ -35,11 +38,11 @@ class SpreadsheetImporter extends AbstractExcelImporter {
      *          provided in propertyConfigurationMap. Any validation errors are collected within cellCollector.
      */
     List columns(Map config, Object propertyConfigurationMap) {
-        ExcelImportUtils.columns(workbook, config, cellCollector, propertyConfigurationMap)
+        excelImportService.columns(workbook, config, cellCollector, propertyConfigurationMap)
     }
     
     Map cells(Map config) {
-        ExcelImportUtils.cells(workbook, config)
+        excelImportService.cells(workbook, config) as Map
     }
 
     /**
