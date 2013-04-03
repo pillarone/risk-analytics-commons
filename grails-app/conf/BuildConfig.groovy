@@ -26,7 +26,7 @@ grails.project.dependency.resolution = {
         compile ":excel-import:0.9.6"
 
         if (appName == "risk-analytics-commons") {
-            runtime "org.pillarone:risk-analytics-core:1.7-a5"
+            runtime "org.pillarone:risk-analytics-core:1.7-a6"
         }
     }
 }
