@@ -6,14 +6,14 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor
 import org.apache.poi.xssf.usermodel.XSSFComment
 import org.apache.poi.xssf.usermodel.XSSFDrawing
-import org.grails.plugins.excelimport.ImportCellCollector
+import org.grails.plugins.excelimport.DefaultImportCellCollector
 
 /**
  * If a cell is violating its propertyConfiguration a comment is added to the cell.
  *
  * @author stefan.kunz (at) intuitive-collaboration (dot) com
  */
-class CommentInvalidCellsImportCellCollector implements ImportCellCollector  {
+class CommentInvalidCellsImportCellCollector extends DefaultImportCellCollector {
 
     static Log log = LogFactory.getLog(CommentInvalidCellsImportCellCollector)
     private boolean hasFailure = false
@@ -29,7 +29,7 @@ class CommentInvalidCellsImportCellCollector implements ImportCellCollector  {
         }
     }
 
-    void addComment(Cell cell, String text) {
+    static void addComment(Cell cell, String text) {
         cell.getSheet().getWorkbook()
         XSSFDrawing drawing = cell.getSheet().createDrawingPatriarch() as XSSFDrawing
         XSSFComment comment = drawing.createCellComment(new XSSFClientAnchor())
