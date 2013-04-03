@@ -42,6 +42,7 @@ class PiecewiseLinearDistribution extends ContinuousDistribution {
         if (cumulProb[last] != 1) throw new InvalidParameterException("PiecewiseLinearDistribution.invalidLastFunctionValue");
         for (int i = 1; i <= last; i++) {
             if (values[i] <= values[i - 1])
+                // be aware to keep this rules in sync with org.pillarone.riskanalytics.domain.utils.validation.DistributionTypeValidator
                 throw new InvalidParameterException("PiecewiseLinearDistribution.nonincreasingArguments");
             if (cumulProb[i] <= cumulProb[i - 1]) {
                 throw new InvalidParameterException("PiecewiseLinearDistribution.nonincreasingFunctionValues");

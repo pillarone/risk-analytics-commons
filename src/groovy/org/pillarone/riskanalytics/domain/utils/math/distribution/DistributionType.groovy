@@ -117,6 +117,10 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             "gumbel", "GUMBEL",
             [(DistributionParams.BETA.toString()): 1d, (DistributionParams.DELTA.toString()): 0d]
     )
+    public static final DistributionType WEIBULL = new DistributionType(
+            "weibull", "WEIBULL",
+            [(DistributionParams.ALPHA.toString()): 1d, (DistributionParams.LAMBDA.toString()): 1d, (DistributionParams.DELTA.toString()): 0d]
+    )
     public static final DistributionType LOGLOGISTIC = new DistributionType(
             "log logistic", "LOGLOGISTIC",
             [(DistributionParams.ALPHA.toString()): 2d, (DistributionParams.BETA.toString()): 1d]
@@ -175,7 +179,8 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
             SHIFTEDPARETOII,
             STUDENTDIST,
             TRIANGULARDIST,
-            UNIFORM
+            UNIFORM,
+            WEIBULL
     ]
 
     protected static Map types = [:]
@@ -425,6 +430,13 @@ class DistributionType extends AbstractParameterObjectClassifier implements Seri
                             extractParam(parameters, DistributionParams.ALPHA, 2d),
                             extractParam(parameters, DistributionParams.BETA, 1d),
                             extractParam(parameters, DistributionParams.LAMBDA, 0d))
+                    break
+                case DistributionType.WEIBULL:
+                    distribution.distribution = new WeibullDist(
+                            extractParam(parameters, DistributionParams.ALPHA, 1d),
+                            extractParam(parameters, DistributionParams.LAMBDA, 1d),
+                            extractParam(parameters, DistributionParams.DELTA, 0d),
+                    )
                     break
                 default : throw new InvalidParameterException("Unknown distribution " + type.toString());
             }
