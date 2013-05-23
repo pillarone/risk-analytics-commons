@@ -24,6 +24,8 @@ public class DateTimeUtilities {
      * A readily available formatter in a form we often want when providing output to the user.
      */
     public static final DateTimeFormatter formatDate = DateTimeFormat.forPattern("dd-MMMM-yyyy");
+    public static Double days360DaysInYear = 360d;
+    public static double days360DaysInMonth = 30d;
 
     /**
      * Converts a string of the form YYYY-MM-DD (an ISO-2014 date or ISO-8601 calendar date) to a Joda DateTime
@@ -199,6 +201,7 @@ public class DateTimeUtilities {
         return numberOfCompleteMonths + fractionInLastMonth;
     }
 
+
     public static double getInterestRateForTimeInterval(double yearlyRate, DateTime startDate, DateTime endDate) {
         /**
          * Basis of interval interest rate is the fiscal (calendar) year.
@@ -250,6 +253,7 @@ public class DateTimeUtilities {
     }
 
     public enum Days360 {
+
         US {
             /**
              * Utility function for use mainly in interest calculation and interpolations.
@@ -297,7 +301,7 @@ public class DateTimeUtilities {
 
 //      Now do calc with 30 days in each month!
                 int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
-                int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
+                int endDay = (endDate.getYear() - startDate.getYear()) * days360DaysInYear.intValue() + endDate.getMonthOfYear() * 30 + endDayOfMonth;
 
                 return endDay - startDay;
 
@@ -316,7 +320,7 @@ public class DateTimeUtilities {
                 int startDayOfMonth = (startDate.getDayOfMonth() == 31) ? 30 : startDate.getDayOfMonth();
                 int startDay = startDate.getMonthOfYear() * 30 + startDayOfMonth;
                 int endDayOfMonth = endDate.getDayOfMonth() == 31 ? 30 : endDate.getDayOfMonth();
-                int endDay = (endDate.getYear() - startDate.getYear()) * 360 + endDate.getMonthOfYear() * 30 + endDayOfMonth;
+                int endDay = (endDate.getYear() - startDate.getYear()) * days360DaysInYear.intValue() + endDate.getMonthOfYear() * 30 + endDayOfMonth;
 
                 return endDay - startDay;
             }
@@ -388,6 +392,10 @@ public class DateTimeUtilities {
         assert endDate != null;
         assert checkDate != null;
         return checkDate.isBefore(endDate) && (checkDate.isAfter(startDate));
+    }
+
+    public static boolean isBetweenOrEqualStart(DateTime startDate, DateTime endDate, DateTime checkDate) {
+        return checkDate.isBefore(endDate) && ( checkDate.isEqual(startDate) || checkDate.isAfter(startDate));
     }
 
     /**
