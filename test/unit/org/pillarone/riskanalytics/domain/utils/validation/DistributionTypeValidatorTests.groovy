@@ -2,6 +2,7 @@ package org.pillarone.riskanalytics.domain.utils.validation
 
 import org.pillarone.riskanalytics.core.parameterization.TableMultiDimensionalParameter
 import org.pillarone.riskanalytics.core.parameterization.validation.AbstractParameterValidationService
+import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionModifier
 import org.pillarone.riskanalytics.domain.utils.math.distribution.DistributionType
 
 /**
@@ -97,6 +98,16 @@ class DistributionTypeValidatorTests extends GroovyTestCase {
         assertEquals 2, validator.validate(validDistribution, ['alpha': 1d, 'beta': 1d]).size()
         assertEquals 1, validator.validate(validDistribution, ['alpha': 1.1d, 'beta': 1d]).size()
         assertEquals 0, validator.validate(validDistribution, ['alpha': 2.1d, 'beta': 1d]).size()
+        assertEquals 2, validator.validate(validDistribution, ['alpha': 1d, 'beta': 1d, modifier: DistributionModifier.NONE]).size()
+        assertEquals 1, validator.validate(validDistribution, ['alpha': 1.1d, 'beta': 1d,modifier: DistributionModifier.NONE]).size()
+        assertEquals 0, validator.validate(validDistribution, ['alpha': 2.1d, 'beta': 1d,modifier: DistributionModifier.NONE]).size()
+    }
+
+    void testParetoValidatorWithModifierDifferentToNone() {
+        def validDistribution = DistributionType.PARETO
+        assertEquals 0, validator.validate(validDistribution, ['alpha': 1d, 'beta': 1d, modifier: DistributionModifier.CENSORED]).size()
+        assertEquals 0, validator.validate(validDistribution, ['alpha': 1.1d, 'beta': 1d,modifier: DistributionModifier.CENSOREDSHIFT]).size()
+        assertEquals 0, validator.validate(validDistribution, ['alpha': 2.1d, 'beta': 1d,modifier: DistributionModifier.TRUNCATEDSHIFT]).size()
     }
 
     // todo(sku): extend with additional failing msg
