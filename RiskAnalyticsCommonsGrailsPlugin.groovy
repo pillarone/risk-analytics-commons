@@ -1,3 +1,4 @@
+import org.pillarone.riskanalytics.domain.utils.constraint.IntDateTimeDoubleConstraints
 import org.pillarone.riskanalytics.domain.utils.constraint.ReinsuranceContractContraints
 import org.pillarone.riskanalytics.domain.utils.validation.DistributionTypeValidator
 import org.pillarone.riskanalytics.core.parameterization.validation.ValidatorRegistry
@@ -52,6 +53,7 @@ class RiskAnalyticsCommonsGrailsPlugin {
 
     def doWithApplicationContext = { applicationContext ->
         ConstraintsFactory.registerConstraint(new DoubleConstraints())
+        ConstraintsFactory.registerConstraint(new IntDateTimeDoubleConstraints())
         ConstraintsFactory.registerConstraint(new PeriodDistributionsConstraints())
         ConstraintsFactory.registerConstraint(new PeriodNDistributionsConstraints())
         ConstraintsFactory.registerConstraint(new DateTimeConstraints())
