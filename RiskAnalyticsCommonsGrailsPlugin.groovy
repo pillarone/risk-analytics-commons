@@ -1,5 +1,4 @@
 import org.pillarone.riskanalytics.domain.utils.constraint.IntDateTimeDoubleConstraints
-import org.pillarone.riskanalytics.domain.utils.constraint.IntDateTimeDoubleConstraints
 import org.pillarone.riskanalytics.domain.utils.constraint.ReinsuranceContractContraints
 import org.pillarone.riskanalytics.domain.utils.validation.DistributionTypeValidator
 import org.pillarone.riskanalytics.core.parameterization.validation.ValidatorRegistry
@@ -19,7 +18,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsC
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
-    def version = "1.8-a1"
+    def version = "1.8-b1"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
@@ -54,6 +53,7 @@ class RiskAnalyticsCommonsGrailsPlugin {
 
     def doWithApplicationContext = { applicationContext ->
         ConstraintsFactory.registerConstraint(new DoubleConstraints())
+        ConstraintsFactory.registerConstraint(new IntDateTimeDoubleConstraints())
         ConstraintsFactory.registerConstraint(new PeriodDistributionsConstraints())
         ConstraintsFactory.registerConstraint(new PeriodNDistributionsConstraints())
         ConstraintsFactory.registerConstraint(new DateTimeConstraints())
