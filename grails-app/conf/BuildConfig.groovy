@@ -1,6 +1,8 @@
 //Use a custom plugins dir, because different branches use different plugin versions
 grails.project.plugins.dir = "../local-plugins/risk-analytics-commons-master"
 
+grails.project.dependency.resolver = "maven"
+
 grails.project.dependency.resolution = {
     inherits "global" // inherit Grails' default dependencies
     log "warn"
@@ -11,22 +13,31 @@ grails.project.dependency.resolution = {
 
         mavenCentral()
         mavenRepo "https://repository.intuitive-collaboration.com/nexus/content/repositories/pillarone-public/"
+        mavenRepo "http://repo.spring.io/milestone/" //needed for spring-security-core 2.0-rc2 plugin
+
+    }
+
+    dependencies {
+        compile (group:'org.apache.poi', name:'poi', version:'3.9');
+        compile (group:'org.apache.poi', name:'poi-ooxml', version:'3.9') {
+            excludes 'xmlbeans'
+        }
     }
 
     plugins {
         runtime ":background-thread:1.3"
-        runtime ":hibernate:2.2.1"
+        runtime ":hibernate:3.6.10.2"
         runtime ":joda-time:0.5"
-        runtime ":maven-publisher:0.7.5"
+        runtime ":release:3.0.1"
         runtime ":quartz:0.4.2"
-        runtime ":spring-security-core:1.2.7.3"
-        runtime ":tomcat:2.2.1"
+        runtime ":spring-security-core:2.0-RC2"
+        runtime ":tomcat:7.0.42"
 
-        test ":code-coverage:1.2.4"
+        test ":code-coverage:1.2.6"
         compile ":excel-import:1.0.0"
 
         if (appName == "risk-analytics-commons") {
-            runtime "org.pillarone:risk-analytics-core:1.8"
+            runtime "org.pillarone:risk-analytics-core:1.9-a1"
         }
     }
 }
