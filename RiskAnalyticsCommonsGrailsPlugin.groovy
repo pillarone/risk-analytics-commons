@@ -18,7 +18,7 @@ import org.pillarone.riskanalytics.domain.utils.constraint.PeriodNDistributionsC
 
 class RiskAnalyticsCommonsGrailsPlugin {
     // the plugin version
-    def version = "1.8.1"
+    def version = "1.8.2"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
