@@ -93,22 +93,22 @@ class ConstantsDistribution extends DiscreteDistribution {
         int i = 0 // find the greatest cdft[i] < u; try all binary numbers i, looping on the bits from most to least significant
         for (int bit = leadBit; bit > 0 && cdft[i] < u; bit >>= 1) {
             int j = i + bit
-            if (j < length && cdft[j] < u) i = j
+            if (j < distinctValueCount && cdft[j] < u) i = j
         }
         i++ // add one to get the least i having cdft[i] >= u
-        return sortedValues[i]
+        return sortedValues[Math.min(i, distinctValueCount - 1)]
     }
 
     double cdf(double v) {
         if (v < sortedValues[0]) return 0.0;
-        if (v >= sortedValues[length - 1]) return 1.0
+        if (v >= sortedValues[distinctValueCount - 1]) return 1.0
         // find the least i so that v <= sortedValues[i]
         int i = 0
         for (int bit = leadBit; bit > 0 && sortedValues[i] < v; bit >>= 1) {
             int j = i + bit
-            if (j < length && sortedValues[j] <= v) i = j
+            if (j < distinctValueCount && sortedValues[j] <= v) i = j
         }
-        return cdft[i]
+        return cdft[Math.min(i, distinctValueCount - 1)]
     }
 
     double barF(double v) {return 1 - cdf(v)}
