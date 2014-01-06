@@ -9,3 +9,4 @@ out/*
 *.iws
 *.zip
 cobertura.ser
+_build.xml
