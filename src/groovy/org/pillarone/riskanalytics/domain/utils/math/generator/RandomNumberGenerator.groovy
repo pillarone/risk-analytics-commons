@@ -1,6 +1,7 @@
 package org.pillarone.riskanalytics.domain.utils.math.generator
 
 import umontreal.iro.lecuyer.probdist.BinomialDist
+import umontreal.iro.lecuyer.probdist.DiscreteDistribution
 import umontreal.iro.lecuyer.probdist.DiscreteDistributionInt
 import umontreal.iro.lecuyer.probdist.Distribution
 import umontreal.iro.lecuyer.probdist.NegativeBinomialDist
@@ -43,24 +44,33 @@ class RandomNumberGenerator extends AbstractParameterObject implements IRandomNu
             return nextValue()
         }
         else {
-            if (generator instanceof RandomVariateGenInt) {
-                DiscreteDistributionInt distribution = generator.getDistribution()
+            if (generator instanceof RandomVariateGen) {
+                Distribution distribution = generator.getDistribution()
                 if (distribution instanceof PoissonDist) {
-                    distribution.lambda *= scale
-                    return generator.nextInt()
+                    double lambda = distribution.lambda
+                    distribution.setLambda(lambda * scale)
+                    double generatedValue = generator.nextDouble()
+                    distribution.setLambda(lambda)
+                    return generatedValue
                 }
                 else if (distribution instanceof BinomialDist) {
-                    distribution.setParams((int) Math.round(distribution.getN() * scale), distribution.getP())
-                    return generator.nextInt()
+                    int n = distribution.getN()
+                    distribution.setParams((int) Math.round(n * scale), distribution.getP())
+                    double generatedValue = generator.nextDouble()
+                    distribution.setParams((int) Math.round(n), distribution.getP())
+                    return generatedValue
                 }
                 else if (distribution instanceof NegativeBinomialDist) {
-                    distribution.setParams(distribution.gamma * scale, distribution.p)
-                    return generator.nextInt()
+                    double gamma = distribution.gamma
+                    distribution.setParams(gamma * scale, distribution.p)
+                    double generatedValue = generator.nextDouble()
+                    distribution.setParams(gamma, distribution.p)
+                    return generatedValue
                 }
                 else {
                     int number = 0;
                     for (int i = 0; i < (int) scale; i++) {
-                        number += generator.nextInt();
+                        number += generator.nextDouble();
                     }
                     return number
                 }
