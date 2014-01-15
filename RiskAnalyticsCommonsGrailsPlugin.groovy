@@ -52,6 +52,22 @@ class RiskAnalyticsCommonsGrailsPlugin {
     }
 
     def doWithApplicationContext = { applicationContext ->
+        ConstraintsFactory.registerConstraint(new DoubleConstraints())
+        ConstraintsFactory.registerConstraint(new IntDateTimeDoubleConstraints())
+        ConstraintsFactory.registerConstraint(new PeriodDistributionsConstraints())
+        ConstraintsFactory.registerConstraint(new PeriodNDistributionsConstraints())
+        ConstraintsFactory.registerConstraint(new DateTimeConstraints())
+        ConstraintsFactory.registerConstraint(new SimpleConstraint())
+        ConstraintsFactory.registerConstraint(new PerilPortion())
+        ConstraintsFactory.registerConstraint(new ReinsuranceContractBasedOn())
+        ConstraintsFactory.registerConstraint(new SegmentPortion())
+        ConstraintsFactory.registerConstraint(new UnderwritingPortion())
+        ConstraintsFactory.registerConstraint(new ReservePortion())
+        ConstraintsFactory.registerConstraint(new ReinsuranceContractContraints())
+
+        ValidatorRegistry.addValidator(new DistributionTypeValidator())
+        ValidatorRegistry.addValidator(new FrequencyDistributionTypeValidator())
+
         ResourceBundleRegistry.addBundle(ResourceBundleRegistry.VALIDATION, "org.pillarone.riskanalytics.domain.utils.validation.distributionTypeValidator")
 
         // add resource bundle for exceptions
