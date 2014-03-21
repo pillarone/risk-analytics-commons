@@ -64,7 +64,7 @@ public abstract class AbstractGumbelCopulaStrategy extends AbstractCopulaStrateg
     double newtonApproximation(double q, double theta, double epsilon, int maxSteps) {
         double xOld = q;
         double xNew;
-        if(q < 0.3d ) {
+        if( theta < 2 || q < 0.3) {
             xNew = q / 10d;
         } else {
             xNew = 1d - q;
