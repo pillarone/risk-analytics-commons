@@ -20,7 +20,7 @@ class CopulaType extends AbstractCopulaType {
     public static final CopulaType NORMAL = new CopulaType("normal", "NORMAL", [ (DEPENDANCY_MATRIX) : new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker)])
     public static final CopulaType INDEPENDENT = new CopulaType("independent", "INDEPENDENT", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType FRECHETUPPERBOUND = new CopulaType("frechet upper bound", "FRECHETUPPERBOUND", ["targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
-    public static final CopulaType GUMBEL = new CopulaType("gumbel", "GUMBEL", ["lambda": 10, "dimension": 2, "targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
+    public static final CopulaType GUMBEL = new CopulaType("gumbel", "GUMBEL", ["lambda": 10.01d, "dimension": 2, "targets": new ComboBoxTableMultiDimensionalParameter(["A"], ['Targets'], ICorrelationMarker)])
     public static final CopulaType T = new CopulaType("t", "T", ["dependencyMatrix": new ComboBoxMatrixMultiDimensionalParameter([[1d, 0d], [0d, 1d]], ["A", "B"], ICorrelationMarker), "degreesOfFreedom": 10])
     public static final CopulaType MULTI_PERIOD_NORMAL = new CopulaType("multi period normal", "MULTI_PERIOD_NORMAL", [ (DEPENDANCY_MATRIX) : new PeriodMatrixMultiDimensionalParameter([[], []], [[], []], ICorrelationMarker)])
 
